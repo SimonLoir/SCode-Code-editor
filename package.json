@@ -1,0 +1,11 @@
+{
+  "name": "scode",
+  "version": "0.0.1",
+  "description": "A smart code editor",
+  "main": "main.js",
+  "scripts": {
+    "test": "electron ."
+  },
+  "author": "Simon Loir",
+  "license": "ISC"
+}

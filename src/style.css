@@ -1,3 +1,5 @@
+/* SCode stylesheet */
+
 @font-face{
     font-family: souce-code-pro;
     src:url(SourceCodePro-Regular.ttf);
@@ -16,7 +18,24 @@ body{
     top:30px;
     left:0;
     right:0;
-    bottom:15px;
+    bottom:25px;
+}
+
+.tabmanager button{
+    background: transparent;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    border:2px solid gray;
+    color:gray;
+
+    font-family: sans-serif;
+    padding: 5px;
+    padding-left: 8px;padding-right: 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    
 }
 
 .tab{
@@ -62,10 +81,19 @@ body{
     position: fixed;
     top: 0;left: 0;right: 0;
     height: 29px;
-    /*background:rgb(36,36,36);*/
     background:rgb(30,30,30);
     border-bottom: 1px solid rgb(24,24,24);
     -webkit-app-region: drag;
+}
+
+.header span{
+    display: inline-block;
+    height: 29px;
+    padding-left: 10px;padding-right: 10px;
+    color:white;
+    border-right:1px solid rgb(24,24,24);
+    font-family: sans-serif;
+    line-height: 29px;
 }
 
 #closethis{
@@ -83,6 +111,7 @@ body{
     text-align: center;
     line-height: 15px;
     cursor: pointer;
+    transition: 0.75s;
 }
 
 #closethis:hover{
@@ -90,7 +119,24 @@ body{
 }
 
 #pos{
-    position: absolute;
-    top: 0;left: 0;
+    float:right;
+}
+
+.status{
+    position: fixed;
+    bottom:0;
+    left:0;right:0;
+    background:rgba(255, 166, 0, 0.97);
+    height: 25px;
     color:white;
+    padding: 0;margin: 0;
+}
+
+.status span{
+    padding: 0;margin: 0;
+    display: inline-block;
+    height: 25px;
+    padding-left:5px;padding-right: 5px;
+    color:white; 
+    line-height: 25px;
 }

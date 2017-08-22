@@ -7,7 +7,7 @@ const url = require('url');
 app.on("ready", function () {
     const screen = electron.screen;
 
-    var welcome = new bw({ frame: false , icon: path.join(__dirname, "src/logo.png") });
+    var welcome = new bw({ frame: false, icon: path.join(__dirname, "src/logo.png") });
 
     welcome.loadURL(url.format({
         pathname: path.join(__dirname, "src/launch.html"),
@@ -15,9 +15,9 @@ app.on("ready", function () {
         slashes: true
     }));
 
-    var main_window = new bw({ frame: false, show:false , icon: path.join(__dirname, "src/logo.png") });
+    var main_window = new bw({ frame: false, show: false, icon: path.join(__dirname, "src/logo.png") });
 
-    
+
     main_window.loadURL(url.format({
         pathname: path.join(__dirname, "src/index.html"),
         protocol: "file:",

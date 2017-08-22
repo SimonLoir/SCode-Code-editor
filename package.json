@@ -4,7 +4,8 @@
   "description": "A smart code editor",
   "main": "main.js",
   "scripts": {
-    "test": "electron ."
+    "test": "electron .",
+    "win-64" : "electron-packager . --arch=x64 --plateform=win32 --electron-version=1.7.5 --out=releases --asar --icon=src/logo.ico --overwrite --ignore=releases/"
   },
   "author": "Simon Loir",
   "license": "ISC"

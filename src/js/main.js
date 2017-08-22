@@ -118,7 +118,7 @@ function style_css_file(text) {
     });
 
     text = text.replace(/(.[^\n|\r]+)\:(.+)\;/g, function (m, $1, $2) {
-      return '<span style="color:red">' + $1 + '</span>:<span>' + $2 + ';</span>';  
+      return '<b style="color:red">' + $1 + '</b>:<span>' + $2 + ';</span>';  
     });
 
     return text;

@@ -76,10 +76,8 @@ function addFunc(ce, cec, file) {
 
     ce.onkeyup = ce.oninput;
     ce.onkeydown = function (event){
-        if(event.which == 9){
-            this.focus();
-            return false;
-        }
+        if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'    '+v.substring(e);this.selectionStart=this.selectionEnd=s+4;return false;}
+
     }
 
     cec.innerHTML = codify(ce.value, file);    

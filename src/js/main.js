@@ -121,22 +121,36 @@ function codify(text, file) {
         text = "<span style=\"color:cornflowerblue;\">" + text + "</span>";
         text = text.replace(/\:\:scode\~lt/g, "&lt;");
 
+    } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm") {
+        text = text.replace(/\</g, "::scode~lt");
+        text = text.replace(/\&/g, "<span>&</span>");
+        text = style_html_file(text);
+        text = text.replace(/\:\:scode\~lt/g, "&lt;");        
     }
+
 
     text = text.replace(/(\n|\r)/g, "<br />");
     text = text.replace(/(\r\n)/g, "<br />");
 
     return text;
 }
+function style_html_file(text){
 
+    text = text.replace(/\:\:scode\~lt(.[^\<|\>]+)\>/g, function (m, $1) {
+        return '&lt;<span style="color:cornflowerblue;">' + $1 + '</span>>';
+    });            
+
+    return text;
+
+}
 
 function style_css_file(text) {
     
-    text = text.replace(/(.[^\n|\r|\{|\}]+)\{/g, function (m, $1) {
+    text = text.replace(/(.[^\n|\r|\{|\}|\.]+)\{/g, function (m, $1) {
         return '<span style="color:yellow">' + $1 + '</span>{';
     });
     
-    text = text.replace(/(.[^\n|\r]+)\:(.+)\;/g, function (m, $1, $2) {
+    text = text.replace(/(.[^\n|\r|;|\;]+)\:(.+)\;/g, function (m, $1, $2) {
         return '<b style="color:red">' + $1 + '</b>:<span>' + $2 + ';</span>';
     });
     

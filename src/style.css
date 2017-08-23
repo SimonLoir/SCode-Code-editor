@@ -11,6 +11,7 @@
 
 body{
     background:rgb(30,30,30);
+    font-family: source-code-pro;
 }
 
 .tabmanager{
@@ -92,7 +93,7 @@ body{
     padding-left: 10px;padding-right: 10px;
     color:white;
     border-right:1px solid rgb(24,24,24);
-    font-family: sans-serif;
+    font-family: source-code-pro, sans-serif;
     line-height: 29px;
     -webkit-app-region: no-drag;
 }
@@ -140,6 +141,7 @@ body{
     padding-left:5px;padding-right: 5px;
     color:white; 
     line-height: 25px;
+    font-family: souce-code-pro, sans-serif;    
 }
 
 ::-webkit-scrollbar{

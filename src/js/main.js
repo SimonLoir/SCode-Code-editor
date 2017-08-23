@@ -262,13 +262,6 @@ $(document).ready(function () {
             if(e.key == "o"){
                 openFile();
             }else if(e.key == "s"){
-                /*$('#status').html(active_document + function () {
-                    if(tabs[active_document] != undefined){
-                        return tabs[active_document].id;
-                    }else{
-                        return "~";
-                    }
-                }());*/
 
                 if(tabs[active_document] != undefined){
                      var id = tabs[active_document].id;
@@ -279,6 +272,9 @@ $(document).ready(function () {
                         else
                             $('#status').html("saved");
                         
+                        setTimeout(function(){
+                            $('#status').html("~");
+                        }, 500)
                      });
                 }
             }

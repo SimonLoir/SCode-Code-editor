@@ -129,10 +129,10 @@ function codify(text, file) {
     }
 
 
-    text = text.replace(/(\n|\r)/g, "<br />");
-    text = text.replace(/(\r\n)/g, "<br />");
+    text = text.replace(/(\r\n)/g, "<br /><br /><span></span>");
+    text = text.replace(/(\n|\r)/g, "<br /><span></span>");
 
-    return text;
+    return text + '<br /><br /><br />';
 }
 function style_html_file(text){
 
@@ -251,4 +251,15 @@ $(document).ready(function () {
         var window = app.getCurrentWindow();
         window.close();
     }
+
+    document.body.onkeydown = function (e) {
+        if(e.ctrlKey){
+            if(e.key == "o"){
+                openFile();
+            }
+        }else{
+    
+        }
+    }
 });
+

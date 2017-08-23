@@ -25,7 +25,7 @@ body{
 .tabmanager button{
     background: transparent;
     position: absolute;
-    top: 50%;
+    bottom: 15%;
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
     border:2px solid gray;
@@ -37,6 +37,13 @@ body{
     border-radius: 4px;
     cursor: pointer;
     
+}
+
+.tabmanager img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
 }
 
 .tab{

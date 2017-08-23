@@ -94,6 +94,7 @@ body{
     border-right:1px solid rgb(24,24,24);
     font-family: sans-serif;
     line-height: 29px;
+    -webkit-app-region: no-drag;
 }
 
 #closethis{
@@ -139,4 +140,27 @@ body{
     padding-left:5px;padding-right: 5px;
     color:white; 
     line-height: 25px;
+}
+
+::-webkit-scrollbar{
+    width: 12px;
+    background: transparent;
+}
+
+::-webkit-scrollbar-track{
+    background: none;
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255,255,255,0.05);
+    transition:0.75s;
+    cursor: pointer;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255,255,255,0.50);
+}
+
+textarea{
+    resize: none;
 }

@@ -38,5 +38,5 @@ app.on("ready", function () {
         main_window.maximize();
         main_window.show();
         welcome.close();
-    }, 3000);
+    }, 500);
 });

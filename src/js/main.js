@@ -4,6 +4,7 @@ const fs = require("fs");
 
 var tabs = {};
 var id = 0;
+var active_document = null;
 
 function openFile() {
     dialog.showOpenDialog({ defaultPath: __dirname, title: "Ouvrir un fichier dans SCode" }, (filenames) => {
@@ -48,6 +49,8 @@ function newTab(filename) {
         xtab.get(0).id = "x" + tabs[filename].id;
         xtab.get(0).setAttribute('data-id', tabs[filename].id);
 
+        active_document = filename;
+
         xtab.click(function () {
             var all_tab = document.querySelectorAll('.tab');
             for (var i = 0; i < all_tab.length; i++) {
@@ -56,6 +59,7 @@ function newTab(filename) {
 
             }
             $('#' + this.getAttribute("data-id")).get(0).style.display = "block";
+            active_document = this.getAttribute('data-file');
         });
 
         var cross = xtab.child('i').html("  ×");
@@ -63,6 +67,7 @@ function newTab(filename) {
         cross.click(function () {
             $('#' + this.getAttribute("data-id")).remove();
             $('#x' + this.getAttribute("data-id")).remove();
+            active_document = "~";
         });
 
         addFunc(code_editor.get(0), code_editor_colors.get(0), {
@@ -121,7 +126,7 @@ function codify(text, file) {
         text = "<span style=\"color:cornflowerblue;\">" + text + "</span>";
         text = text.replace(/\:\:scode\~lt/g, "&lt;");
 
-    } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm") {
+    } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg") {
         text = text.replace(/\</g, "::scode~lt");
         text = text.replace(/\&/g, "<span>&</span>");
         text = style_html_file(text);
@@ -171,9 +176,9 @@ function style_js_file(text) {
     text = text.replace(/\{/g, '<span style=::scode~quotcolor:white;::scode~quot>{</span>');
     text = text.replace(/\}/g, '<span style=::scode~quotcolor:white;::scode~quot>}</span>');
     text = text.replace(/\./g, '<span style=::scode~quotcolor:white;::scode~quot>.</span>');
-    text = text.replace(/const/g, '<span style=::scode~quotcolor:orange;::scode~quot>const</span>');
-    text = text.replace(/var/g, '<span style=::scode~quotcolor:orange;::scode~quot>var</span>');
-    text = text.replace(/let/g, '<span style=::scode~quotcolor:orange;::scode~quot>let</span>');
+    text = text.replace(/const\s/g, '<span style=::scode~quotcolor:orange;::scode~quot>const </span>');
+    text = text.replace(/var\s/g, '<span style=::scode~quotcolor:orange;::scode~quot>var </span>');
+    text = text.replace(/let\s/g, '<span style=::scode~quotcolor:orange;::scode~quot>let </span>');
     
     var buffer = "";
     var opened = null;
@@ -256,6 +261,26 @@ $(document).ready(function () {
         if(e.ctrlKey){
             if(e.key == "o"){
                 openFile();
+            }else if(e.key == "s"){
+                /*$('#status').html(active_document + function () {
+                    if(tabs[active_document] != undefined){
+                        return tabs[active_document].id;
+                    }else{
+                        return "~";
+                    }
+                }());*/
+
+                if(tabs[active_document] != undefined){
+                     var id = tabs[active_document].id;
+
+                     fs.writeFile( active_document , $('#' + id + " textarea").get(0).value, (err) => {
+                        if(err)
+                            $('#status').html("error while saving");
+                        else
+                            $('#status').html("saved");
+                        
+                     });
+                }
             }
         }else{
     

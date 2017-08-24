@@ -142,12 +142,34 @@ function codify(text, file) {
 function style_html_file(text){
 
     text = text.replace(/\:\:scode\~lt(.[^\<|\>]+)\>/g, function (m, $1) {
-        return '&lt;<span style="color:cornflowerblue;">' + $1 + '</span>>';
+        return '&lt;<span style="color:cornflowerblue;">' + style_html_attributes($1) + '</span>>';
     });            
 
     return text;
 
 }
+
+function style_html_attributes(attributes){
+
+    
+    attributes = attributes.replace(/\s(.[^\s|\=]+)\=/g, (m, $1) => {
+        
+        return ' <span style="color:green;">' + $1 + '</span>=';
+        
+    });
+
+    att = attributes.split(/(\s| )/g);
+    
+    if(html_tags[att[0]] != undefined || html_tags[att[0].replace('/', "")] != undefined){
+        //the element is an existing html element
+    }else{
+        attributes = attributes.replace(att[0], '<span style="color:red;">' + att[0] + '</span>');
+    }
+
+    return attributes;
+
+}
+
 
 function style_css_file(text) {
     
@@ -277,6 +299,9 @@ $(document).ready(function () {
                         }, 500)
                      });
                 }
+            }else if(e.keyCode == 116){
+                var window = app.getCurrentWindow();
+                window.reload();
             }
         }else{
     

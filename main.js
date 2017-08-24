@@ -15,8 +15,9 @@ app.on("ready", function () {
         slashes: true
     }));
 
-    var main_window = new bw({ /*frame: false,*/ show: false, icon: path.join(__dirname, "src/logo.png") });
-
+    var main_window = new bw({ frame: false, show: false, icon: path.join(__dirname, "src/logo.png") });
+    
+    main_window.toggleDevTools();
 
     main_window.loadURL(url.format({
         pathname: path.join(__dirname, "src/index.html"),

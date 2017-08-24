@@ -1,11 +1,42 @@
 const app = require('electron').remote;
 const dialog = app.dialog;
 const fs = require("fs");
+const os = require('os');
 
 var tabs = {};
 var id = 0;
 var active_document = null;
 var folder = null;
+var settings = {
+    always_show_workdir_and_opened_files : false
+};
+
+if(fs.existsSync(os.homedir() + "/.scode")){
+    if(fs.existsSync(os.homedir() + "/.scode/folder.json")){
+        folder = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/folder.json", "utf-8"));
+        folder = getDirArray(folder[0]);
+
+        $(document).ready(function () {
+            createWorkingDir(folder[1], $('#working_dir'));    
+            alert('Espace de travail chargé');
+        });
+    }
+    if(fs.existsSync(os.homedir() + "/.scode/settings.json")){
+         settings = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/settings.json", "utf-8"));
+    }
+}else{
+    var error = false;
+    try {
+        fs.mkdirSync(os.homedir() + "/.scode")
+    } catch (error) {
+        console.log(error);
+        error = true;
+    }
+
+    if(error == false) {
+        fs.writeFileSync(os.homedir() + "/.scode/settings.json", JSON.stringify(settings) , "utf-8");                
+    }
+}
 
 function openFile() {
     dialog.showOpenDialog({ defaultPath: __dirname, title: "Ouvrir un fichier dans SCode", properties: ["multiSelections", "openFile"] }, (filenames) => {
@@ -21,6 +52,12 @@ function openFolder() {
 
         if (folders != null) {
             folder = getDirArray(folders[0]);
+            //folder = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/folder.json", "utf-8"));
+            let folder_json = JSON.stringify(folder);
+
+            fs.writeFileSync(os.homedir() + "/.scode/folder.json", folder_json, "utf-8");
+            createWorkingDir(folder[1], $('#working_dir'));
+
         }
 
     });
@@ -312,6 +349,9 @@ function getCaretPos(input) {
 }
 
 $(document).ready(function () {
+
+    
+
     $("#closethis").get(0).onclick = function () {
         console.log('clicked')
         var window = app.getCurrentWindow();
@@ -327,7 +367,7 @@ $(document).ready(function () {
                 if (tabs[active_document] != undefined) {
                     var id = tabs[active_document].id;
 
-                    fs.writeFile(active_document, $('#' + id + " textarea").get(0).value, (err) => {
+                    fs.writeFile(active_document, $('#' + id + " textarea").get(0).value, "utf-8" , (err) => {
                         if (err)
                             $('#status').html("error while saving");
                         else
@@ -348,8 +388,10 @@ $(document).ready(function () {
     }
 
     $('.tabmanager').click(function () {
-        $('#opened_files').get(0).style.display = "none";
-        $('#working_dir').get(0).style.display = "none";
+        if(settings["always_show_workdir_and_opened_files"] == false){
+            $('#opened_files').get(0).style.display = "none";
+            $('#working_dir').get(0).style.display = "none";
+        }
     });
 
     $('#show_opened_files').click(function () {
@@ -368,7 +410,9 @@ $(document).ready(function () {
 
     $('#show_working_dir').click(function () {
         if ($('#working_dir').get(0).style.display == "block") {
-            $('#working_dir').get(0).style.display = "none";
+            if(settings["always_show_workdir_and_opened_files"] == false){
+                $('#working_dir').get(0).style.display = "none";
+            }
         } else {
             $('#working_dir').get(0).style.display = "block";
             $('#working_dir').html('<b>Espace de travail :</b><br />');
@@ -379,6 +423,18 @@ $(document).ready(function () {
             }
         }
     });
+
+    if(settings["always_show_workdir_and_opened_files"] == true){
+        $('.tabmanager').get(0).style.left = "300px";
+        $('#working_dir').get(0).style.top = "29px";
+        $('#working_dir').get(0).style.left = "0";
+        $('#working_dir').get(0).style.width = "250px";
+        $('#working_dir').get(0).style.maxWidth = "250px";
+        $('#working_dir').get(0).style.background = "transparent";
+        $('#working_dir').get(0).style.borderRight = "1px solid rgb(24,24,24)";
+        $('#working_dir').get(0).style.boxShadow = "0px 0px 0px transparent";
+        $('#show_working_dir').click()
+    }
 });
 
 function createWorkingDir(dir, element) {
@@ -425,3 +481,9 @@ function createWorkingDir(dir, element) {
     }
 }
 
+
+window.alert = function (text){
+    new Notification("SCode", {
+        body: text
+    });
+}

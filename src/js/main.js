@@ -61,7 +61,7 @@ function openFolder() {
             let folder_json = JSON.stringify(folder);
 
             fs.writeFileSync(os.homedir() + "/.scode/folder.json", folder_json, "utf-8");
-            createWorkingDir(folder[1], $('#working_dir'));
+            updateWorkingDir();
 
         }
 
@@ -452,13 +452,7 @@ $(document).ready(function () {
                 console.log(settings["always_show_workdir_and_opened_files"]);
             }
         } else {
-            $('#working_dir').get(0).style.display = "block";
-            $('#working_dir').html('<b>Espace de travail :</b><br />');
-            if (folder == null) {
-                $('#working_dir').child('span').html("Vous n'avez pas encore ouvert un fichier de travail");
-            } else {
-                createWorkingDir(folder[1], $('#working_dir'));
-            }
+            updateWorkingDir();
         }
     });
 
@@ -524,4 +518,16 @@ window.alert = function (text){
     new Notification("SCode", {
         body: text
     });
+}
+
+
+function updateWorkingDir() {
+    $('#working_dir').get(0).style.display = "block";
+    $('#working_dir').html('<b>Espace de travail :</b><br />');
+    if (folder == null) {
+        $('#working_dir').child('span').html("Vous n'avez pas encore ouvert un fichier de travail");
+    } else {
+        
+        createWorkingDir(folder[1], $('#working_dir'));
+    }
 }

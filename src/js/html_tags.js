@@ -1,3 +1,6 @@
+/*
+You can find that list on the w3school website
+*/
 var html_tags = {
     "!--...--": "<!--...-->\nDefines a comment",
     "!DOCTYPE": "<!DOCTYPE> \nDefines the document type",

@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "description": "A smart code editor",
   "main": "main.js",
+  "repository" : "https://github.com/SimonLoir/SCode-Text-editor",
   "scripts": {
     "test": "electron .",
     "win-64": "electron-packager . --arch=x64 --plateform=win32 --electron-version=1.7.5 --out=releases --asar --icon=src/logo.ico --overwrite --ignore=releases/",

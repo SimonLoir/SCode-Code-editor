@@ -212,7 +212,7 @@ function codify(text, file, el) {
 
     text = text.replace(/ /g, " ");
 
-    text = text.insertAt(getCaretPos(el), "::scode~curor-element");
+    //text = text.insertAt(getCaretPos(el), "::scode~curor-element");
 
     if (file.extension == "css") {
         text = style_css_file(text);
@@ -245,7 +245,7 @@ function codify(text, file, el) {
     text = text.replace(/(\r\n)/g, "<br /><br /><span></span>");
     text = text.replace(/(\n|\r)/g, "<br /><span></span>");
 
-    text = text.replace('::scode~curor-element', '<span style="display:inline-block;content:\'\';border-left:1px solid gray;height:20px;width:0px;line-height:20px;margin:0 auto;padding:0;transform:translateY(3px);"></span>')
+    //text = text.replace('::scode~curor-element', '<span style="display:inline-block;content:\'\';border-left:1px solid gray;height:20px;width:0px;line-height:20px;margin:0 auto;padding:0;transform:translateY(3px);"></span>')
 
     return text + '<br /><br /><br />';
 }

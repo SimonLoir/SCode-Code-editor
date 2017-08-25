@@ -2,6 +2,7 @@ const app = require('electron').remote;
 const dialog = app.dialog;
 const fs = require("fs");
 const os = require('os');
+const LintStream = require('jslint').LintStream;
 
 var tabs = {};
 var id = 0;
@@ -10,6 +11,10 @@ var folder = null;
 var settings = {
     always_show_workdir_and_opened_files : false
 };
+
+String.prototype.insertAt = function(index, string) { 
+    return this.substr(0, index) + string + this.substr(index);
+}
 
 if(fs.existsSync(os.homedir() + "/.scode")){
     if(fs.existsSync(os.homedir() + "/.scode/folder.json")){
@@ -73,7 +78,11 @@ function getDirArray(folder) {
         for (var i = 0; i < dir.length; i++) {
             var e = dir[i];
             if (fs.statSync(folder + "/" + e).isDirectory()) {
-                array.push(getDirArray(folder + "/" + e));
+                try {
+                    array.push(getDirArray(folder + "/" + e));
+                } catch (error) {
+                    
+                }
             } else {
                 array.push(folder + "/" + e);
             }
@@ -145,7 +154,8 @@ function newTab(filename) {
         });
 
         addFunc(code_editor.get(0), code_editor_colors.get(0), {
-            extension: frn_split[frn_split.length - 1]
+            extension: frn_split[frn_split.length - 1],
+            filename:filename
         });
 
         code_editor.get(0).onscroll = function () {
@@ -170,8 +180,8 @@ function newTab(filename) {
 function addFunc(ce, cec, file) {
 
     ce.oninput = function () {
-        cec.innerHTML = codify(ce.value, file);
-        $('#pos').html(getCaretPos(this) + '/' + ce.value.length);
+        cec.innerHTML = codify(ce.value, file, this);
+        $('#pos').html(getCaretPos(this) + '/' + ce.value.length + " -> " + ce.value.split(/\r?\n/).length);
     }
 
     ce.onkeyup = ce.oninput;
@@ -185,31 +195,47 @@ function addFunc(ce, cec, file) {
 
     }
 
-    cec.innerHTML = codify(ce.value, file);
+    cec.innerHTML = codify(ce.value, file, ce);
 }
 
-function codify(text, file) {
+function codify(text, file, el) {
 
     text = text.replace(/ /g, " ");
+
+    text = text.insertAt(getCaretPos(el), "::scode~curor-element");
 
     if (file.extension == "css") {
         text = style_css_file(text);
     } else if (file.extension == "js") {
+
+        var options = {
+            "edition": "latest",
+            "length": 100
+        }
+        
+        l = new LintStream(options);
+        l.write({file: file.filename, body: text});
+        l.on('data', function (chunk, encoding, callback) {console.log(chunk);});
+
         text = text.replace(/\</g, "::scode~lt");
         text = style_js_file(text);
         text = "<span style=\"color:cornflowerblue;\">" + text + "</span>";
         text = text.replace(/\:\:scode\~lt/g, "&lt;");
 
     } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg") {
+
         text = text.replace(/\</g, "::scode~lt");
         text = text.replace(/\&/g, "<span>&</span>");
         text = style_html_file(text);
         text = text.replace(/\:\:scode\~lt/g, "&lt;");
+
     }
 
 
     text = text.replace(/(\r\n)/g, "<br /><br /><span></span>");
     text = text.replace(/(\n|\r)/g, "<br /><span></span>");
+
+    text = text.replace('::scode~curor-element', '<span style="display:inline-block;content:\'\';border-left:1px solid gray;height:20px;width:0px;line-height:20px;margin:0 auto;padding:0;transform:translateY(3px);"></span>')
 
     return text + '<br /><br /><br />';
 }

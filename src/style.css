@@ -56,16 +56,35 @@ body{
     width: 100%;
 }
 
+.line-numbers{
+    background: transparent;
+    position: absolute;
+    top: 0;left: 0;bottom: 0;
+    padding-right: 5px;
+    padding-left: 0;
+    padding-top: 25px;padding-bottom: 25px;
+    font-family: souce-code-pro, sans-serif;
+    color:rgba(255,255,255, 0.25);overflow:hidden;
+    font-size:20px;
+    margin:0;
+    width:40px;
+    height:calc(100% - 50px);
+    border:none;
+    white-space: nowrap;
+    background:rgb(32,32,32);
+    text-align: right;
+}
+
 .code-editor{
     background: transparent;
     position: absolute;
-    top: 0;left: 0;right: 0;bottom: 0;
+    top: 0;left: 45px;right: 0;bottom: 0;
     padding: 25px;
     font-family: souce-code-pro, sans-serif;
     color:rgba(255,255,255,0.3);overflow:auto;
     font-size:20px;
     margin:0;
-    width:calc(100% - 50px);
+    width:calc(100% - 95px);
     height:calc(100% - 50px);
     border:none;
     white-space: nowrap;
@@ -73,13 +92,13 @@ body{
 .code-editor-colors{
     font-size:20px;
     position: absolute;
-    top: 0;left: 0;right: 0;bottom: 0;
+    top: 0;left: 45px;right: 0;bottom: 0;
     padding: 25px;
     font-family: souce-code-pro, sans-serif;
     background:rgb(30,30,30);
     color:white; overflow:auto;   
     margin:0;
-    width:calc(100% - 50px);
+    width:calc(100% - 95px);
     height:calc(100% - 50px);
     border:none;
     white-space: nowrap;

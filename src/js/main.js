@@ -111,6 +111,8 @@ function newTab(filename) {
         var tab = $('.tabmanager').child('div').addClass('tab');
         tab.get(0).id = tabs[filename].id;
 
+        var line_numbers = tab.child('textarea').addClass('line-numbers');
+
         var code_editor_colors = tab.child('div').addClass("code-editor-colors");
 
         var code_editor = tab.child('textarea').addClass("code-editor");
@@ -156,11 +158,12 @@ function newTab(filename) {
         addFunc(code_editor.get(0), code_editor_colors.get(0), {
             extension: frn_split[frn_split.length - 1],
             filename:filename
-        });
+        }, line_numbers);
 
         code_editor.get(0).onscroll = function () {
             if (code_editor_colors.get(0).scrollHeight >= this.scrollTop) {
                 code_editor_colors.get(0).scrollTop = this.scrollTop;
+                line_numbers.get(0).scrollTop = this.scrollTop;
             } else {
                 this.scrollTop = code_editor_colors.get(0).scrollTop;
                 return false;
@@ -177,11 +180,18 @@ function newTab(filename) {
     });
 }
 
-function addFunc(ce, cec, file) {
+function addFunc(ce, cec, file, line_n) {
 
     ce.oninput = function () {
         cec.innerHTML = codify(ce.value, file, this);
-        $('#pos').html(getCaretPos(this) + '/' + ce.value.length + " -> " + ce.value.split(/\r?\n/).length);
+        line_n.get(0).value = "";
+        var number_of_lines = ce.value.split(/\r?\n/).length;
+        $('#pos').html(getCaretPos(this) + '/' + ce.value.length + " -> " + number_of_lines);
+        var i = 1;
+        while(i <= number_of_lines){
+            line_n.get(0).value += i + "\n";
+            i++;
+        }
     }
 
     ce.onkeyup = ce.oninput;
@@ -393,7 +403,7 @@ $(document).ready(function () {
                 if (tabs[active_document] != undefined) {
                     var id = tabs[active_document].id;
 
-                    fs.writeFile(active_document, $('#' + id + " textarea").get(0).value, "utf-8" , (err) => {
+                    fs.writeFile(active_document, $('#' + id + " .code-editor").get(0).value, "utf-8" , (err) => {
                         if (err)
                             $('#status').html("error while saving");
                         else
@@ -414,7 +424,7 @@ $(document).ready(function () {
     }
 
     $('.tabmanager').click(function () {
-        if(settings["always_show_workdir_and_opened_files"] == false){
+        if(settings["always_show_workdir_and_opened_files"] == false || settings["always_show_workdir_and_opened_files"] == undefined){
             $('#opened_files').get(0).style.display = "none";
             $('#working_dir').get(0).style.display = "none";
         }
@@ -436,8 +446,10 @@ $(document).ready(function () {
 
     $('#show_working_dir').click(function () {
         if ($('#working_dir').get(0).style.display == "block") {
-            if(settings["always_show_workdir_and_opened_files"] == false){
+            if(settings["always_show_workdir_and_opened_files"] == false || settings["always_show_workdir_and_opened_files"] == undefined){
                 $('#working_dir').get(0).style.display = "none";
+            }else{
+                console.log(settings["always_show_workdir_and_opened_files"]);
             }
         } else {
             $('#working_dir').get(0).style.display = "block";

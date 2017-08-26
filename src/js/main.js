@@ -9,27 +9,27 @@ var id = 0;
 var active_document = null;
 var folder = null;
 var settings = {
-    always_show_workdir_and_opened_files : false
+    always_show_workdir_and_opened_files: false
 };
 
-String.prototype.insertAt = function(index, string) { 
+String.prototype.insertAt = function (index, string) {
     return this.substr(0, index) + string + this.substr(index);
 }
 
-if(fs.existsSync(os.homedir() + "/.scode")){
-    if(fs.existsSync(os.homedir() + "/.scode/folder.json")){
+if (fs.existsSync(os.homedir() + "/.scode")) {
+    if (fs.existsSync(os.homedir() + "/.scode/folder.json")) {
         folder = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/folder.json", "utf-8"));
         folder = getDirArray(folder[0]);
 
         $(document).ready(function () {
-            createWorkingDir(folder[1], $('#working_dir'));    
+            createWorkingDir(folder[1], $('#working_dir'));
             alert('Espace de travail chargé');
         });
     }
-    if(fs.existsSync(os.homedir() + "/.scode/settings.json")){
-         settings = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/settings.json", "utf-8"));
+    if (fs.existsSync(os.homedir() + "/.scode/settings.json")) {
+        settings = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/settings.json", "utf-8"));
     }
-}else{
+} else {
     var error = false;
     try {
         fs.mkdirSync(os.homedir() + "/.scode")
@@ -38,8 +38,8 @@ if(fs.existsSync(os.homedir() + "/.scode")){
         error = true;
     }
 
-    if(error == false) {
-        fs.writeFileSync(os.homedir() + "/.scode/settings.json", JSON.stringify(settings) , "utf-8");                
+    if (error == false) {
+        fs.writeFileSync(os.homedir() + "/.scode/settings.json", JSON.stringify(settings), "utf-8");
     }
 }
 
@@ -81,7 +81,7 @@ function getDirArray(folder) {
                 try {
                     array.push(getDirArray(folder + "/" + e));
                 } catch (error) {
-                    
+
                 }
             } else {
                 array.push(folder + "/" + e);
@@ -93,7 +93,7 @@ function getDirArray(folder) {
 }
 
 function newTab(filename) {
-    if(tabs[filename] != undefined){ return; }
+    if (tabs[filename] != undefined) { return; }
     fs.readFile(filename, "utf-8", (err, data) => {
         if (err) {
             console.log(err);
@@ -157,7 +157,7 @@ function newTab(filename) {
 
         addFunc(code_editor.get(0), code_editor_colors.get(0), {
             extension: frn_split[frn_split.length - 1],
-            filename:filename
+            filename: filename
         }, line_numbers);
 
         code_editor.get(0).onscroll = function () {
@@ -181,17 +181,20 @@ function newTab(filename) {
 }
 
 function addFunc(ce, cec, file, line_n) {
-
+    var last = 0;
     ce.oninput = function () {
         cec.innerHTML = codify(ce.value, file, this);
-        line_n.get(0).value = "";
         var number_of_lines = ce.value.split(/\r?\n/).length;
         $('#pos').html(getCaretPos(this) + '/' + ce.value.length + " -> " + number_of_lines);
         var i = 1;
-        while(i <= number_of_lines){
-            line_n.get(0).value += i + "\n";
-            i++;
+        if(number_of_lines != last){
+            line_n.get(0).value = "";
+            while (i <= number_of_lines) {
+                line_n.get(0).value += i + "\n";
+                i++;
+            }
         }
+        last = number_of_lines;
     }
 
     ce.onkeyup = ce.oninput;
@@ -204,8 +207,7 @@ function addFunc(ce, cec, file, line_n) {
         }
 
     }
-
-    cec.innerHTML = codify(ce.value, file, ce);
+    ce.onkeyup();
 }
 
 function codify(text, file, el) {
@@ -222,10 +224,10 @@ function codify(text, file, el) {
             "edition": "latest",
             "length": 100
         }
-        
+
         l = new LintStream(options);
-        l.write({file: file.filename, body: text});
-        l.on('data', function (chunk, encoding, callback) {console.log(chunk);});
+        l.write({ file: file.filename, body: text });
+        l.on('data', function (chunk, encoding, callback) { console.log(chunk); });
 
         text = text.replace(/\</g, "::scode~lt");
         text = style_js_file(text);
@@ -386,7 +388,11 @@ function getCaretPos(input) {
 
 $(document).ready(function () {
 
-    
+    try {
+        //newTab(__dirname + '/../node_modules/jslint/LICENSE');
+    } catch (error) {
+        alert('error')
+    }
 
     $("#closethis").get(0).onclick = function () {
         console.log('clicked')
@@ -403,7 +409,7 @@ $(document).ready(function () {
                 if (tabs[active_document] != undefined) {
                     var id = tabs[active_document].id;
 
-                    fs.writeFile(active_document, $('#' + id + " .code-editor").get(0).value, "utf-8" , (err) => {
+                    fs.writeFile(active_document, $('#' + id + " .code-editor").get(0).value, "utf-8", (err) => {
                         if (err)
                             $('#status').html("error while saving");
                         else
@@ -424,7 +430,7 @@ $(document).ready(function () {
     }
 
     $('.tabmanager').click(function () {
-        if(settings["always_show_workdir_and_opened_files"] == false || settings["always_show_workdir_and_opened_files"] == undefined){
+        if (settings["always_show_workdir_and_opened_files"] == false || settings["always_show_workdir_and_opened_files"] == undefined) {
             $('#opened_files').get(0).style.display = "none";
             $('#working_dir').get(0).style.display = "none";
         }
@@ -446,9 +452,9 @@ $(document).ready(function () {
 
     $('#show_working_dir').click(function () {
         if ($('#working_dir').get(0).style.display == "block") {
-            if(settings["always_show_workdir_and_opened_files"] == false || settings["always_show_workdir_and_opened_files"] == undefined){
+            if (settings["always_show_workdir_and_opened_files"] == false || settings["always_show_workdir_and_opened_files"] == undefined) {
                 $('#working_dir').get(0).style.display = "none";
-            }else{
+            } else {
                 console.log(settings["always_show_workdir_and_opened_files"]);
             }
         } else {
@@ -456,7 +462,7 @@ $(document).ready(function () {
         }
     });
 
-    if(settings["always_show_workdir_and_opened_files"] == true){
+    if (settings["always_show_workdir_and_opened_files"] == true) {
         $('.tabmanager').get(0).style.left = "300px";
         $('#working_dir').get(0).style.top = "29px";
         $('#working_dir').get(0).style.left = "0";
@@ -505,16 +511,16 @@ function createWorkingDir(dir, element) {
             var file_real_name = file_split_slash[file_split_slash.length - 1];
             var x = element.child('span').html("&#9165; " + file_real_name + "<br />");
             x.get(0).setAttribute('data-file-path', file);
-            x.click(function (){
+            x.click(function () {
                 newTab(this.getAttribute('data-file-path'));
             });
-            
+
         }
     }
 }
 
 
-window.alert = function (text){
+window.alert = function (text) {
     new Notification("SCode", {
         body: text
     });
@@ -527,7 +533,7 @@ function updateWorkingDir() {
     if (folder == null) {
         $('#working_dir').child('span').html("Vous n'avez pas encore ouvert un fichier de travail");
     } else {
-        
+
         createWorkingDir(folder[1], $('#working_dir'));
     }
 }

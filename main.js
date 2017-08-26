@@ -1,10 +1,22 @@
+const {app, globalShortcut} = require('electron');
 const electron = require('electron');
-const app = electron.app;
 const bw = electron.BrowserWindow;
 const path = require('path');
 const url = require('url');
 
 app.on("ready", function () {
+
+    globalShortcut.register("CommandOrControl+L", () => {
+
+        var license = new bw({ frame: false, icon: path.join(__dirname, "src/logo.png") });    
+        license.loadURL(url.format({
+            pathname: path.join(__dirname, "src/license.html"),
+            protocol: "file:",
+            slashes: true
+        }));
+
+    });
+
     const screen = electron.screen;
 
     var welcome = new bw({ frame: false, icon: path.join(__dirname, "src/logo.png") });

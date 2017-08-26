@@ -11,7 +11,7 @@ function updateWorkingDir() {
     if (folder == null) {
         $('#working_dir').child('span').html("Vous n'avez pas encore ouvert un fichier de travail");
     } else {
-
+        folder = getDirArray(folder[0]);
         createWorkingDir(folder[1], $('#working_dir'));
     }
 }
@@ -70,6 +70,28 @@ function createWorkingDir(dir, element) {
             x.get(0).style.cursor = "pointer";
             x.click(function () {
                 newTab(this.getAttribute('data-file-path'));
+            });
+
+            x.get(0).addEventListener('contextmenu', function () {
+                var menu = new Menu();
+                var menu_item_1 = new MenuItem({
+                    label: "Ouvrir le fichier",
+                    click: () => {
+                        newTab(this.getAttribute('data-file-path'));
+                    }
+                });
+                var menu_item_2 = new MenuItem({
+                    label: "Supprimer",
+                    click: () => {
+                        fs.unlinkSync(this.getAttribute('data-file-path'));
+                        alert('Fichier supprimé');
+                        updateWorkingDir();
+                    }
+                });
+
+                menu.append(menu_item_1);
+                menu.append(menu_item_2);
+                menu.popup(remote.getCurrentWindow());
             });
 
         }

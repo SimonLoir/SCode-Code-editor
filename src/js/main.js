@@ -1,4 +1,7 @@
 const app = require('electron').remote;
+const remote = app;
+const Menu = remote.Menu;
+const MenuItem = remote.MenuItem;
 const dialog = app.dialog;
 const fs = require("fs");
 const os = require('os');
@@ -19,7 +22,6 @@ String.prototype.insertAt = function (index, string) {
 if (fs.existsSync(os.homedir() + "/.scode")) {
     if (fs.existsSync(os.homedir() + "/.scode/folder.json")) {
         folder = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/folder.json", "utf-8"));
-        folder = getDirArray(folder[0]);
 
         $(document).ready(function () {
             createWorkingDir(folder[1], $('#working_dir'));

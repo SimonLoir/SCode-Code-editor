@@ -489,15 +489,17 @@ function createWorkingDir(dir, element) {
 
     for (var i in folders) {
         if (folders.hasOwnProperty(i)) {
-            var folder = folders[i];
-            var folder_replace = folder[0].replace(/\\/g, "/");
-            var folder_split_slash = folder_replace.split("/");
-            var folder_real_name = folder_split_slash[folder_split_slash.length - 1];
-
+            let folder = folders[i];
+            let folder_replace = folder[0].replace(/\\/g, "/");
+            let folder_split_slash = folder_replace.split("/");
+            let folder_real_name = folder_split_slash[folder_split_slash.length - 1];
             if (folder_real_name != ".git") {
-
-                element.child('span').html("&#128449; " + folder_real_name);
-                createWorkingDir(folder[1], element.child("div"));
+                
+                let clicker = element.child('span').html("&#128449; " + folder_real_name);
+                let child = element.child("div");
+                element.child('br');
+                createWorkingDir(folder[1], child);
+                addClickOnDir(clicker, child);
 
             }
         }
@@ -536,4 +538,15 @@ function updateWorkingDir() {
 
         createWorkingDir(folder[1], $('#working_dir'));
     }
+}
+
+function addClickOnDir(e, x){
+    x.get(0).style.display = "none";
+    e.click(function () {
+        if(x.get(0).style.display == "block"){
+            x.get(0).style.display = "none";
+        }else{
+            x.get(0).style.display = "block";
+        }
+    });
 }

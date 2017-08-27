@@ -48,7 +48,7 @@ function createWorkingDir(dir, element) {
             let folder_real_name = folder_split_slash[folder_split_slash.length - 1];
             if (folder_real_name != ".git") {
                 
-                let clicker = element.child('span').html("&#128449; " + folder_real_name);
+                let clicker = element.child('span').html('<i class="icon-folder"></i> ' + folder_real_name);
                 clicker.get(0).style.cursor = "pointer";
                 let child = element.child("div");
                 element.child('br');
@@ -65,7 +65,7 @@ function createWorkingDir(dir, element) {
             var file_replace = file.replace(/\\/g, "/");
             var file_split_slash = file_replace.split("/");
             var file_real_name = file_split_slash[file_split_slash.length - 1];
-            var x = element.child('span').html("&#9165; " + file_real_name + "<br />");
+            var x = element.child('span').html('<i class="icon-file"></i> ' + file_real_name + "<br />");
             x.get(0).setAttribute('data-file-path', file);
             x.get(0).style.cursor = "pointer";
             x.click(function () {

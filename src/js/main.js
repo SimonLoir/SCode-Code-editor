@@ -15,7 +15,7 @@ var folder = null;
 var settings = {
     always_show_workdir_and_opened_files: false
 };
-
+var project_settings = {};
 String.prototype.insertAt = function (index, string) {
     return this.substr(0, index) + string + this.substr(index);
 }
@@ -26,7 +26,14 @@ if (fs.existsSync(os.homedir() + "/.scode")) {
 
         $(document).ready(function () {
             createWorkingDir(folder[1], $('#working_dir'));
-            alert('Espace de travail chargé');
+            if(fs.existsSync(folder[0] + "/.scode.json")){
+
+                project_settings = JSON.parse(fs.readFileSync(folder[0] + "/.scode.json"), 'utf-8');
+                if(project_settings.address != undefined){
+                    alert('Rechargement automatique activé pour le projet. Pour le désactiver, modifiez .scode.json');
+                    ipcRenderer.send('render-project-reg', project_settings.address);
+                }
+            }
         });
     }
     if (fs.existsSync(os.homedir() + "/.scode/settings.json")) {
@@ -82,9 +89,10 @@ $(document).ready(function () {
                         }, 500)
                     });
                 }
-                
-                
-                
+
+                if(project_settings.address != undefined){
+                    ipcRenderer.send('render-project');
+                }
             } else if (e.keyCode == 116) {
                 var window = app.getCurrentWindow();
                 window.reload();

@@ -3,6 +3,7 @@ const electron = require('electron');
 const bw = electron.BrowserWindow;
 const path = require('path');
 const url = require('url');
+const {ipcMain} = require('electron');
 
 app.on("ready", function () {
 
@@ -49,4 +50,14 @@ app.on("ready", function () {
         main_window.show();
         welcome.close();
     }, 1500);
+    
+    var preview_window = new bw();
+
+    ipcMain.on('render-project-reg', (error, arg) => {
+        preview_window.loadURL(arg);
+    });
+
+    ipcMain.on('render-project', (error) => {
+        preview_window.reload(true);
+    });
 });

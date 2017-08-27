@@ -6,6 +6,7 @@ const dialog = app.dialog;
 const fs = require("fs");
 const os = require('os');
 const LintStream = require('jslint').LintStream;
+const {ipcRenderer} = require('electron');
 
 var tabs = {};
 var id = 0;
@@ -81,6 +82,9 @@ $(document).ready(function () {
                         }, 500)
                     });
                 }
+                
+                
+                
             } else if (e.keyCode == 116) {
                 var window = app.getCurrentWindow();
                 window.reload();
@@ -135,5 +139,3 @@ $(document).ready(function () {
         $('#show_working_dir').click()
     }
 });
-
-

@@ -1,10 +1,16 @@
+/**
+ * Shows an alert
+ * @param {String} text The text that has to be displayed
+ */
 window.alert = function (text) {
     new Notification("SCode", {
         body: text
     });
 }
 
-
+/**
+ * Updates the working directory panel
+ */
 function updateWorkingDir() {
     $('#working_dir').get(0).style.display = "block";
     $('#working_dir').html('<b>Espace de travail :</b><br />');
@@ -16,6 +22,11 @@ function updateWorkingDir() {
     }
 }
 
+/**
+ * Shows the directory content when clicking on the directory item
+ * @param {Object} e The ExtJs object on which we want to add the event 
+ * @param {Object} x The ExtJs object that we want to diplay
+ */
 function addClickOnDir(e, x){
     x.get(0).style.display = "none";
     e.click(function () {
@@ -27,7 +38,11 @@ function addClickOnDir(e, x){
     });
 }
 
-
+/**
+ * Creates the working directory element 
+ * @param {Array} dir the directory has an array 
+ * @param {Object} element the extjs object on which we want to create the directory
+ */
 function createWorkingDir(dir, element) {
     var files = [];
     var folders = [];
@@ -97,7 +112,10 @@ function createWorkingDir(dir, element) {
         }
     }
 }
-
+/**
+ * Inserts text at the position of the cursor
+ * @param {String} text 
+ */
 function insertTextAtCursor(text) {
     var sel, range;
     if (window.getSelection) {
@@ -112,7 +130,10 @@ function insertTextAtCursor(text) {
     }
 }
 
-
+/**
+ * Gets the cursor posiiton in the specified element
+ * @param {String} input The element
+ */
 function getCaretPos(input) {
     // Internet Explorer Caret Position (TextArea)
     if (document.selection && document.selection.createRange) {
@@ -127,7 +148,9 @@ function getCaretPos(input) {
 
     return caret_pos;
 }
-
+/**
+ * Shows an openfile dialog
+ */
 function openFile() {
     dialog.showOpenDialog({ defaultPath: __dirname, title: "Ouvrir un fichier dans SCode", properties: ["multiSelections", "openFile"] }, (filenames) => {
         if (filenames == undefined) return;
@@ -136,7 +159,9 @@ function openFile() {
         }, this);
     });
 }
-
+/**
+ * Shows an open directory dialog
+ */
 function openFolder() {
     dialog.showOpenDialog({ defaultPath: __dirname, title: "Ouvrir un dossier dans SCode", properties: ["openDirectory"] }, (folders) => {
 
@@ -152,7 +177,10 @@ function openFolder() {
 
     });
 }
-
+/**
+ * Gets an array of all the files and directories in a directory
+ * @param {String} folder The directory
+ */
 function getDirArray(folder) {
 
     var array = [];

@@ -1,3 +1,8 @@
+
+/**
+ * Creates a new tab in the tab manager
+ * @param {String} filename the filename
+ */
 function newTab(filename) {
     if (tabs[filename] != undefined) { return; }
     fs.readFile(filename, "utf-8", (err, data) => {
@@ -142,6 +147,11 @@ function codify(text, file, el) {
         text = style_js_file(text);
         text = "<span style=\"color:cornflowerblue;\">" + text + "</span>";
         text = text.replace(/\:\:scode\~lt/g, "&lt;");
+        text = text.replace(/\/\/(.[^\n]+)/g, (m, $1) => {
+            var x = document.createElement('span');
+            x.innerHTML = $1;
+            return  '<span style="color:white;background:rgba(0,0,0,0.25);">//' + $1 +  '</span>';
+        });
 
     } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg") {
 

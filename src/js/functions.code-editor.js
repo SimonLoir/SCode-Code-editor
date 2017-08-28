@@ -188,7 +188,7 @@ function codify(text, file, el) {
             text = style_js_file(text);
             
     
-        } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg") {
+        } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg" || file.extension == "md") {
     
             text = style_html_file(text);
     

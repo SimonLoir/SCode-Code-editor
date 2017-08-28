@@ -125,26 +125,22 @@ body{
 }
 
 #closethis{
-    background: crimson;    
-    color:crimson;
-    position: absolute;
-    top: 50%;right: 10px;
-    transform: translateY(-50%);
-    -webkit-app-region: no-drag;
-    border:none;
-    border-radius: 50%;
-    padding: 0;margin: 0;
-    width: 15px;
-    height: 15px;
-    text-align: center;
-    line-height: 15px;
-    cursor: pointer;
     transition: 0.75s;
+   float:right;
+   color:red;
+   cursor: pointer;
 }
 
-#closethis:hover{
-    color:white;
+#minthis{
+    transition: 0.75s;
+   cursor: pointer;   
+    float:right;
+    border-left:1px solid rgb(24,24,24);
 }
+#minthis:hover, #closethis:hover{
+    background:rgba(255,255,255,0.25);
+}
+
 
 #pos{
     float:right;
@@ -196,24 +192,33 @@ body{
 }
 
 ::-webkit-scrollbar{
+    -webkit-app-region: no-drag;    
     width: 12px;
     background: transparent;
 }
 
 ::-webkit-scrollbar-track{
+    -webkit-app-region: no-drag;    
     background: none;
     background: transparent;
 }
 
 ::-webkit-scrollbar-thumb{
+    -webkit-app-region: no-drag;    
     background: rgba(255,255,255,0.05);
     transition:0.75s;
     cursor: pointer;
 }
 ::-webkit-scrollbar-thumb:hover{
+    -webkit-app-region: no-drag;    
     background: rgba(255,255,255,0.50);
 }
 
 textarea{
     resize: none;
+}
+
+::selection{
+    background: rgba(57, 57, 255, 0.25);
+    color:white;
 }

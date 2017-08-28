@@ -51,13 +51,23 @@ app.on("ready", function () {
         welcome.close();
     }, 1500);
     
-    var preview_window = new bw();
+    var preview_window = new bw({show:false});
 
     ipcMain.on('render-project-reg', (error, arg) => {
-        preview_window.loadURL(arg);
+        try {
+            preview_window.hide();            
+            preview_window.loadURL(arg);
+            preview_window.show();
+        } catch (error) {
+            console.log(error);
+        }
     });
 
     ipcMain.on('render-project', (error) => {
-        preview_window.reload(true);
+        try {
+            preview_window.reload(true);
+        } catch (error) {
+            console.log(error);
+        }
     });
 });

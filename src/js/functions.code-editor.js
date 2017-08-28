@@ -111,7 +111,7 @@ function addFunc(ce, cec, file, line_n) {
         last = number_of_lines;
     }
 
-    ce.onkeyup = ce.oninput;
+    //ce.onkeyup = ce.oninput;
     ce.onkeydown = function (event) {
         if (event.keyCode === 9) {
             var v = this.value, s = this.selectionStart, e = this.selectionEnd;
@@ -121,61 +121,104 @@ function addFunc(ce, cec, file, line_n) {
         }
 
     }
-    ce.onkeyup();
+    ce.oninput();
 }
 
 function codify(text, file, el) {
 
-    text = text.replace(/ /g, " ");
+    line_to_update = -1;
+    text = text.insertAt(getCaretPos(el), "::scode~cursor-element");
 
-    //text = text.insertAt(getCaretPos(el), "::scode~curor-element");
-
-    if (file.extension == "css") {
-        text = style_css_file(text);
-    } else if (file.extension == "js") {
-
-        var options = {
-            "edition": "latest",
-            "length": 100
-        }
-
-        l = new LintStream(options);
-        l.write({ file: file.filename, body: text });
-        l.on('data', function (chunk, encoding, callback) { console.log(chunk); });
-
-        text = text.replace(/\</g, "::scode~lt");
-        text = style_js_file(text);
-        text = "<span style=\"color:cornflowerblue;\">" + text + "</span>";
-        text = text.replace(/\:\:scode\~lt/g, "&lt;");
-        text = text.replace(/\/\/(.[^\n]+)/g, (m, $1) => {
-            var x = document.createElement('span');
-            x.innerHTML = $1;
-            return  '<span style="color:white;background:rgba(0,0,0,0.25);">//' + $1 +  '</span>';
-        });
-
-    } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg") {
-
-        text = text.replace(/\</g, "::scode~lt");
-        text = text.replace(/\&/g, "<span>&</span>");
-        text = style_html_file(text);
-        text = text.replace(/\:\:scode\~lt/g, "&lt;");
+    if(tabs[file.filename]["split"] != undefined){
+        var splt = text.split(/\r?\n/);
+        if(tabs[file.filename]["split"].length == splt.length){
+            /*for (var i = 0; i < splt.length; i++) {
+                var exx = splt[i];
+                if(exx.indexOf('::scode~cursor-element') >= 0){
+                    line_to_update = i;
+                }
+            }*/
+            line_to_update = text.split('::scode~cursor-element')[0].split(/\r?\n/).length - 1;
+        }      
 
     }
 
+    if(line_to_update != -1){
+        x___text = splt[line_to_update];
+        x___text = x___text.replace(/ /g, " ");
+        x___text = x___text.replace('::scode~cursor-element', '');        
 
-    text = text.replace(/(\r\n)/g, "<br /><br /><span></span>");
-    text = text.replace(/(\n|\r)/g, "<br /><span></span>");
+        if (file.extension == "css") {
+            x___text = style_css_file(x___text);
+        } else if (file.extension == "js") {
+            x___text = style_js_file(x___text);
+        } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg") {
+            x___text = style_html_file(x___text);
+        }
 
-    //text = text.replace('::scode~curor-element', '<span style="display:inline-block;content:\'\';border-left:1px solid gray;height:20px;width:0px;line-height:20px;margin:0 auto;padding:0;transform:translateY(3px);"></span>')
+        
+        
+        tabs[file.filename]["split"][line_to_update] = x___text;     
+
+        text = "";
+
+        for (var i = 0; i < tabs[file.filename]["split"].length; i++) {
+            var x = tabs[file.filename]["split"][i];
+            text += x + "<br />";
+        }
+    }else{
+
+        text = text.replace(/ /g, " ");
+    
+    
+        if (file.extension == "css") {
+            text = style_css_file(text);
+        } else if (file.extension == "js") {
+    
+            /*var options = {
+                "edition": "latest",
+                "length": 100
+            }
+    
+            l = new LintStream(options);
+            l.write({ file: file.filename, body: text });
+            l.on('data', function (chunk, encoding, callback) { console.log(chunk); });*/
+    
+            
+            text = style_js_file(text);
+            
+    
+        } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg") {
+    
+            text = style_html_file(text);
+    
+        }
+    
+    
+    
+        text = text.replace('::scode~cursor-element', '');
+        
+        if(tabs[file.filename]["split"] == undefined){
+            tabs[file.filename]["split"] = text.split(/\r?\n/);
+        }
+    
+        text = text.replace(/(\r\n)/g, "<br /><br />");
+        text = text.replace(/(\n|\r)/g, "<br />");
+    }
+
 
     return text + '<br /><br /><br />';
 }
 function style_html_file(text) {
+    text = text.replace(/\</g, "::scode~lt");
+    text = text.replace(/\&/g, "<span>&</span>");
 
     text = text.replace(/\:\:scode\~lt(.[^\<|\>]+)\>/g, function (m, $1) {
         return '&lt;<span style="color:cornflowerblue;">' + style_html_attributes($1) + '</span>>';
     });
 
+    text = text.replace(/\:\:scode\~lt/g, "&lt;");
+    
     return text;
 
 }
@@ -216,7 +259,7 @@ function style_css_file(text) {
 }
 
 function style_js_file(text) {
-
+    text = text.replace(/\</g, "::scode~lt");
     text = text.replace(/\&/g, "<span>&</span>");
     text = text.replace(/(\;|\=)/g, function (m, $1) {
         return '<span style=::scode~quotcolor:white;::scode~quot>' + $1 + '</span>';
@@ -271,6 +314,14 @@ function style_js_file(text) {
     }
 
     buffer = buffer.replace(/\:\:scode\~quot/g, '"');
+
+    buffer = "<span style=\"color:cornflowerblue;\">" + buffer + "</span>";
+    buffer = buffer.replace(/\:\:scode\~lt/g, "&lt;");
+    buffer = buffer.replace(/\/\/(.[^\n]+)/g, (m, $1) => {
+        var x = document.createElement('span');
+        x.innerHTML = $1;
+        return  '<span style="color:white;background:rgba(0,0,0,0.25);">//' + $1 +  '</span>';
+    });
 
     return buffer;
 }

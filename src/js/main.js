@@ -6,7 +6,7 @@ const dialog = app.dialog;
 const fs = require("fs");
 const os = require('os');
 const LintStream = require('jslint').LintStream;
-const {ipcRenderer} = require('electron');
+const { ipcRenderer } = require('electron');
 
 var tabs = {};
 var id = 0;
@@ -16,6 +16,8 @@ var settings = {
     always_show_workdir_and_opened_files: false
 };
 var project_settings = {};
+var lintErrors = [];
+
 String.prototype.insertAt = function (index, string) {
     return this.substr(0, index) + string + this.substr(index);
 }
@@ -26,14 +28,7 @@ if (fs.existsSync(os.homedir() + "/.scode")) {
 
         $(document).ready(function () {
             createWorkingDir(folder[1], $('#working_dir'));
-            if(fs.existsSync(folder[0] + "/.scode.json")){
-
-                project_settings = JSON.parse(fs.readFileSync(folder[0] + "/.scode.json"), 'utf-8');
-                if(project_settings.address != undefined){
-                    alert('Rechargement automatique activé pour le projet. Pour le désactiver, modifiez .scode.json');
-                    ipcRenderer.send('render-project-reg', project_settings.address);
-                }
-            }
+            load_projet_setting();
         });
     }
     if (fs.existsSync(os.homedir() + "/.scode/settings.json")) {
@@ -53,8 +48,16 @@ if (fs.existsSync(os.homedir() + "/.scode")) {
     }
 }
 
+function load_projet_setting() {
+    if (fs.existsSync(folder[0] + "/.scode.json")) {
 
-
+        project_settings = JSON.parse(fs.readFileSync(folder[0] + "/.scode.json"), 'utf-8');
+        if (project_settings.address != undefined) {
+            alert('Rechargement automatique activé pour le projet. Pour le désactiver, modifiez .scode.json');
+            ipcRenderer.send('render-project-reg', project_settings.address);
+        }
+    }
+}
 $(document).ready(function () {
 
     try {
@@ -64,10 +67,14 @@ $(document).ready(function () {
     }
 
     $("#closethis").get(0).onclick = function () {
-        console.log('clicked')
         var window = app.getCurrentWindow();
         window.close();
     }
+
+    $('#minthis').click(function () {
+        var window = app.getCurrentWindow();
+        window.minimize();
+    });
 
     document.body.onkeydown = function (e) {
         if (e.ctrlKey) {
@@ -90,7 +97,7 @@ $(document).ready(function () {
                     });
                 }
 
-                if(project_settings.address != undefined){
+                if (project_settings.address != undefined) {
                     ipcRenderer.send('render-project');
                 }
             } else if (e.keyCode == 116) {

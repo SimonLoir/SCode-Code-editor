@@ -172,7 +172,7 @@ function openFolder() {
 
             fs.writeFileSync(os.homedir() + "/.scode/folder.json", folder_json, "utf-8");
             updateWorkingDir();
-
+            load_projet_setting();
         }
 
     });

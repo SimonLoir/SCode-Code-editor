@@ -11,16 +11,12 @@
     "dist": "build"
   },
   "author": "Simon Loir",
-  "license": "ISC",
-  "build": {
-    "appId": "simonloir.be.scode.software",
-    "win": {
-      "target": "nsis",
-      "icon": "src/logo.ico"
-    }
-  },
+  "license": "MIT",
   "dependencies": {
     "jslint": "^0.11.0",
     "nodegit": "^0.20.1"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^1.6.0"
   }
 }

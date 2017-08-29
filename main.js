@@ -55,7 +55,7 @@ app.on("ready", function () {
 
     ipcMain.on('render-project-reg', (error, arg) => {
         try {
-            preview_window.hide();            
+            preview_window.hide();
             preview_window.loadURL(arg);
             preview_window.show();
         } catch (error) {

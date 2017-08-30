@@ -97,9 +97,8 @@ function newTab(filename) {
 function addFunc(ce, cec, file, line_n) {
     var last = 0;
     ce.oninput = function () {
-        cec.innerHTML = codify(ce.value, file, this);
+        codify(ce.value, file, this, cec);
         var number_of_lines = ce.value.split(/\r?\n/).length;
-        $('#pos').html(getCaretPos(this) + '/' + ce.value.length + " -> " + number_of_lines);
         var i = 1;
         if(number_of_lines != last){
             line_n.get(0).value = "";
@@ -124,7 +123,7 @@ function addFunc(ce, cec, file, line_n) {
     ce.oninput();
 }
 
-function codify(text, file, el) {
+function codify(text, file, el, cec) {
 
     line_to_update = -1;
     text = text.insertAt(getCaretPos(el), "::scode~cursor-element");
@@ -132,14 +131,8 @@ function codify(text, file, el) {
     if(tabs[file.filename]["split"] != undefined){
         var splt = text.split(/\r?\n/);
         if(tabs[file.filename]["split"].length == splt.length){
-            /*for (var i = 0; i < splt.length; i++) {
-                var exx = splt[i];
-                if(exx.indexOf('::scode~cursor-element') >= 0){
-                    line_to_update = i;
-                }
-            }*/
             line_to_update = text.split('::scode~cursor-element')[0].split(/\r?\n/).length - 1;
-        }      
+        }     
 
     }
 
@@ -156,16 +149,7 @@ function codify(text, file, el) {
             x___text = style_html_file(x___text);
         }
 
-        
-        
-        tabs[file.filename]["split"][line_to_update] = x___text;     
-
-        text = "";
-
-        for (var i = 0; i < tabs[file.filename]["split"].length; i++) {
-            var x = tabs[file.filename]["split"][i];
-            text += x + "<br />";
-        }
+        cec.querySelector("#e" + line_to_update).innerHTML = x___text;
     }else{
 
         text = text.replace(/ /g, " ");
@@ -174,16 +158,6 @@ function codify(text, file, el) {
         if (file.extension == "css") {
             text = style_css_file(text);
         } else if (file.extension == "js") {
-    
-            /*var options = {
-                "edition": "latest",
-                "length": 100
-            }
-    
-            l = new LintStream(options);
-            l.write({ file: file.filename, body: text });
-            l.on('data', function (chunk, encoding, callback) { console.log(chunk); });*/
-    
             
             text = style_js_file(text);
             
@@ -193,21 +167,31 @@ function codify(text, file, el) {
             text = style_html_file(text);
     
         }
-    
-    
-    
-        text = text.replace('::scode~cursor-element', '');
         
-        if(tabs[file.filename]["split"] == undefined){
-            tabs[file.filename]["split"] = text.split(/\r?\n/);
+        //console.log("x:" + text)
+
+        text = text.replace('::scode~cursor-element', '');
+        tabs[file.filename]["split"] = text.split(/\r?\n/);
+        
+        //console.log(text);
+
+        var x_split = text.split(/\r?\n/);
+
+        //console.log(x_split);
+
+        text = "";
+
+        for (var i = 0; i < x_split.length; i++) {
+            var e = x_split[i];
+            text += '<span id="e' + i + '">' + e + '</span><br />';
         }
-    
-        text = text.replace(/(\r\n)/g, "<br /><br />");
-        text = text.replace(/(\n|\r)/g, "<br />");
+
+        if(file.extension == "js"){
+            text = "<span style=\"color:cornflowerblue;\">" + text + "</span>";
+        }
+
+        cec.innerHTML = text + '<br /><br /><br />';
     }
-
-
-    return text + '<br /><br /><br />';
 }
 function style_html_file(text) {
     text = text.replace(/\</g, "::scode~lt");

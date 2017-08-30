@@ -1,4 +1,4 @@
-const nodegit = require('nodegit');
+/*const nodegit = require('nodegit');
 var changes_list = [];
 $(document).ready(function () {
   setInterval(function () {
@@ -23,10 +23,10 @@ $(document).ready(function () {
               status: statusToText(file)
             })
           });
-          console.log(changes_list.length + " change(s)")
+          $('#git_status').html(changes_list.length + " change(s)");
         });
 
       });
     }
-  }, 2000);
-});
+  }, 5000);
+});*/

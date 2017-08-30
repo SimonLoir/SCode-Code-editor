@@ -74,7 +74,6 @@ body{
     background:rgb(32,32,32);
     text-align: right;
 }
-
 .code-editor{
     background: transparent;
     position: absolute;
@@ -103,6 +102,33 @@ body{
     border:none;
     white-space: nowrap;
 }
+
+.md .code-editor{
+    right:50%;
+    width:calc(50% - 95px);
+}
+.md .code-editor-colors{
+    right:50%;
+    width:calc(50% - 95px);    
+}
+
+.md .md-preview{
+    font-size:20px;
+    position: absolute;
+    top: 0;right: 0;bottom: 0;
+    padding: 25px;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+    background:rgb(30,30,30);
+    color:white; overflow:auto;   
+    margin:0;
+    width:calc(50% - 50px);
+    height:100%;
+    border:none;
+    white-space: nowrap;
+    border-left: 1px solid gray;
+
+}
+
 
 .header{
     position: fixed;
@@ -221,4 +247,18 @@ textarea{
 ::selection{
     background: rgba(57, 57, 255, 0.25);
     color:white;
+}
+
+.md-preview a{
+    color:cornflowerblue;
+    text-decoration: none;
+}
+
+.md-preview code{
+    background:rgba(255,255,255, 0.25);
+    padding: 2px;
+}
+
+.md-preview h1{
+    border-bottom: 1px solid white;
 }

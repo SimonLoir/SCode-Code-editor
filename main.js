@@ -9,7 +9,7 @@ app.on("ready", function () {
 
     globalShortcut.register("CommandOrControl+L", () => {
 
-        var license = new bw({ frame: false, icon: path.join(__dirname, "src/logo.png") });    
+        var license = new bw({ frame: false, icon: path.join(__dirname, "src/logo.png") });
         license.loadURL(url.format({
             pathname: path.join(__dirname, "src/license.html"),
             protocol: "file:",

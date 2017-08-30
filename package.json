@@ -13,8 +13,9 @@
   "author": "Simon Loir",
   "license": "MIT",
   "dependencies": {
+    "js-beautify": "^1.6.14",
     "jslint": "^0.11.0",
-    "nodegit": "^0.20.1"
+    "marked": "^0.3.6"
   },
   "devDependencies": {
     "electron-rebuild": "^1.6.0"

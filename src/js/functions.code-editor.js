@@ -33,6 +33,8 @@ function newTab(filename) {
         code_editor.get(0).value = data;
         code_editor.get(0).setAttribute('contenteditable', "true");
 
+
+
         var xfilename = filename.replace(/\\/g, "/");
 
         var filename_split = xfilename.split('/');
@@ -69,6 +71,11 @@ function newTab(filename) {
             active_document = "~";
         });
 
+        if(frn_split[frn_split.length - 1] == "md"){
+            tab.addClass('md');
+            var md_preview = tab.child('div').addClass('md-preview');
+        }
+
         addFunc(code_editor.get(0), code_editor_colors.get(0), {
             extension: frn_split[frn_split.length - 1],
             filename: filename
@@ -89,7 +96,58 @@ function newTab(filename) {
                 this.scrollLeft = code_editor_colors.get(0).scrollLeft;
                 return false;
             }
+
+            if(frn_split[frn_split.length - 1] == "md"){
+
+                if (md_preview.get(0).scrollHeight >= this.scrollTop) {
+                    md_preview.get(0).scrollTop = this.scrollTop;
+                    line_numbers.get(0).scrollTop = this.scrollTop;
+                } else {
+                    this.scrollTop = md_preview.get(0).scrollTop;
+                    return false;
+                }
+            }
         }
+
+        
+
+        var file_buffer = "";
+        code_editor.get(0).addEventListener('contextmenu', function () {
+            if(frn_split[frn_split.length - 1] == "js"){
+                var menu = new Menu();
+                if(file_buffer == ""){
+                    var menu_item_1 = new MenuItem({
+                        label: "Organiser le code",
+                        click: () => {
+                            file_buffer = this.value;
+                            this.value = beautify(this.value);
+                            this.oninput();
+                        }
+                    });
+                }else{
+                    var menu_item_1 = new MenuItem({
+                        label: "Annuler organistion du code (restore à l'état d'avant la mise en forme)",
+                        click: () => {
+                            this.value = file_buffer;
+                            this.oninput();
+                            file_buffer = "";
+                        }
+                    });
+
+                    var menu_item_2 = new MenuItem({
+                        label: "Vider le buffer",
+                        click: () => {
+                            file_buffer = "";
+                        }
+                    });
+                    menu.append(menu_item_2);
+                
+                }
+                
+                menu.append(menu_item_1);
+                menu.popup(remote.getCurrentWindow());
+            }
+        });
 
     });
 }
@@ -97,10 +155,13 @@ function newTab(filename) {
 function addFunc(ce, cec, file, line_n) {
     var last = 0;
     ce.oninput = function () {
+        if(file.extension == "md"){
+            ce.parentElement.querySelector('.md-preview').innerHTML = marked(ce.value) + "<br /><br /><br />";
+        }
         codify(ce.value, file, this, cec);
         var number_of_lines = ce.value.split(/\r?\n/).length;
         var i = 1;
-        if(number_of_lines != last){
+        if (number_of_lines != last) {
             line_n.get(0).value = "";
             while (i <= number_of_lines) {
                 line_n.get(0).value += i + "\n";
@@ -128,18 +189,18 @@ function codify(text, file, el, cec) {
     line_to_update = -1;
     text = text.insertAt(getCaretPos(el), "::scode~cursor-element");
 
-    if(tabs[file.filename]["split"] != undefined){
+    if (tabs[file.filename]["split"] != undefined) {
         var splt = text.split(/\r?\n/);
-        if(tabs[file.filename]["split"].length == splt.length){
+        if (tabs[file.filename]["split"].length == splt.length) {
             line_to_update = text.split('::scode~cursor-element')[0].split(/\r?\n/).length - 1;
-        }     
+        }
 
     }
 
-    if(line_to_update != -1){
+    if (line_to_update != -1) {
         x___text = splt[line_to_update];
         x___text = x___text.replace(/ /g, " ");
-        x___text = x___text.replace('::scode~cursor-element', '');        
+        x___text = x___text.replace('::scode~cursor-element', '');
 
         if (file.extension == "css") {
             x___text = style_css_file(x___text);
@@ -150,29 +211,29 @@ function codify(text, file, el, cec) {
         }
 
         cec.querySelector("#e" + line_to_update).innerHTML = x___text;
-    }else{
+    } else {
 
         text = text.replace(/ /g, " ");
-    
-    
+
+
         if (file.extension == "css") {
             text = style_css_file(text);
         } else if (file.extension == "js") {
-            
+
             text = style_js_file(text);
-            
-    
+
+
         } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg" || file.extension == "md") {
-    
+
             text = style_html_file(text);
-    
+
         }
-        
+
         //console.log("x:" + text)
 
         text = text.replace('::scode~cursor-element', '');
         tabs[file.filename]["split"] = text.split(/\r?\n/);
-        
+
         //console.log(text);
 
         var x_split = text.split(/\r?\n/);
@@ -186,7 +247,7 @@ function codify(text, file, el, cec) {
             text += '<span id="e' + i + '">' + e + '</span><br />';
         }
 
-        if(file.extension == "js"){
+        if (file.extension == "js") {
             text = "<span style=\"color:cornflowerblue;\">" + text + "</span>";
         }
 
@@ -202,7 +263,7 @@ function style_html_file(text) {
     });
 
     text = text.replace(/\:\:scode\~lt/g, "&lt;");
-    
+
     return text;
 
 }
@@ -248,7 +309,7 @@ function style_js_file(text) {
     text = text.replace(/(\;|\=)/g, function (m, $1) {
         return '<span style=::scode~quotcolor:white;::scode~quot>' + $1 + '</span>';
     });
-    text = text.replace(/(.[^\s|\.]+)\(/g, function (m, $1) {
+    text = text.replace(/(.[^\s|\.|;]+)\(/g, function (m, $1) {
         return '<span style=::scode~quotcolor:green;::scode~quot>' + $1 + '</span>(';
     });
     text = text.replace(/\(/g, '<span style=::scode~quotcolor:white;::scode~quot>(</span>');
@@ -304,7 +365,7 @@ function style_js_file(text) {
     buffer = buffer.replace(/\/\/(.[^\n]+)/g, (m, $1) => {
         var x = document.createElement('span');
         x.innerHTML = $1;
-        return  '<span style="color:white;background:rgba(0,0,0,0.25);">//' + $1 +  '</span>';
+        return '<span style="color:white;background:rgba(0,0,0,0.25);">//' + $1 + '</span>';
     });
 
     return buffer;

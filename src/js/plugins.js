@@ -8,7 +8,7 @@ $(document).ready(function ( ) {
     });
     var form = $('#git').child('div').child('form');
     var commit_message = form.child('textarea');
-    commit_message.get(0).placeholder = "Message du commit";
+    commit_message.get(0).placeholder = "Message du commit (enter pour envoyer)";
 
     commit_message.get(0).onkeydown = function (event) {
         if (event.keyCode === 13) {

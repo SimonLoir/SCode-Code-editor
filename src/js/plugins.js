@@ -12,12 +12,12 @@ $(document).ready(function ( ) {
 
     commit_message.get(0).onkeydown = function (event) {
         if (event.keyCode === 13) {
-            commit_message.get(0).display = "none";
+            commit_message.get(0).style.display = "none";
             git.commit(commit_message.get(0).value, function () {
-                commit_message.get(0).display = "block";
+                commit_message.get(0).style.display = "block";
                 alert('Commit effectué avec succès');                      
             }, function () {
-                commit_message.get(0).display = "block";        
+                commit_message.get(0).style.display = "block";        
             })
             commit_message.get(0).value = "";
             return false;

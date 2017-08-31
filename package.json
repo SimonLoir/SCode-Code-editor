@@ -6,9 +6,9 @@
   "repository": "https://github.com/SimonLoir/SCode-Text-editor",
   "scripts": {
     "test": "electron .",
-    "win-64": "electron-packager . --arch=x64 --plateform=win32 --electron-version=1.7.5 --out=releases --asar --icon=src/logo.ico --overwrite --ignore=releases/",
-    "win-32": "electron-packager . --arch=ia32 --plateform=win32 --electron-version=1.7.5 --out=releases --asar --icon=src/logo.ico --overwrite --ignore=releases/",
-    "all": "electron-packager . --electron-version=1.7.5 --out=releases --asar --icon=src/logo.ico --overwrite --ignore=releases/",
+    "win-64": "electron-packager . --arch=x64 --plateform=win32 --electron-version=1.7.5 --out=releases --icon=src/logo.ico --overwrite --ignore=releases/",
+    "win-32": "electron-packager . --arch=ia32 --plateform=win32 --electron-version=1.7.5 --out=releases --icon=src/logo.ico --overwrite --ignore=releases/",
+    "all": "electron-packager . --all --electron-version=1.7.5 --out=releases --icon=src/logo.ico --overwrite --ignore=releases/",
     "dist": "build"
   },
   "author": "Simon Loir",
@@ -16,7 +16,8 @@
   "dependencies": {
     "js-beautify": "^1.6.14",
     "jslint": "^0.11.0",
-    "marked": "^0.3.6"
+    "marked": "^0.3.6",
+    "simple-git": "^1.76.0"
   },
   "devDependencies": {
     "electron-rebuild": "^1.6.0"

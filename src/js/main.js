@@ -93,7 +93,9 @@ $(document).ready(function () {
 
                         setTimeout(function () {
                             $('#status').html("~");
-                        }, 500)
+                        }, 500);
+
+                        git.status(git.updateGitPanel);
                     });
                 }
 
@@ -103,16 +105,18 @@ $(document).ready(function () {
             } else if (e.keyCode == 116) {
                 var window = app.getCurrentWindow();
                 window.reload();
+            }else if(e.key == "g"){
+                $('#git_status').click();
+                $('#git textarea').get(0).focus();
             }
-        } else {
-
-        }
+        } 
     }
 
     $('.tabmanager').click(function () {
         if (settings["always_show_workdir_and_opened_files"] == false || settings["always_show_workdir_and_opened_files"] == undefined) {
             $('#opened_files').get(0).style.display = "none";
             $('#working_dir').get(0).style.display = "none";
+            $('#git').get(0).style.display = "none";            
         }
     });
 
@@ -127,6 +131,15 @@ $(document).ready(function () {
                 var file = files[i];
                 $('#opened_files').child("span").html(file + '<br />');
             }
+        }
+    });
+
+    $('#git_status').click(function () {
+        if ($('#git').get(0).style.display == "block") {
+            $('#git').get(0).style.display = "none";
+        } else {
+            git.status(git.updateGitPanel);            
+            $('#git').get(0).style.display = "block";
         }
     });
 

@@ -192,7 +192,7 @@ body{
     font-family: souce-code-pro, sans-serif;    
 }
 
-#opened_files, #working_dir{
+#opened_files, #working_dir, #git{
     display: none;
     position: fixed;
     bottom:25px;
@@ -209,11 +209,28 @@ body{
     right:5px;
 }
 
+#git{
+    right: 180px;
+    transform: translateX(50%);
+    max-width: 300px;
+    width:100%;
+    max-height: calc(100% - 60px);
+}
+
+#git textarea{
+    background:rgb(58, 58, 58);
+    border:1px solid rgb(32, 31, 31);
+    color:white;
+    font-family: source-code-pro, sans-serif;
+    padding: 5px;
+    width: calc(100% - 29px);
+}
+
 #working_dir{
     left:5px;
 }
 
-#working_dir div{
+#working_dir div, #git div{
     padding-left: 12px;    
 }
 

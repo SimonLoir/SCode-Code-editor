@@ -1,7 +1,11 @@
 var beautify = require('js-beautify').js_beautify;
 var marked = require('marked');
+
 $(document).ready(function ( ) {
     $('#git').html('<b>Git</b><br /><br />');
+    $('#git').child("button").html('push').click(function () {
+        git.push();
+    });
     var form = $('#git').child('div').child('form');
     var commit_message = form.child('textarea');
     commit_message.get(0).placeholder = "Message du commit";
@@ -22,8 +26,18 @@ $(document).ready(function ( ) {
     }
     git.git_receiver = $('#git').child('div');
 });
+
 var git = {
     git_receiver : null,
+    push : function () {
+        require('simple-git')(folder[0]).push(function (error) {
+            if(error != null){
+                alert('Impossible de pusher' + error);
+            }else{
+                alert('Push effectué');
+            }
+        });
+    },
     commit: function (text, callback, err) {
         require('simple-git')(folder[0]).add("./*").commit(text, function(error, infos) {
             if(error != null){

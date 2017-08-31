@@ -217,6 +217,15 @@ body{
     max-height: calc(100% - 60px);
 }
 
+#git button{
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    background:transparent;
+    color:orange;
+    border:none;
+}
+
 #git textarea{
     background:rgb(58, 58, 58);
     border:1px solid rgb(32, 31, 31);

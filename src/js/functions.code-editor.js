@@ -3,7 +3,7 @@
  * Creates a new tab in the tab manager
  * @param {String} filename the filename
  */
-function newTab(filename) {
+function newTab(filename, full_md) {
     if (tabs[filename] != undefined) { return; }
     fs.readFile(filename, "utf-8", (err, data) => {
 
@@ -74,6 +74,11 @@ function newTab(filename) {
         if(frn_split[frn_split.length - 1] == "md"){
             tab.addClass('md');
             var md_preview = tab.child('div').addClass('md-preview');
+        }
+
+        if(frn_split[frn_split.length - 1] == "md" && full_md == true){
+            tab.addClass('md');
+            tab.addClass('hide-all');
         }
 
         addFunc(code_editor.get(0), code_editor_colors.get(0), {

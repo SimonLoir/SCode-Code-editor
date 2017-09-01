@@ -18,7 +18,7 @@ app.on("ready", function () {
 
     });
 
-    const screen = electron.screen;
+    /*const screen = electron.screen;
 
     var welcome = new bw({ frame: false, icon: path.join(__dirname, "src/logo.png") });
 
@@ -27,8 +27,8 @@ app.on("ready", function () {
         protocol: "file:",
         slashes: true
     }));
-
-    var main_window = new bw({ frame: false, show: false, icon: path.join(__dirname, "src/logo.png") });
+    */
+    var main_window = new bw({ frame: false, /*show: false,*/ icon: path.join(__dirname, "src/logo.png") });
 
     main_window.loadURL(url.format({
         pathname: path.join(__dirname, "src/index.html"),
@@ -45,11 +45,11 @@ app.on("ready", function () {
         app.quit();
     });
 
-    setTimeout(function () {
-        main_window.maximize();
+    /*setTimeout(function () {
+        */main_window.maximize();/*
         main_window.show();
         welcome.close();
-    }, 1500);
+    }, 1500);*/
     
     var preview_window = new bw({show:false});
 

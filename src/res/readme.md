@@ -20,3 +20,7 @@ Voici la liste des différents raccourcis clavier de SCode.
 
 * ``` Control+L ``` Affiche la fenêtre des licenses
 * ``` Control+G ``` Affiche l'interface git
+
+## Éditeur markdown
+
+Lorsque vous éditez un fichier .md, une preview s'affiche à droite de votre code. La preview s'actualise 

@@ -71,12 +71,12 @@ function newTab(filename, full_md) {
             active_document = "~";
         });
 
-        if(frn_split[frn_split.length - 1] == "md"){
+        if (frn_split[frn_split.length - 1] == "md") {
             tab.addClass('md');
             var md_preview = tab.child('div').addClass('md-preview');
         }
 
-        if(frn_split[frn_split.length - 1] == "md" && full_md == true){
+        if (frn_split[frn_split.length - 1] == "md" && full_md == true) {
             tab.addClass('md');
             tab.addClass('hide-all');
         }
@@ -102,7 +102,7 @@ function newTab(filename, full_md) {
                 return false;
             }
 
-            if(frn_split[frn_split.length - 1] == "md"){
+            if (frn_split[frn_split.length - 1] == "md") {
 
                 if (md_preview.get(0).scrollHeight >= this.scrollTop) {
                     md_preview.get(0).scrollTop = this.scrollTop;
@@ -113,14 +113,11 @@ function newTab(filename, full_md) {
                 }
             }
         }
-
-        
-
         var file_buffer = "";
         code_editor.get(0).addEventListener('contextmenu', function () {
-            if(frn_split[frn_split.length - 1] == "js"){
+            if (frn_split[frn_split.length - 1] == "js") {
                 var menu = new Menu();
-                if(file_buffer == ""){
+                if (file_buffer == "") {
                     var menu_item_1 = new MenuItem({
                         label: "Organiser le code",
                         click: () => {
@@ -129,7 +126,7 @@ function newTab(filename, full_md) {
                             this.oninput();
                         }
                     });
-                }else{
+                } else {
                     var menu_item_1 = new MenuItem({
                         label: "Annuler organistion du code (restore à l'état d'avant la mise en forme)",
                         click: () => {
@@ -146,9 +143,9 @@ function newTab(filename, full_md) {
                         }
                     });
                     menu.append(menu_item_2);
-                
+
                 }
-                
+
                 menu.append(menu_item_1);
                 menu.popup(remote.getCurrentWindow());
             }
@@ -160,7 +157,7 @@ function newTab(filename, full_md) {
 function addFunc(ce, cec, file, line_n) {
     var last = 0;
     ce.oninput = function () {
-        if(file.extension == "md"){
+        if (file.extension == "md") {
             ce.parentElement.querySelector('.md-preview').innerHTML = marked(ce.value) + "<br /><br /><br />";
         }
         codify(ce.value, file, this, cec);
@@ -189,6 +186,20 @@ function addFunc(ce, cec, file, line_n) {
     ce.oninput();
 }
 
+function codify_line(x___text, file) {
+    x___text = x___text.replace(/ /g, " ");
+    x___text = x___text.replace('::scode~cursor-element', '');
+
+    if (file.extension == "css") {
+        x___text = style_css_file(x___text);
+    } else if (file.extension == "js") {
+        x___text = style_js_file(x___text);
+    } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg") {
+        x___text = style_html_file(x___text);
+    }
+    return [x___text, {end_with_a_comment:false, end_with_a_string: false}];
+}
+
 function codify(text, file, el, cec) {
 
     line_to_update = -1;
@@ -204,46 +215,16 @@ function codify(text, file, el, cec) {
 
     if (line_to_update != -1) {
         x___text = splt[line_to_update];
-        x___text = x___text.replace(/ /g, " ");
-        x___text = x___text.replace('::scode~cursor-element', '');
-
-        if (file.extension == "css") {
-            x___text = style_css_file(x___text);
-        } else if (file.extension == "js") {
-            x___text = style_js_file(x___text);
-        } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg") {
-            x___text = style_html_file(x___text);
-        }
-
-        cec.querySelector("#e" + line_to_update).innerHTML = x___text;
+        var x_result = codify_line( x___text , file );
+        cec.querySelector("#e" + line_to_update).innerHTML = x_result[0];
     } else {
 
         text = text.replace(/ /g, " ");
 
-
-        if (file.extension == "css") {
-            text = style_css_file(text);
-        } else if (file.extension == "js") {
-
-            text = style_js_file(text);
-
-
-        } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg" || file.extension == "md") {
-
-            text = style_html_file(text);
-
-        }
-
-        //console.log("x:" + text)
-
         text = text.replace('::scode~cursor-element', '');
         tabs[file.filename]["split"] = text.split(/\r?\n/);
 
-        //console.log(text);
-
         var x_split = text.split(/\r?\n/);
-
-        //console.log(x_split);
 
         text = "";
 
@@ -257,6 +238,12 @@ function codify(text, file, el, cec) {
         }
 
         cec.innerHTML = text + '<br /><br /><br />';
+
+        for (var i = 0; i < tabs[file.filename]["split"].length; i++) {
+            var line = tabs[file.filename]["split"][i];
+            var x_result = codify_line( line , file );
+            cec.querySelector("#e" + i).innerHTML = x_result[0];
+        }
     }
 }
 function style_html_file(text) {

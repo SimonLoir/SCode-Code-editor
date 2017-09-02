@@ -312,8 +312,11 @@ function style_js_file(text, previous) {
 
     }
 
-    var string = null;
     var buffer = "";
+    if(comment == true){
+        buffer = '<span style="color:black;">';
+    }
+    var string = null;
     var comment_buffer = '';
     var string_buffer = "";
     var x_buffer = "";
@@ -363,10 +366,26 @@ function style_js_file(text, previous) {
                     }
                 }
             }else{
-                string = char;
-                string_buffer = char;
+                if(comment != true){
+                    string = char;
+                    string_buffer = char;
+                }else{
+                    comment_buffer += char;
+                }
             }
-        } else {
+        } else if(char == "/" && text[i - 1] == "/" && comment != true && text[i - 2] != "*"){
+            comment = true;
+            comment_type = "//";
+            comment_buffer = '<span style="color:black;">/';
+        }else if(char == "/" && text[i + 1] == "*" && comment != true){
+            comment = true;
+            comment_type = "/*";
+            comment_buffer = '<span style="color:black;">/';
+        }else if(char == "/" && text[i - 1] == "*" && comment == true){
+            comment = false;
+            buffer += comment_buffer + '/</span>';
+            comment_buffer = "";
+        }else {
             if(string != null){
                 string_buffer += char;
             }else if(comment == true){
@@ -380,7 +399,10 @@ function style_js_file(text, previous) {
             if (string == null && comment == false) {
                 buffer += x_buffer;
             } else if (comment == true) {
-                buffer += comment_buffer;
+                buffer += comment_buffer + "</span>";
+                if(comment_type == "//"){
+                    comment = false;
+                }
             } else if (string != null) {
                 buffer += string_buffer;
             }

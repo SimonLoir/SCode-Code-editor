@@ -16,7 +16,8 @@ var folder = null;
 Settings can be modified in the file {user_dir}/.scode/settings.json
 */
 var settings = {
-    always_show_workdir_and_opened_files: false
+    always_show_workdir_and_opened_files: false, 
+    language: "en.json"
 };
 /*
 Project settings are defined inside the .scode.json file that must be created at the root of the working dir
@@ -66,6 +67,8 @@ if (fs.existsSync(os.homedir() + "/.scode")) {
     }
 }
 
+var language = JSON.parse(fs.readFileSync(__dirname + "/translations/" + settings.language, "utf-8"));
+
 /*
 We try to load the settings of the current project
 */
@@ -74,7 +77,7 @@ function load_projet_setting() {
 
         project_settings = JSON.parse(fs.readFileSync(folder[0] + "/.scode.json"), 'utf-8');
         if (project_settings.address != undefined) {
-            alert('Rechargement automatique activé pour le projet. Pour le désactiver, modifiez .scode.json');
+            alert(language.liveReloadEnabled);
             ipcRenderer.send('render-project-reg', project_settings.address);
         }
     }

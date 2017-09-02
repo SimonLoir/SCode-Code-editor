@@ -119,7 +119,7 @@ function newTab(filename, full_md) {
                 var menu = new Menu();
                 if (file_buffer == "") {
                     var menu_item_1 = new MenuItem({
-                        label: "Organiser le code",
+                        label: language.organizeTheCode,
                         click: () => {
                             file_buffer = this.value;
                             this.value = beautify(this.value);
@@ -260,7 +260,7 @@ function codify(text, file, el, cec) {
             cec.querySelector("#e" + i).innerHTML = x_result[0];
         }
 
-        console.log(tabs[file.filename]["previous"]);
+        //console.log(tabs[file.filename]["previous"]);
     }
 }
 function style_html_file(text) {

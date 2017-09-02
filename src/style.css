@@ -101,6 +101,7 @@ body{
     height:calc(100% - 50px);
     border:none;
     white-space: nowrap;
+    overflow: hidden;
 }
 
 .md .code-editor{

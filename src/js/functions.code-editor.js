@@ -186,18 +186,20 @@ function addFunc(ce, cec, file, line_n) {
     ce.oninput();
 }
 
-function codify_line(x___text, file) {
+function codify_line(x___text, file, previous) {
     x___text = x___text.replace(/ /g, " ");
     x___text = x___text.replace('::scode~cursor-element', '');
 
     if (file.extension == "css") {
-        x___text = style_css_file(x___text);
+        x___text = style_css_file(x___text, previous);
     } else if (file.extension == "js") {
-        x___text = style_js_file(x___text);
+        x___text = style_js_file(x___text, previous);
     } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg") {
-        x___text = style_html_file(x___text);
+        x___text = style_html_file(x___text, previous);
+    } else {
+        x___text = [x___text, {}];
     }
-    return [x___text, {end_with_a_comment:false, end_with_a_string: false}];
+    return x___text;
 }
 
 function codify(text, file, el, cec) {
@@ -215,7 +217,7 @@ function codify(text, file, el, cec) {
 
     if (line_to_update != -1) {
         x___text = splt[line_to_update];
-        var x_result = codify_line( x___text , file );
+        var x_result = codify_line(x___text, file);
         cec.querySelector("#e" + line_to_update).innerHTML = x_result[0];
     } else {
 
@@ -239,9 +241,12 @@ function codify(text, file, el, cec) {
 
         cec.innerHTML = text + '<br /><br /><br />';
 
+        var previous = {};
+
         for (var i = 0; i < tabs[file.filename]["split"].length; i++) {
             var line = tabs[file.filename]["split"][i];
-            var x_result = codify_line( line , file );
+            var x_result = codify_line(line, file, previous);
+            previous = x_result[1];
             cec.querySelector("#e" + i).innerHTML = x_result[0];
         }
     }
@@ -256,7 +261,7 @@ function style_html_file(text) {
 
     text = text.replace(/\:\:scode\~lt/g, "&lt;");
 
-    return text;
+    return [text, {}];
 
 }
 
@@ -291,73 +296,126 @@ function style_css_file(text) {
         return '<b style="color:red">' + $1 + '</b>:<span>' + $2 + ';</span>';
     });
 
-    return text;
+    return [text, {}];
 }
 
-function style_js_file(text) {
+function style_js_file(text, previous) {
     text = text.replace(/\</g, "::scode~lt");
-    text = text.replace(/\&/g, "<span>&</span>");
-    text = text.replace(/(\;|\=)/g, function (m, $1) {
-        return '<span style=::scode~quotcolor:white;::scode~quot>' + $1 + '</span>';
-    });
-    text = text.replace(/(.[^\s|\.|;]+)\(/g, function (m, $1) {
-        return '<span style=::scode~quotcolor:green;::scode~quot>' + $1 + '</span>(';
-    });
-    text = text.replace(/\(/g, '<span style=::scode~quotcolor:white;::scode~quot>(</span>');
-    text = text.replace(/\)/g, '<span style=::scode~quotcolor:white;::scode~quot>)</span>');
-    text = text.replace(/\{/g, '<span style=::scode~quotcolor:white;::scode~quot>{</span>');
-    text = text.replace(/\}/g, '<span style=::scode~quotcolor:white;::scode~quot>}</span>');
-    text = text.replace(/\./g, '<span style=::scode~quotcolor:white;::scode~quot>.</span>');
-    text = text.replace(/const\s/g, '<span style=::scode~quotcolor:orange;::scode~quot>const </span>');
-    text = text.replace(/var\s/g, '<span style=::scode~quotcolor:orange;::scode~quot>var </span>');
-    text = text.replace(/let\s/g, '<span style=::scode~quotcolor:orange;::scode~quot>let </span>');
-    text = text.replace(/async\s/g, '<span style=::scode~quotcolor:orange;::scode~quot>async </span>');
-    text = text.replace(/await\s/g, '<span style=::scode~quotcolor:orange;::scode~quot>await </span>');
+    //text = text.replace(/\&/g, "<span>&</span>");
 
+    if (previous.comment != undefined) {
+        var comment = previous.comment;
+        var comment_type = "/*";
+    } else {
+        var comment = false;
+        var comment_type = null;
+
+    }
+
+    var string = null;
     var buffer = "";
-    var opened = null;
-
+    var comment_buffer = '';
+    var string_buffer = "";
+    var x_buffer = "";
 
     for (var i = 0; i < text.length; i++) {
-        var btext = text[i];
+        var char = text[i];
+        if (char == " " || char == " " || isOperator(char)) {
+            if (string == null && comment == false) {
+                var system_key = is_system_key(x_buffer);
 
-        if (btext == '"' || btext == "'") {
-            if (opened == null) {
-                buffer += '<span style=::scode~quotcolor:crimson;::scode~quot class=::scode~quotstring::scode~quot>' + btext;
-                opened = btext;
-            } else {
-                if (opened == btext) {
-                    if (text[i - 1] == "\\") {
-                        if (text[i - 2] == "\\") {
-                            buffer += btext + "</span>";
-                            opened = null;
-                        } else {
-                            buffer += btext;
-                        }
-                    } else {
 
-                        buffer += btext + "</span>";
-                        opened = null;
-                    }
-                } else {
-                    buffer += btext;
+                if (system_key) {
+                    x_buffer = '<span style="color:orange">' + x_buffer + '</span>';
                 }
+
+                if (x_buffer == "true" || x_buffer == "false") {
+                    x_buffer = '<span style="color:darkblue">' + x_buffer + '</span>';
+                }
+
+                if ([ "if", "else", "try", "catch", "return"].indexOf(x_buffer) >= 0) {
+                    x_buffer = '<span style="color:DarkMagenta">' + x_buffer + '</span>';
+                }
+
+                if (char == "(") {
+                    x_buffer = '<span style="color:green">' + x_buffer + '</span>';
+                }
+
+                if (isOperator(char)) {
+                    char = '<span style="color:white;">' + char + '</span>';
+                }
+
+                buffer += x_buffer + char;
+                x_buffer = "";
+            } else if (comment == true) {
+                comment_buffer += char;
+            } else if (string != null) {
+                string_buffer += char;
+            }
+        } else if (char == "'" || char == '"') {
+            if (string != null) {
+                string_buffer += char;
+                if(string == char){
+                    if(text[ i - 1 ] != "\\"){
+                        string = null;
+                        buffer += '<span style="color:coral">' + string_buffer + '</span>';
+                        string_buffer = "";
+                    }
+                }
+            }else{
+                string = char;
+                string_buffer = char;
             }
         } else {
-            buffer += btext;
+            if(string != null){
+                string_buffer += char;
+            }else if(comment == true){
+                comment_buffer += char;
+            }else{
+                x_buffer += char;
+            }
+        }
+
+        if (i == text.length - 1) {
+            if (string == null && comment == false) {
+                buffer += x_buffer;
+            } else if (comment == true) {
+                buffer += comment_buffer;
+            } else if (string != null) {
+                buffer += string_buffer;
+            }
         }
 
     }
+
+    console.log(buffer);
 
     buffer = buffer.replace(/\:\:scode\~quot/g, '"');
 
     buffer = "<span style=\"color:cornflowerblue;\">" + buffer + "</span>";
     buffer = buffer.replace(/\:\:scode\~lt/g, "&lt;");
-    buffer = buffer.replace(/\/\/(.[^\n]+)/g, (m, $1) => {
-        var x = document.createElement('span');
-        x.innerHTML = $1;
-        return '<span style="color:white;background:rgba(0,0,0,0.25);">//' + $1 + '</span>';
-    });
 
-    return buffer;
+    return [buffer, { comment: comment }];
+}
+
+function is_system_key(x_buffer) {
+    if (x_buffer == "const") {
+        return true;
+    } else if (x_buffer == "var") {
+        return true;
+    } else if (x_buffer == "let") {
+        return true;
+    }else if (x_buffer == "function") {
+        return true;
+    }
+
+    return false;
+}
+
+function isOperator(char) {
+    if ([';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<'].indexOf(char) >= 0) {
+        return true;
+    } else {
+        return false;
+    }
 }

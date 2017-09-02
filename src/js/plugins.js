@@ -15,13 +15,13 @@ $(document).ready(function ( ) {
             commit_message.get(0).style.display = "none";
             git.commit(commit_message.get(0).value, function () {
                 commit_message.get(0).style.display = "block";
-                alert('Commit effectué avec succès');                      
+                alert('Commit effectué avec succès');
+                git.status(git.updateGitPanel);        
             }, function () {
                 commit_message.get(0).style.display = "block";        
             })
             commit_message.get(0).value = "";
 
-            git.status(git.updateGitPanel);
             return false;
         }
 

@@ -352,13 +352,13 @@ function style_js_file(text, previous) {
                     comment_buffer += char;
                 }
             }
-        } else if(char == "/" && text[i + 1] == "/" && comment != true && text[i - 1] != "*"){
+        } else if(char == "/" && text[i + 1] == "/" && comment != true && text[i - 1] != "*" && string == null){
             buffer += x_buffer;
             x_buffer = "";
             comment = true;
             comment_type = "//";
             comment_buffer = '<span style="color:black;">/';
-        }else if(char == "/" && text[i + 1] == "*" && comment != true){
+        }else if(char == "/" && text[i + 1] == "*" && comment != true && string == null){
             buffer += x_buffer;
             x_buffer = "";
             comment = true;
@@ -381,7 +381,7 @@ function style_js_file(text, previous) {
                     x_buffer = '<span style="color:darkblue">' + x_buffer + '</span>';
                 }
 
-                if ([ "if", "else", "try", "catch", "return"].indexOf(x_buffer) >= 0) {
+                if ([ "if", "else", "try", "catch", "return", "for", "while"].indexOf(x_buffer) >= 0) {
                     x_buffer = '<span style="color:DarkMagenta">' + x_buffer + '</span>';
                 }
 

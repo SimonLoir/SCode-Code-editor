@@ -194,7 +194,7 @@ function codify_line(x___text, file, previous) {
         x___text = style_css_file(x___text, previous);
     } else if (file.extension == "js") {
         x___text = style_js_file(x___text, previous);
-    } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg") {
+    } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg" || file.extension == "md") {
         x___text = style_html_file(x___text, previous);
     } else {
         x___text = [x___text, {}];
@@ -323,7 +323,37 @@ function style_js_file(text, previous) {
 
     for (var i = 0; i < text.length; i++) {
         var char = text[i];
-        if (char == " " || char == " " || isOperator(char)) {
+        if (char == "'" || char == '"') {
+            if (string != null) {
+                string_buffer += char;
+                if(string == char){
+                    if(text[ i - 1 ] != "\\"){
+                        string = null;
+                        buffer += '<span style="color:coral">' + string_buffer + '</span>';
+                        string_buffer = "";
+                    }
+                }
+            }else{
+                if(comment != true){
+                    string = char;
+                    string_buffer = char;
+                }else{
+                    comment_buffer += char;
+                }
+            }
+        } else if(char == "/" && text[i - 1] == "/" && comment != true && text[i - 2] != "*"){
+            comment = true;
+            comment_type = "//";
+            comment_buffer = '<span style="color:black;">/';
+        }else if(char == "/" && text[i + 1] == "*" && comment != true){
+            comment = true;
+            comment_type = "/*";
+            comment_buffer = '<span style="color:black;">/';
+        }else if(char == "/" && text[i - 1] == "*" && comment == true){
+            comment = false;
+            buffer += comment_buffer + '/</span>';
+            comment_buffer = "";
+        }else if (char == " " || char == " " || isOperator(char)) {
             if (string == null && comment == false) {
                 var system_key = is_system_key(x_buffer);
 
@@ -355,37 +385,7 @@ function style_js_file(text, previous) {
             } else if (string != null) {
                 string_buffer += char;
             }
-        } else if (char == "'" || char == '"') {
-            if (string != null) {
-                string_buffer += char;
-                if(string == char){
-                    if(text[ i - 1 ] != "\\"){
-                        string = null;
-                        buffer += '<span style="color:coral">' + string_buffer + '</span>';
-                        string_buffer = "";
-                    }
-                }
-            }else{
-                if(comment != true){
-                    string = char;
-                    string_buffer = char;
-                }else{
-                    comment_buffer += char;
-                }
-            }
-        } else if(char == "/" && text[i - 1] == "/" && comment != true && text[i - 2] != "*"){
-            comment = true;
-            comment_type = "//";
-            comment_buffer = '<span style="color:black;">/';
-        }else if(char == "/" && text[i + 1] == "*" && comment != true){
-            comment = true;
-            comment_type = "/*";
-            comment_buffer = '<span style="color:black;">/';
-        }else if(char == "/" && text[i - 1] == "*" && comment == true){
-            comment = false;
-            buffer += comment_buffer + '/</span>';
-            comment_buffer = "";
-        }else {
+        } else {
             if(string != null){
                 string_buffer += char;
             }else if(comment == true){
@@ -435,7 +435,7 @@ function is_system_key(x_buffer) {
 }
 
 function isOperator(char) {
-    if ([';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<'].indexOf(char) >= 0) {
+    if ([';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<', "+", "-", "*", "/"].indexOf(char) >= 0) {
         return true;
     } else {
         return false;

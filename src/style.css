@@ -80,7 +80,7 @@ body{
     top: 0;left: 45px;right: 0;bottom: 0;
     padding: 25px;
     font-family: souce-code-pro, sans-serif;
-    color:rgba(255,255,255,0.3);overflow:auto;
+    color:rgba(255,255,255,0.25);overflow:auto;
     font-size:20px;
     margin:0;
     width:calc(100% - 95px);

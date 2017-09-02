@@ -230,7 +230,7 @@ function codify(text, file, el, cec) {
 
         for (var i = 0; i < x_split.length; i++) {
             var e = x_split[i];
-            text += '<span id="e' + i + '">' + e + '</span><br />';
+            text += '<span id="e' + i + '"></span><br />';
         }
 
         if (file.extension == "js") {
@@ -261,7 +261,6 @@ function style_html_file(text) {
 }
 
 function style_html_attributes(attributes) {
-
 
     attributes = attributes.replace(/\s(.[^\s|\=]+)\=/g, (m, $1) => {
 

@@ -5,6 +5,7 @@ $(document).ready(function ( ) {
     $('#git').html('<b>Git</b><br /><br />');
     $('#git').child("button").html('push').click(function () {
         git.push();
+        $('#git_status').click();
     });
     var form = $('#git').child('div').child('form');
     var commit_message = form.child('textarea');

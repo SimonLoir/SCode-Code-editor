@@ -217,7 +217,13 @@ function codify(text, file, el, cec) {
 
     if (line_to_update != -1) {
         x___text = splt[line_to_update];
-        var x_result = codify_line(x___text, file);
+        if(line_to_update != 0){
+            previous = tabs[file.filename]["previous"][line_to_update - 1];
+        }else{
+            previous = {};
+        }
+        var x_result = codify_line(x___text, file, previous);
+        tabs[file.filename]["previous"][line_to_update] = x_result[1];
         cec.querySelector("#e" + line_to_update).innerHTML = x_result[0];
     } else {
 
@@ -225,6 +231,8 @@ function codify(text, file, el, cec) {
 
         text = text.replace('::scode~cursor-element', '');
         tabs[file.filename]["split"] = text.split(/\r?\n/);
+
+        tabs[file.filename]["previous"] = {}
 
         var x_split = text.split(/\r?\n/);
 
@@ -247,8 +255,11 @@ function codify(text, file, el, cec) {
             var line = tabs[file.filename]["split"][i];
             var x_result = codify_line(line, file, previous);
             previous = x_result[1];
+            tabs[file.filename]["previous"][i] = previous;
             cec.querySelector("#e" + i).innerHTML = x_result[0];
         }
+
+        console.log(tabs[file.filename]["previous"]);
     }
 }
 function style_html_file(text) {
@@ -341,11 +352,15 @@ function style_js_file(text, previous) {
                     comment_buffer += char;
                 }
             }
-        } else if(char == "/" && text[i - 1] == "/" && comment != true && text[i - 2] != "*"){
+        } else if(char == "/" && text[i + 1] == "/" && comment != true && text[i - 1] != "*"){
+            buffer += x_buffer;
+            x_buffer = "";
             comment = true;
             comment_type = "//";
             comment_buffer = '<span style="color:black;">/';
         }else if(char == "/" && text[i + 1] == "*" && comment != true){
+            buffer += x_buffer;
+            x_buffer = "";
             comment = true;
             comment_type = "/*";
             comment_buffer = '<span style="color:black;">/';
@@ -410,7 +425,6 @@ function style_js_file(text, previous) {
 
     }
 
-    console.log(buffer);
 
     buffer = buffer.replace(/\:\:scode\~quot/g, '"');
 

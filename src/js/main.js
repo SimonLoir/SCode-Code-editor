@@ -5,24 +5,39 @@ const MenuItem = remote.MenuItem;
 const dialog = app.dialog;
 const fs = require("fs");
 const os = require('os');
-const LintStream = require('jslint').LintStream;
+//const LintStream = require('jslint').LintStream; //Not that useful now
 const { ipcRenderer } = require('electron');
 
 var tabs = {};
 var id = 0;
 var active_document = null;
 var folder = null;
+/*
+Settings can be modified in the file {user_dir}/.scode/settings.json
+*/
 var settings = {
     always_show_workdir_and_opened_files: false
 };
+/*
+Project settings are defined inside the .scode.json file that must be created at the root of the working dir
+*/
 var project_settings = {};
-var lintErrors = [];
+//var lintErrors = [];//This will be used to store lint errors
 
+/*
+This method is used to specify the cursor position inside the text but could be used for other things.
+*/
 String.prototype.insertAt = function (index, string) {
     return this.substr(0, index) + string + this.substr(index);
 }
 
+/*
+We try to set the working directory and the settings. If scode folder doesn't exist, we create it.
+*/
 if (fs.existsSync(os.homedir() + "/.scode")) {
+    /*
+    We try to find the working directory 
+    */
     if (fs.existsSync(os.homedir() + "/.scode/folder.json")) {
         folder = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/folder.json", "utf-8"));
 
@@ -31,6 +46,9 @@ if (fs.existsSync(os.homedir() + "/.scode")) {
             load_projet_setting();
         });
     }
+    /*
+    We try to import the settings from the settings file
+    */
     if (fs.existsSync(os.homedir() + "/.scode/settings.json")) {
         settings = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/settings.json", "utf-8"));
     }
@@ -48,6 +66,9 @@ if (fs.existsSync(os.homedir() + "/.scode")) {
     }
 }
 
+/*
+We try to load the settings of the current project
+*/
 function load_projet_setting() {
     if (fs.existsSync(folder[0] + "/.scode.json")) {
 
@@ -58,24 +79,24 @@ function load_projet_setting() {
         }
     }
 }
+
+/*
+When the document is loaded completely
+*/
 $(document).ready(function () {
 
-    try {
-        //newTab(__dirname + '/../node_modules/jslint/LICENSE');
-    } catch (error) {
-        alert('error')
-    }
-
+    /* ---       Window options      ---  */
     $("#closethis").get(0).onclick = function () {
         var window = app.getCurrentWindow();
         window.close();
     }
-
     $('#minthis').click(function () {
         var window = app.getCurrentWindow();
         window.minimize();
     });
-
+    /* --- [end] Window options [end] --- */
+    
+    /* --- Keyboard shortcuts --- */
     document.body.onkeydown = function (e) {
         if (e.ctrlKey) {
             if (e.key == "o") {
@@ -111,6 +132,7 @@ $(document).ready(function () {
             }
         } 
     }
+    /* --- [end] Keyboard Shortcuts [end] --- */
 
     $('.tabmanager').click(function () {
         if (settings["always_show_workdir_and_opened_files"] == false || settings["always_show_workdir_and_opened_files"] == undefined) {

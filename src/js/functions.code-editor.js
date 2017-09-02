@@ -179,6 +179,7 @@ function addFunc(ce, cec, file, line_n) {
             var v = this.value, s = this.selectionStart, e = this.selectionEnd;
             this.value = v.substring(0, s) + '    ' + v.substring(e);
             this.selectionStart = this.selectionEnd = s + 4;
+            this.oninput();
             return false;
         }
 

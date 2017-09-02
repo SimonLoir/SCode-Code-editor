@@ -20,6 +20,8 @@ $(document).ready(function ( ) {
                 commit_message.get(0).style.display = "block";        
             })
             commit_message.get(0).value = "";
+
+            git.status(git.updateGitPanel);
             return false;
         }
 

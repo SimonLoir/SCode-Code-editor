@@ -9,14 +9,14 @@ $(document).ready(function ( ) {
     });
     var form = $('#git').child('div').child('form');
     var commit_message = form.child('textarea');
-    commit_message.get(0).placeholder = "Message du commit (enter pour envoyer)";
+    commit_message.get(0).placeholder = "Message (Enter to commit)";
 
     commit_message.get(0).onkeydown = function (event) {
         if (event.keyCode === 13) {
             commit_message.get(0).style.display = "none";
             git.commit(commit_message.get(0).value, function () {
                 commit_message.get(0).style.display = "block";
-                alert('Commit effectué avec succès');
+                alert(language.commitDoneSuccesfully);
                 git.status(git.updateGitPanel);        
             }, function () {
                 commit_message.get(0).style.display = "block";        
@@ -35,9 +35,9 @@ var git = {
     push : function () {
         require('simple-git')(folder[0]).push(function (error) {
             if(error != null){
-                alert('Impossible de pusher' + error);
+                alert(language.cantPush + error);
             }else{
-                alert('Push effectué');
+                alert(language.pushDone);
             }
         });
     },
@@ -68,7 +68,7 @@ var git = {
 
         g.html("");
 
-        var created_label = g.child('p').html('Créés (' + changes.created.length + ')');
+        var created_label = g.child('p').html( language.created + ' (' + changes.created.length + ')');
         var created_list = g.child('div');
 
         addClickOnDir(created_label, created_list);
@@ -79,7 +79,7 @@ var git = {
             created_list.child('br');
         }
 
-        var modified_label = g.child('p').html('Modifiés (' + changes.modified.length + ')');
+        var modified_label = g.child('p').html(language.modified + ' (' + changes.modified.length + ')');
         var modified_list = g.child('div');
 
         addClickOnDir(modified_label, modified_list);
@@ -90,7 +90,7 @@ var git = {
             modified_list.child('br');
         }
 
-        var deleted_label = g.child('p').html('Supprimés (' + changes.deleted.length + ')');
+        var deleted_label = g.child('p').html(language.removed + ' (' + changes.deleted.length + ')');
         var deleted_list = g.child('div');
 
         addClickOnDir(deleted_label, deleted_list);
@@ -101,7 +101,7 @@ var git = {
             deleted_list.child('br');
         }
 
-        var renamed_label = g.child('p').html('Renommés (' + changes.renamed.length + ')');
+        var renamed_label = g.child('p').html(language.renamed + ' (' + changes.renamed.length + ')');
         var renamed_list = g.child('div');
 
         addClickOnDir(renamed_label, renamed_list);

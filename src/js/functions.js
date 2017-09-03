@@ -13,9 +13,9 @@ window.alert = function (text) {
  */
 function updateWorkingDir() {
     $('#working_dir').get(0).style.display = "block";
-    $('#working_dir').html('<b>Espace de travail :</b><br />');
+    $('#working_dir').html('<b>' + language.workingDir + ' :</b><br />');
     if (folder == null) {
-        $('#working_dir').child('span').html("Vous n'avez pas encore ouvert un fichier de travail");
+        $('#working_dir').child('span').html(language.requireToOpenAWDir);
     } else {
         folder = getDirArray(folder[0]);
         createWorkingDir(folder[1], $('#working_dir'));

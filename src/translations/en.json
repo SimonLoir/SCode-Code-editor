@@ -1,4 +1,16 @@
 {
     "liveReloadEnabled": "Automatic reload is enabled for the project. In order to disable it, modify .scode.json.",
-    "organizeTheCode" : "Organize the code"
+    "organizeTheCode" : "Organize the code",
+    "filesOpenedInScode": "Files opened in SCode",
+    "openAFile" : "Open a file",
+    "workingDir" : "Working directory",
+    "openedFiles" : "Opened files", 
+    "commitDoneSuccesfully" : "Committed successfully",
+    "pushDone" : "Push successfully completed",
+    "cantPush" : "An error occured while pushing",
+    "created" : "Created",
+    "removed" : "Deleted",
+    "modified" : "Modified",
+    "renamed" : "Renamed",
+    "requireToOpenAWDir" : "You have not yet opened a working file"    
 }

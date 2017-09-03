@@ -88,6 +88,14 @@ When the document is loaded completely
 */
 $(document).ready(function () {
 
+    /**
+     * Tanslations
+     */
+
+    $('#e_open').html(language.openAFile);
+    $('#show_working_dir').html(language.workingDir);
+    $('#show_opened_files').html(language.openedFiles)
+
     /* ---       Window options      ---  */
     $("#closethis").get(0).onclick = function () {
         var window = app.getCurrentWindow();
@@ -150,7 +158,7 @@ $(document).ready(function () {
             $('#opened_files').get(0).style.display = "none";
         } else {
             $('#opened_files').get(0).style.display = "block";
-            $('#opened_files').html('<b>Fichiers ouverts dans SCode</b><br />');
+            $('#opened_files').html('<b>' + language.filesOpenedInScode + '</b><br />');
             var files = Object.keys(tabs);
             for (var i = 0; i < files.length; i++) {
                 var file = files[i];

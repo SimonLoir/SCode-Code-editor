@@ -37,6 +37,9 @@ Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
+[Dirs]
+Name: "{app}\resources"; Permissions: users-full
+
 [Files]
 Source: "C:\Users\simon\Documents\Electron\releases\scode-win32-ia32\scode.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\simon\Documents\Electron\releases\scode-win32-ia32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs

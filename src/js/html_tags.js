@@ -2,7 +2,7 @@
 You can find that list on the w3school website
 */
 var html_tags = {
-    "!--...--": "<!--...-->\nDefines a comment",
+    "!--": "<!--...-->\nDefines a comment",
     "!DOCTYPE": "<!DOCTYPE> \nDefines the document type",
     "a": "<a>\nDefines a hyperlink",
     "abbr": "<abbr>\nDefines an abbreviation or an acronym",
@@ -50,7 +50,12 @@ var html_tags = {
     "form": "<form>\nDefines an HTML form for user input",
     "frame": "<frame>\nNot supported in HTML5.\nDefines a window (a frame) in a frameset",
     "frameset": "<frameset>\nNot supported in HTML5.\nDefines a set of frames",
-    "h1 to <h6>": "<h1> to <h6>\nDefines HTML headings",
+    "h1": "<h1>Defines HTML heading",
+    "h2": "<h2>Defines HTML heading",
+    "h3": "<h3>Defines HTML heading",
+    "h4": "<h4>Defines HTML heading",
+    "h5": "<h5>Defines HTML heading",
+    "h6": "<h6>Defines HTML heading",
     "head": "<head>\nDefines information about the document",
     "header": "<header>\nDefines a header for a document or section",
     "hr": "<hr>\nDefines a thematic change in the content",

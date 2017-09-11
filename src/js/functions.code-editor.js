@@ -268,7 +268,7 @@ function style_html_file(text) {
     text = text.replace(/\&/g, "<span>&</span>");
 
     text = text.replace(/\:\:scode\~lt(.[^\<|\>]+)\>/g, function (m, $1) {
-        return '&lt;<span style="color:cornflowerblue;">' + style_html_attributes($1) + '</span>>';
+        return '&lt;<span style="color:purple;">' + style_html_attributes($1) + '</span>>';
     });
 
     text = text.replace(/\:\:scode\~lt/g, "&lt;");
@@ -279,11 +279,43 @@ function style_html_file(text) {
 
 function style_html_attributes(attributes) {
 
+    var $_buffer = attributes;
+    attributes = "";
+
+    var is_string = false;
+    var string_char = "";
+    var string_buffer = "";
+    
+    for (var i = 0; i < $_buffer.length; i++) {
+        var char = $_buffer[i];
+        if(is_string == true){
+            if((char == '"' || char == "'") && string_char == char){
+                string_char = "";
+                string_buffer += char + '::scode~~quote_end-html;';
+                attributes += string_buffer;
+                string_buffer = "";
+                is_string = false;
+            }else{
+                string_buffer += char;
+            }
+        }else{
+            if(char == '"' || char == "'"){
+                string_char = char;
+                is_string = true;
+                string_buffer = '::scode~~quote_start-html;' + char;
+            }else{
+                attributes += char;
+            }
+        }
+    }
     attributes = attributes.replace(/\s(.[^\s|\=]+)\=/g, (m, $1) => {
 
-        return ' <span style="color:green;">' + $1 + '</span>=';
+        return ' <span style="color:orange;">' + $1 + '</span>=';
 
     });
+
+    attributes = attributes.replace(/\:\:scode~~quote_start-html\;/g, '<span style="color:#99B898;">');
+    attributes = attributes.replace(/\:\:scode~~quote_end-html\;/g, '</span>');
 
     att = attributes.split(/(\s| )/g);
 

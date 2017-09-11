@@ -115,7 +115,7 @@ function newTab(filename, full_md) {
         }
         var file_buffer = "";
         code_editor.get(0).addEventListener('contextmenu', function () {
-            if (frn_split[frn_split.length - 1] == "js") {
+            if (frn_split[frn_split.length - 1] == "js" || frn_split[frn_split.length - 1] == "json") {
                 var menu = new Menu();
                 if (file_buffer == "") {
                     var menu_item_1 = new MenuItem({
@@ -193,7 +193,7 @@ function codify_line(x___text, file, previous) {
 
     if (file.extension == "css") {
         x___text = style_css_file(x___text, previous);
-    } else if (file.extension == "js") {
+    } else if (file.extension == "js" || file.extension == "json") {
         x___text = style_js_file(x___text, previous);
     } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg" || file.extension == "md") {
         x___text = style_html_file(x___text, previous);

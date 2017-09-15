@@ -482,7 +482,7 @@ function is_system_key(x_buffer) {
 }
 
 function isOperator(char) {
-    if ([';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<', "+", "-", "*", "/"].indexOf(char) >= 0) {
+    if ([';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<', "+", "-", "*", "/", ":"].indexOf(char) >= 0) {
         return true;
     } else {
         return false;

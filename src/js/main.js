@@ -17,7 +17,8 @@ Settings can be modified in the file {user_dir}/.scode/settings.json
 */
 var settings = {
     always_show_workdir_and_opened_files: false, 
-    language: "en.json"
+    language: "en.json",
+    theme: "style.css"
 };
 /*
 Project settings are defined inside the .scode.json file that must be created at the root of the working dir
@@ -66,6 +67,22 @@ if (fs.existsSync(os.homedir() + "/.scode")) {
         fs.writeFileSync(os.homedir() + "/.scode/settings.json", JSON.stringify(settings), "utf-8");
     }
 }
+
+/**
+ * Adding Theme
+ */
+
+ if(settings.theme != undefined){
+     var css_file_url = settings.theme;
+ }else{
+     var css_file_url = "style.css";
+ }
+
+$(document).ready(() => {
+    var link = document.body.appendChild(document.createElement('link'));
+    link.href = css_file_url;
+    link.rel = "stylesheet";
+});
 
 var language = JSON.parse(fs.readFileSync(__dirname + "/translations/" + settings.language, "utf-8"));
 

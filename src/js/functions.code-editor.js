@@ -423,7 +423,7 @@ function style_js_file(text, previous) {
                 }
 
                 if (isOperator(char)) {
-                    char = '<span style="color:white;">' + char + '</span>';
+                    char = '<span style="color:inherit;">' + char + '</span>';
                 }
 
                 buffer += x_buffer + char;

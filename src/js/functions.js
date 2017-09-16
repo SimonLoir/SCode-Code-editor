@@ -82,6 +82,7 @@ function createWorkingDir(dir, element) {
             var file_real_name = file_split_slash[file_split_slash.length - 1];
             var x = element.child('span').html('<i class="icon-file"></i> ' + file_real_name + "<br />");
             x.get(0).setAttribute('data-file-path', file);
+            x.get(0).setAttribute('filename', file_real_name);
             x.get(0).style.cursor = "pointer";
             x.click(function () {
                 newTab(this.getAttribute('data-file-path'));
@@ -95,6 +96,7 @@ function createWorkingDir(dir, element) {
                         newTab(this.getAttribute('data-file-path'));
                     }
                 });
+
                 var menu_item_2 = new MenuItem({
                     label: "Supprimer",
                     click: () => {
@@ -104,8 +106,34 @@ function createWorkingDir(dir, element) {
                     }
                 });
 
+                var menu_item_3 = new MenuItem({
+                    label: "Renommer",
+                    click: () => {
+                        var fa = new scode_fast_action();
+                        var file = this.getAttribute('data-file-path');
+                        if(tabs[file] == undefined){
+                            var x_path = require('path');
+                            var fs = require('fs');
+    
+                            fa.show((new_name, element) => {
+                                if(fs.existsSync(x_path.dirname(file) + "/" + new_name)){
+                                    element.get(0).style.background = "crimson";
+                                    return false;
+                                }else{
+                                    fs.renameSync(file , x_path.dirname(file) + "/" + new_name);
+                                    updateWorkingDir();
+                                    return true;
+                                }
+                            }, this.getAttribute('filename'));
+                        }else{
+                            alert('Please close the tab before renaming the file.');
+                        }
+                    }
+                });
+
                 menu.append(menu_item_1);
                 menu.append(menu_item_2);
+                menu.append(menu_item_3);
                 menu.popup(remote.getCurrentWindow());
             });
 
@@ -203,4 +231,40 @@ function getDirArray(folder) {
     }
 
     return [folder, array]
+}
+
+var scode_fast_action = function () {
+    
+    this.show = function (callback, default_text) {
+
+        var e = $('body').child('div');
+        e.addClass('action-helper');
+
+        var text = e.child("input");
+        if(default_text != undefined){
+            text.get(0).value = default_text;           
+        }
+        text.get(0).focus();
+
+        text.get(0).onkeydown = function (event) {
+            if (event.keyCode === 13) {
+                if(callback(text.get(0).value, text)){
+                    e.remove();
+                }
+                return false;
+            }
+    
+        }
+
+        e.get(0).addEventListener('blur', function () {
+            try {
+                $(this).remove();
+            } catch (error) {
+                
+            }
+        }, true)
+
+    }
+
+    return this;
 }

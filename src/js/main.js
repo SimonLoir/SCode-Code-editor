@@ -54,6 +54,26 @@ if (fs.existsSync(os.homedir() + "/.scode")) {
     if (fs.existsSync(os.homedir() + "/.scode/settings.json")) {
         settings = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/settings.json", "utf-8"));
     }
+
+    /*
+    We try to open the files that were opned the last time
+    */
+
+    if (fs.existsSync(os.homedir() + "/.scode/files.json")) {
+        scode_last_files = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/files.json", "utf-8"));
+        $(document).ready(function() {
+            for (var i = 0; i < Object.keys(scode_last_files).length; i++) {
+                var file = Object.keys(scode_last_files)[i];
+                try {
+                    if(fs.existsSync(file)){
+                        newTab(file);
+                    }
+                } catch (error) {
+                    alert(error);
+                }   
+            }
+        });
+    }
 } else {
     var error = false;
     try {
@@ -115,6 +135,8 @@ $(document).ready(function () {
 
     /* ---       Window options      ---  */
     $("#closethis").get(0).onclick = function () {
+        /* --- Here, we save the opened files --- */
+        fs.writeFileSync(os.homedir() + "/.scode/files.json", JSON.stringify(tabs), "utf-8");
         var window = app.getCurrentWindow();
         window.close();
     }
@@ -127,7 +149,12 @@ $(document).ready(function () {
     /* --- Keyboard shortcuts --- */
     document.body.onkeydown = function (e) {
         if (e.ctrlKey) {
-            if (e.key == "o") {
+            if(e.shiftKey){
+                if(e.key == "S"){
+                    console.log(e);
+                    newTab(os.homedir() + "/.scode/settings.json");
+                }
+            }else if (e.key == "o") {
                 openFile();
             } else if (e.key == "s") {
 
@@ -204,7 +231,7 @@ $(document).ready(function () {
             updateWorkingDir();
         }
     });
-    newTab(__dirname + "/res/readme.md", true);
+    //newTab(__dirname + "/res/readme.md", true);
     if (settings["always_show_workdir_and_opened_files"] == true) {
         $('.tabmanager').get(0).style.left = "300px";
         $('#working_dir').get(0).style.top = "29px";

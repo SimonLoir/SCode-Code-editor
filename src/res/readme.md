@@ -1,26 +1,49 @@
-# Bienvenue sur SCode
+# SCode
 
-SCode est un éditeur de code open-source basé sur electron.
+Welcome to SCode. Bienvenue sur SCode.
 
-## Quoi de neuf dans la 0.3.1
+Français : Pour mettre SCode en Français, appuyez sur Ctrl+Maj+S. Et modifiez la ligne suivante : 
 
-La version 0.3.1 introduit git sur toutes les plateformes (Windows et Linux) grâce à simple-git (disponible via npm). Pour utiliser git, vous devez insteller git sur votre système. 
+<code>
+"language": "fr.json"
+</code>
 
-## Comment configurer votre interface
+## Keyboard shortcut
 
-L'interface de SCode n'est pas 100% configurable. Vous pouvez décider ou non d'afficher le répertoire de travail de manière statique en modifiant le fichier se situant dans {dossier utilisateur}/.scode/settings.json 
+* ``` Control+L ``` Shows the license window
+* ``` Control+G ``` Shows git interface and put the cursor inside the commit area.
+* ``` Control+Shift+S ``` Opens the settings file (json)
 
-en ajoutant la ligne <code>"always_show_workdir_and_opened_files":true</code>
+## Settings 
 
-Pour customiser l'interface, vous pouvez modifier le fichier ./resources/app/src/style.css
+If you need to modify the settings of scode, you will need to edit the settings file that can be accessed by pressing Ctrl+Shift+S.
 
-## Raccourcis 
+Once you've done your modifications, press Ctrl+F5 to reload scode with the correct settings. 
 
-Voici la liste des différents raccourcis clavier de SCode. 
+Attention : FILES THAT AREN'T SAVED WILL BE LOST
 
-* ``` Control+L ``` Affiche la fenêtre des licenses
-* ``` Control+G ``` Affiche l'interface git
+## Licenses 
 
-## Éditeur markdown
+<pre>
+MIT License
 
-Lorsque vous éditez un fichier .md, une preview s'affiche à droite de votre code. La preview s'actualise 
+Copyright (c) 2017 Simon Loir
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+</pre>

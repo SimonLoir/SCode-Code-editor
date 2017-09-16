@@ -74,7 +74,10 @@ if (fs.existsSync(os.homedir() + "/.scode")) {
             }
         });
     }
+        
+    var first_use = false;
 } else {
+    var first_use = true;
     var error = false;
     try {
         fs.mkdirSync(os.homedir() + "/.scode")
@@ -231,7 +234,9 @@ $(document).ready(function () {
             updateWorkingDir();
         }
     });
-    //newTab(__dirname + "/res/readme.md", true);
+    if(first_use){
+        newTab(__dirname + "/res/readme.md", true);
+    }
     if (settings["always_show_workdir_and_opened_files"] == true) {
         $('.tabmanager').get(0).style.left = "300px";
         $('#working_dir').get(0).style.top = "29px";

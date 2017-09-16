@@ -1,7 +1,5 @@
 # SCode
-SCode is a smart code editor that works on Windows and GNU/Linux. SMath is made with Electron and could work on a mac (but I don't have any mac :-) ).
-
-SCode has his own icon set that works on every plateforms (maybe not mac, I don't know...)
+SCode is a smart code editor that works on Windows and GNU/Linux. 
 
 ## Installation
 

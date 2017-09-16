@@ -1,6 +1,6 @@
 {
   "name": "scode",
-  "version": "0.4",
+  "version": "0.4.0",
   "description": "A smart code editor",
   "main": "main.js",
   "repository": "https://github.com/SimonLoir/SCode-Text-editor",

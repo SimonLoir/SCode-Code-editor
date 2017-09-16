@@ -3,6 +3,12 @@ SCode is a smart code editor that works on Windows and GNU/Linux.
 
 ## Installation
 
+### Production version
+
+You can find the productions versions [here](https://github.com/SimonLoir/SCode-Text-editor/releases)
+
+### Developement version
+
 In order to install the developement version, you can clone this repository
 
 <code>git clone https://github.com/SimonLoir/SCode-Text-editor.git</code>

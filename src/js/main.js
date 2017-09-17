@@ -153,9 +153,20 @@ $(document).ready(function () {
     document.body.onkeydown = function (e) {
         if (e.ctrlKey) {
             if(e.shiftKey){
-                if(e.key == "S"){
+                if(e.key.toLowerCase() == "s"){
                     console.log(e);
                     newTab(os.homedir() + "/.scode/settings.json");
+                }else if(e.key.toLowerCase() == "p"){
+                    var command_prompt = scode_fast_action();
+                    command_prompt.show((response, element) => {
+                        for (var i = 0; i < commands.length; i++) {
+                            var c = commands[i];
+                            if(c[1] == response){
+                                return c[2](); 
+                            }
+                        }
+                        return false;
+                    }, "", commands);
                 }
             }else if (e.key == "o") {
                 openFile();

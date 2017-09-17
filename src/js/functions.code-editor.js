@@ -344,7 +344,8 @@ function style_css_file(text) {
 }
 
 function style_js_file(text, previous) {
-    text = text.replace(/\</g, "::scode~lt");
+    text = text.replace(/\</g, "```sodeelementscodesmallerthanelementplaceholdertextxxxscodelibrary22```");
+    text = text.replace(/\&/g, "```sodeelementandelementplaceholdertextxxxscodelibrary22```");
     //text = text.replace(/\&/g, "<span>&</span>");
 
     if (previous.comment != undefined) {
@@ -462,7 +463,9 @@ function style_js_file(text, previous) {
     buffer = buffer.replace(/\:\:scode\~quot/g, '"');
 
     buffer = "<span style=\"color:cornflowerblue;\">" + buffer + "</span>";
-    buffer = buffer.replace(/\:\:scode\~lt/g, "&lt;");
+    buffer = buffer.replace(/```sodeelementscodesmallerthanelementplaceholdertextxxxscodelibrary22```/g, "&lt;");
+    buffer = buffer.replace( /```sodeelementandelementplaceholdertextxxxscodelibrary22```/g, '<span>&</span>');
+    
 
     return [buffer, { comment: comment }];
 }

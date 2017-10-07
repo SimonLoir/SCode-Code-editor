@@ -282,70 +282,54 @@ function codify(text, file, el, cec) {
         //console.log(tabs[file.filename]["previous"]);
     }
 }
-function style_html_file(text) {
-    text = text.replace(/\</g, "::scode~lt");
-    text = text.replace(/\&/g, "<span>&</span>");
 
-    text = text.replace(/\:\:scode\~lt(.[^\<|\>]+)\>/g, function (m, $1) {
-        return '&lt;<span style="color:purple;">' + style_html_attributes($1) + '</span>>';
-    });
+function style_html_file(text, previous) {
+    text = text.replace(/\&/g, "```sodeelementandelementplaceholdertextxxxscodelibrary22```");
 
-    text = text.replace(/\:\:scode\~lt/g, "&lt;");
+    var tag_buffer = "";
+    var tag = previous.tag;
+    console.log(tag)
+    var buffer = "";
 
-    return [text, {}];
-
-}
-
-function style_html_attributes(attributes) {
-
-    var $_buffer = attributes;
-    attributes = "";
-
-    var is_string = false;
-    var string_char = "";
-    var string_buffer = "";
-    
-    for (var i = 0; i < $_buffer.length; i++) {
-        var char = $_buffer[i];
-        if(is_string == true){
-            if((char == '"' || char == "'") && string_char == char){
-                string_char = "";
-                string_buffer += char + '::scode~~quote_end-html;';
-                attributes += string_buffer;
-                string_buffer = "";
-                is_string = false;
+    for (var i = 0; i < text.length; i++) {
+        var char = text[i];
+        if(char == "<"){
+            if(tag == true){
+                tag_buffer += char;
             }else{
-                string_buffer += char;
+                tag_buffer = '<span style="color:orange;">&lt;' ;
+                tag = true;
+            }
+        }else if(char == ">"){
+            if(tag == true){
+                tag_buffer += char + "</span>";
+                buffer += tag_buffer;
+                tag_buffer = "";
+                tag = false;
+            }else{
+                buffer += char;
+            }
+        }else if(char == '"'){
+            if(tag == true){
+                tag_buffer += char;
+            }else{
+                buffer += tag;
             }
         }else{
-            if(char == '"' || char == "'"){
-                string_char = char;
-                is_string = true;
-                string_buffer = '::scode~~quote_start-html;' + char;
+            if(tag == true){
+                tag_buffer += char;
             }else{
-                attributes += char;
+                buffer += char;
             }
         }
     }
-    attributes = attributes.replace(/\s(.[^\s|\=]+)\=/g, (m, $1) => {
 
-        return ' <span style="color:orange;">' + $1 + '</span>=';
+    buffer = "<span style=\"color:white;\">" + buffer + "</span>";
+    buffer = buffer.replace(/```sodeelementscodesmallerthanelementplaceholdertextxxxscodelibrary22```/g, "&lt;");
+    buffer = buffer.replace( /```sodeelementandelementplaceholdertextxxxscodelibrary22```/g, '<span>&</span>');
+    
 
-    });
-
-    attributes = attributes.replace(/\:\:scode~~quote_start-html\;/g, '<span style="color:#99B898;">');
-    attributes = attributes.replace(/\:\:scode~~quote_end-html\;/g, '</span>');
-
-    att = attributes.split(/(\s| )/g);
-
-    if (html_tags[att[0]] != undefined || html_tags[att[0].replace('/', "")] != undefined) {
-        //the element is an existing html element
-    } else {
-        attributes = attributes.replace(att[0], '<span style="color:red;">' + att[0] + '</span>');
-    }
-
-    return attributes;
-
+    return [buffer, { tag : tag }];
 }
 
 

@@ -301,3 +301,7 @@ textarea{
     width:calc(100% - 50px);
 
 }
+
+.default_color{
+    color:black;
+}

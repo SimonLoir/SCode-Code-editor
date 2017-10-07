@@ -119,15 +119,16 @@ var git = {
 var commands = [
     ["Paramètres, settings", "settings", function () {
         newTab(os.homedir() + "/.scode/settings.json");
-        return true;
     }],
-    ["Reload", "reload", function () {
+    ["Scode reload", "reload", function () {
         var window = app.getCurrentWindow();
         window.reload();
-        return true
     }],
-    ['Git', 'git', function() {
+    ['Toggle git panel', 'git', function() {
         $('#git_status').click();
         $('#git textarea').get(0).focus();
+    }],
+    ['Show help', 'help', function() {
+        newTab('src/res/readme.md', true);
     }]
 ]

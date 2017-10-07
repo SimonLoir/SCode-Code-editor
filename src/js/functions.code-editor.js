@@ -1,10 +1,29 @@
-
 /**
  * Creates a new tab in the tab manager
  * @param {String} filename the filename
  */
 function newTab(filename, full_md) {
     if (tabs[filename] != undefined) { return; }
+    var fs = require('fs');
+    
+    /*fs.watchFile(filename, {interval:2500}, function (e, ee) {
+        if(e.mtime != ee.mtime){
+            if(tabs[filename].last != undefined){
+                if(ee.mtime.getTime() - 3000 > tabs[filename].last.getTime()){
+                    alert('Fichier modifié en dehors de l\'éditeur.');            
+                }else{
+                    //it's ok
+                }
+            }else{
+                alert('Fichier modifié en dehors de l\'éditeur.');
+            }
+            console.log(ee.mtime.getTime());
+            var now = new Date();
+            
+            console.log(now.getTime());
+        }
+    });*/
+
     fs.readFile(filename, "utf-8", (err, data) => {
 
         if (err) {
@@ -424,7 +443,7 @@ function style_js_file(text, previous) {
                 }
 
                 if (isOperator(char)) {
-                    char = '<span style="color:gray;">' + char + '</span>';
+                    char = '<span class="default_color">' + char + '</span>';
                 }
 
                 buffer += x_buffer + char;

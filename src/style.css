@@ -330,3 +330,7 @@ textarea{
 .selected{
     background: cornflowerblue;
 }
+
+.default_color{
+    color:white;
+}

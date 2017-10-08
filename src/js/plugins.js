@@ -1,4 +1,7 @@
 var beautify = require('js-beautify').js_beautify;
+var beautify_html = require('js-beautify').html;
+var beautify_css= require('js-beautify').css;
+console.log(beautify_css);
 var marked = require('marked');
 
 $(document).ready(function ( ) {

@@ -5,24 +5,6 @@
 function newTab(filename, full_md) {
     if (tabs[filename] != undefined) { return; }
     var fs = require('fs');
-    
-    /*fs.watchFile(filename, {interval:2500}, function (e, ee) {
-        if(e.mtime != ee.mtime){
-            if(tabs[filename].last != undefined){
-                if(ee.mtime.getTime() - 3000 > tabs[filename].last.getTime()){
-                    alert('Fichier modifié en dehors de l\'éditeur.');            
-                }else{
-                    //it's ok
-                }
-            }else{
-                alert('Fichier modifié en dehors de l\'éditeur.');
-            }
-            console.log(ee.mtime.getTime());
-            var now = new Date();
-            
-            console.log(now.getTime());
-        }
-    });*/
 
     fs.readFile(filename, "utf-8", (err, data) => {
 
@@ -134,14 +116,23 @@ function newTab(filename, full_md) {
         }
         var file_buffer = "";
         code_editor.get(0).addEventListener('contextmenu', function () {
-            if (frn_split[frn_split.length - 1] == "js" || frn_split[frn_split.length - 1] == "json") {
+            var ext = frn_split[frn_split.length - 1];
+            if (ext == "js" || ext == "json" || ext == "html"|| ext == "svg" || ext == "css") {
                 var menu = new Menu();
                 if (file_buffer == "") {
                     var menu_item_1 = new MenuItem({
                         label: language.organizeTheCode,
                         click: () => {
                             file_buffer = this.value;
-                            this.value = beautify(this.value);
+                            
+                            if(ext == "json" || ext == "js"){
+                                this.value = beautify(this.value);
+                            }else if(ext == "html" || ext == "svg"){
+                                this.value = beautify_html(this.value);
+                            }else if(ext == "css"){
+                                this.value = beautify_css(this.value);
+                            }
+
                             this.oninput();
                         }
                     });
@@ -216,6 +207,8 @@ function codify_line(x___text, file, previous) {
         x___text = style_js_file(x___text, previous);
     } else if (file.extension == "html" || file.extension == "html5" || file.extension == "htm" || file.extension == "svg" || file.extension == "md") {
         x___text = style_html_file(x___text, previous);
+    }else if (file.extension == "py") {
+        x___text = style_py_file(x___text, previous);
     } else {
         x___text = [x___text, {}];
     }
@@ -286,8 +279,10 @@ function codify(text, file, el, cec) {
 function style_html_file(text, previous) {
     text = text.replace(/\&/g, "```sodeelementandelementplaceholdertextxxxscodelibrary22```");
 
-    var tag_buffer = "";
+    var tag_buffer = '<span style="color:cornflowerblue;">' ;
     var tag = previous.tag;
+    var attr = 0;
+    var string = false;
     console.log(tag)
     var buffer = "";
 
@@ -297,23 +292,68 @@ function style_html_file(text, previous) {
             if(tag == true){
                 tag_buffer += char;
             }else{
-                tag_buffer = '<span style="color:orange;">&lt;' ;
+                tag_buffer = '<span style="color:cornflowerblue;">&lt;' ;
                 tag = true;
             }
         }else if(char == ">"){
             if(tag == true){
-                tag_buffer += char + "</span>";
+                if(attr > 0){
+                    var xattr = "";
+                    while (attr >0 ) {
+                        xattr += "</span>";
+                        attr --;
+                    }
+                    
+                }else{
+                    var xattr = "";
+                }
+                tag_buffer +=  xattr + char + "</span>";
                 buffer += tag_buffer;
                 tag_buffer = "";
                 tag = false;
             }else{
                 buffer += char;
             }
+        }else if(char == '='){
+            if(tag == true ){
+                if(attr == true && string == false){
+                    var xattr = "";
+                    while (attr >0 ) {
+                        xattr += "</span>";
+                        attr --;
+                    }
+                }else{
+                    var xattr = "";
+                }
+                tag_buffer +=  xattr + char;
+            }else{
+                buffer += char;
+            }
         }else if(char == '"'){
             if(tag == true){
-                tag_buffer += char;
+
+                if(string == false){
+                    tag_buffer += '<span style="color:coral;">' + char;
+                    string = true;
+                }else{
+                    tag_buffer += char + "</span>";
+                    string = false;                    
+                }
+
             }else{
-                buffer += tag;
+                buffer += char;
+            }
+        }else if(char == ' '){
+            if(tag == true){
+                if(string == true){
+                    tag_buffer += char;
+                }else{
+                    
+                    tag_buffer += char + '<span style="color:lightblue;">';
+                    attr ++;
+                }
+            }else{
+                buffer += char;
             }
         }else{
             if(tag == true){
@@ -322,6 +362,10 @@ function style_html_file(text, previous) {
                 buffer += char;
             }
         }
+    }
+
+    if(tag == true){
+        buffer += tag_buffer + "</span>";
     }
 
     buffer = "<span style=\"color:white;\">" + buffer + "</span>";
@@ -493,4 +537,133 @@ function isOperator(char) {
     } else {
         return false;
     }
+}
+
+function isPy_system_key(x_buffer) {
+    return false;
+}
+
+function isPyOperator(char) {
+    if ([';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<', "+", "-", "*", "/", ":"].indexOf(char) >= 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function style_py_file(text, previous) {
+    text = text.replace(/\</g, "```sodeelementscodesmallerthanelementplaceholdertextxxxscodelibrary22```");
+    text = text.replace(/\&/g, "```sodeelementandelementplaceholdertextxxxscodelibrary22```");
+    //text = text.replace(/\&/g, "<span>&</span>");
+
+    if (previous.comment != undefined) {
+        var comment = previous.comment;
+        var comment_type = "/*";
+    } else {
+        var comment = false;
+        var comment_type = null;
+
+    }
+
+    var buffer = "";
+    if(comment == true){
+        buffer = '<span style="color:black;">';
+    }
+    var string = null;
+    var comment_buffer = '';
+    var string_buffer = "";
+    var x_buffer = "";
+
+    for (var i = 0; i < text.length; i++) {
+        var char = text[i];
+        if (char == "'" || char == '"') {
+            if (string != null) {
+                string_buffer += char;
+                if(string == char){
+                    if(text[ i - 1 ] != "\\"){
+                        string = null;
+                        buffer += '<span style="color:coral">' + string_buffer + '</span>';
+                        string_buffer = "";
+                    }
+                }
+            }else{
+                if(comment != true){
+                    string = char;
+                    string_buffer = char;
+                }else{
+                    comment_buffer += char;
+                }
+            }
+        } else if(char == "#" && string == null){
+            buffer += x_buffer;
+            x_buffer = "";
+            comment = true;
+            comment_type = "#";
+            comment_buffer = '<span style="color:black;">#';
+        }else if (char == " " || char == " " || isPyOperator(char)) {
+            if (string == null && comment == false) {
+                var system_key = isPy_system_key(x_buffer);
+
+
+                if (system_key) {
+                    x_buffer = '<span style="color:orange">' + x_buffer + '</span>';
+                }
+
+                if (x_buffer == "True" || x_buffer == "False" || x_buffer == "None") {
+                    x_buffer = '<span style="color:darkblue">' + x_buffer + '</span>';
+                }
+
+                if (["class","finally","is","return","continue","for","lambda","try","def","from","nonlocal","while","and","del","global","not","with","as","elif","if","or","yield","assert","else","import","pass","break","except","in","raise"].indexOf(x_buffer) >= 0) {
+                    x_buffer = '<span style="color:DarkMagenta">' + x_buffer + '</span>';
+                }
+
+                if (char == "(") {
+                    x_buffer = '<span style="color:green">' + x_buffer + '</span>';
+                }
+
+                if (isOperator(char)) {
+                    char = '<span class="default_color">' + char + '</span>';
+                }
+
+                buffer += x_buffer + char;
+                x_buffer = "";
+            } else if (comment == true) {
+                comment_buffer += char;
+            } else if (string != null) {
+                string_buffer += char;
+            }
+        } else {
+            if(string != null){
+                string_buffer += char;
+            }else if(comment == true){
+                comment_buffer += char;
+            }else{
+                x_buffer += char;
+            }
+        }
+
+        if (i == text.length - 1) {
+            if (string == null && comment == false) {
+                buffer += x_buffer;
+            } else if (comment == true) {
+                buffer += comment_buffer + "</span>";
+                if(comment_type == "#"){
+                    comment = false;
+                }
+            } else if (string != null) {
+                buffer += string_buffer;
+            }
+        }
+
+    }
+
+
+    buffer = buffer.replace(/\:\:scode\~quot/g, '"');
+
+    buffer = "<span style=\"color:cornflowerblue;\">" + buffer + "</span>";
+    buffer = buffer.replace(/```sodeelementscodesmallerthanelementplaceholdertextxxxscodelibrary22```/g, "&lt;");
+    buffer = buffer.replace( /```sodeelementandelementplaceholdertextxxxscodelibrary22```/g, '<span>&</span>');
+    
+
+    return [buffer, { comment: comment }];
 }

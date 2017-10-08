@@ -166,7 +166,33 @@ function newTab(filename, full_md) {
 
 function addFunc(ce, cec, file, line_n) {
     var last = 0;
-    ce.oninput = function () {
+    ce.onkeyup = function (event){
+        if(event != undefined && event.keyCode == 13){
+            
+            var text = this.value.insertAt(getCaretPos(this), "::scode~cursor-element");
+            var line_to_update = text.split('::scode~cursor-element')[0].split(/\r?\n/).length - 1;
+
+            var x_text = tabs[file.filename]["split"][line_to_update - 1];
+
+            var number_of_spaces = x_text.indexOf(x_text.trim());
+            if(x_text.trim().length == 0){
+                number_of_spaces = x_text.length;
+            }
+            var spaces = "";
+            var i = 0;
+            while (i < number_of_spaces) {
+                i++;
+                spaces += " ";   
+            }
+
+            var v = this.value, s = this.selectionStart, e = this.selectionEnd;
+            this.value = v.substring(0, s) + spaces + v.substring(e);
+            this.selectionStart = this.selectionEnd = s + number_of_spaces;
+        }
+
+    }
+    ce.oninput = function (event) {
+        
         if (file.extension == "md") {
             ce.parentElement.querySelector('.md-preview').innerHTML = marked(ce.value) + "<br /><br /><br />";
         }
@@ -283,7 +309,7 @@ function style_html_file(text, previous) {
     var tag = previous.tag;
     var attr = 0;
     var string = false;
-    console.log(tag)
+    //console.log(tag)
     var buffer = "";
 
     for (var i = 0; i < text.length; i++) {

@@ -1,3 +1,5 @@
+var emmet = require('emmet');
+console.log(emmet);
 /**
  * Creates a new tab in the tab manager
  * @param {String} filename the filename
@@ -188,6 +190,7 @@ function addFunc(ce, cec, file, line_n) {
             var v = this.value, s = this.selectionStart, e = this.selectionEnd;
             this.value = v.substring(0, s) + spaces + v.substring(e);
             this.selectionStart = this.selectionEnd = s + number_of_spaces;
+            this.oninput();
         }
 
     }
@@ -213,8 +216,50 @@ function addFunc(ce, cec, file, line_n) {
     ce.onkeydown = function (event) {
         if (event.keyCode === 9) {
             var v = this.value, s = this.selectionStart, e = this.selectionEnd;
-            this.value = v.substring(0, s) + '    ' + v.substring(e);
-            this.selectionStart = this.selectionEnd = s + 4;
+            var end = false;
+            var x_val = v.substring(0, s);
+            var emmet_exp = "";
+            var brackets = false;
+            for (var i = x_val.length - 1; i >= 0; i--) {
+                var element = x_val[i];
+                if((element == " "|| element == "\n") && brackets != true){
+                    break;
+                }else if (element == "{"){
+                    if(brackets == true){
+                        brackets = false;
+                    }
+                }else if (element == "}"){
+                    if(brackets != true){
+                        brackets = true;
+                    }
+                }
+                emmet_exp = element + emmet_exp;
+            }
+            console.log(emmet_exp);
+
+            try {
+                if(emmet_exp.trim() == ""){
+                    throw "Error";
+                }
+                var ext_markup = ['html', "svg"];
+                var ext_style = ["css", "scss", "sass"];
+                if(ext_markup.indexOf(file.extension)  >= 0){
+                    type = "html";
+                }else if(ext_style.indexOf(file.extension) >= 0 ) {
+                    type = "css";
+                }else{
+                    throw 'e';
+                }
+                var str = emmet.expandAbbreviation(emmet_exp, type).replace(/\t/g, "    ").replace(/\$\{([0-9]*)(\:*)/g, "").replace(/\}/g, "");
+                s = s - emmet_exp.length;
+                console.log(s);
+            } catch (error) {
+                var str = "    ";
+                console.log(error);
+            }
+
+            this.value = v.substring(0, s) + str + v.substring(e);
+            this.selectionStart = this.selectionEnd = s + str.length;
             this.oninput();
             return false;
         }

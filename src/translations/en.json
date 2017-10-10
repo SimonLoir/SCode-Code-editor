@@ -12,5 +12,6 @@
     "removed" : "Deleted",
     "modified" : "Modified",
     "renamed" : "Renamed",
-    "requireToOpenAWDir" : "You have not yet opened a working file"    
+    "requireToOpenAWDir" : "You have not yet opened a working file",
+    "newFile" : "New file"
 }

@@ -65,6 +65,37 @@ function createWorkingDir(dir, element) {
                 
                 let clicker = element.child('span').html('<i class="icon-folder"></i> ' + folder_real_name);
                 clicker.get(0).style.cursor = "pointer";
+                clicker.get(0).setAttribute("data-path", folder[0])
+                clicker.get(0).addEventListener('contextmenu', function () {
+                    var menu = new Menu();
+                    var menu_item_1 = new MenuItem({
+                        label: language.newFile,
+                        click: () => {
+                            var fa = new scode_fast_action();
+                            var file = this.getAttribute('data-path');
+                            if(tabs[file] == undefined){
+                                var x_path = require('path');
+                                var fs = require('fs');
+        
+                                fa.show((new_name, element) => {
+                                    if(fs.existsSync(file + "/" + new_name)){
+                                        element.get(0).style.background = "crimson";
+                                        return false;
+                                    }else{
+                                        //fs.renameSync(file , x_path.dirname(file) + "/" + new_name);
+                                        fs.writeFileSync(file + "/" + new_name, "");
+                                        updateWorkingDir();
+                                        return true;
+                                    }
+                                }, this.getAttribute('filename'));
+                            }
+                        }
+                    });
+                    
+                    menu.append(menu_item_1);
+                    menu.popup(remote.getCurrentWindow());
+                  
+                });
                 let child = element.child("div");
                 element.child('br');
                 createWorkingDir(folder[1], child);

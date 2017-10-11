@@ -5,7 +5,7 @@ console.log(emmet);
  * @param {String} filename the filename
  */
 function newTab(filename, full_md) {
-    if (tabs[filename] != undefined) { return; }
+    if (tabs[filename] != undefined) { $('#x' + tabs[filename].id).click();return; }
     var fs = require('fs');
 
     fs.readFile(filename, "utf-8", (err, data) => {
@@ -211,7 +211,6 @@ function addFunc(ce, cec, file, line_n) {
         }
         last = number_of_lines;
     }
-
     //ce.onkeyup = ce.oninput;
     ce.onkeydown = function (event) {
         if (event.keyCode === 9) {
@@ -243,7 +242,7 @@ function addFunc(ce, cec, file, line_n) {
                 }
                 var ext_markup = ['html', "svg"];
                 var ext_style = ["css", "scss", "sass"];
-                if(ext_markup.indexOf(file.extension)  >= 0){
+                if(ext_markup.indexOf(file.extension)  >= 0 ){
                     type = "html";
                 }else if(ext_style.indexOf(file.extension) >= 0 ) {
                     type = "css";

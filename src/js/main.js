@@ -36,60 +36,65 @@ String.prototype.insertAt = function (index, string) {
 /*
 We try to set the working directory and the settings. If scode folder doesn't exist, we create it.
 */
-if (fs.existsSync(os.homedir() + "/.scode")) {
-    /*
-    We try to find the working directory 
-    */
-    if (fs.existsSync(os.homedir() + "/.scode/folder.json")) {
-        folder = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/folder.json", "utf-8"));
-
-        $(document).ready(function () {
-            createWorkingDir(folder[1], $('#working_dir'));
-            load_projet_setting();
-        });
+try {
+    if (fs.existsSync(os.homedir() + "/.scode")) {
+        /*
+        We try to find the working directory 
+        */
+        if (fs.existsSync(os.homedir() + "/.scode/folder.json")) {
+            folder = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/folder.json", "utf-8"));
+    
+            $(document).ready(function () {
+                createWorkingDir(folder[1], $('#working_dir'));
+                load_projet_setting();
+            });
+        }
+        /*
+        We try to import the settings from the settings file
+        */
+        if (fs.existsSync(os.homedir() + "/.scode/settings.json")) {
+            settings = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/settings.json", "utf-8"));
+        }
+    
+        /*
+        We try to open the files that were opned the last time
+        */
+    
+        if (fs.existsSync(os.homedir() + "/.scode/files.json")) {
+            scode_last_files = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/files.json", "utf-8"));
+            $(document).ready(function() {
+                for (var i = 0; i < Object.keys(scode_last_files).length; i++) {
+                    var file = Object.keys(scode_last_files)[i];
+                    try {
+                        if(fs.existsSync(file)){
+                            newTab(file);
+                        }
+                    } catch (error) {
+                        alert(error);
+                    }   
+                }
+            });
+        }
+            
+        var first_use = false;
+    } else {
+        var first_use = true;
+        var error = false;
+        try {
+            fs.mkdirSync(os.homedir() + "/.scode")
+        } catch (error) {
+            console.log(error);
+            error = true;
+        }
+    
+        if (error == false) {
+            fs.writeFileSync(os.homedir() + "/.scode/settings.json", JSON.stringify(settings), "utf-8");
+        }
     }
-    /*
-    We try to import the settings from the settings file
-    */
-    if (fs.existsSync(os.homedir() + "/.scode/settings.json")) {
-        settings = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/settings.json", "utf-8"));
-    }
-
-    /*
-    We try to open the files that were opned the last time
-    */
-
-    if (fs.existsSync(os.homedir() + "/.scode/files.json")) {
-        scode_last_files = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/files.json", "utf-8"));
-        $(document).ready(function() {
-            for (var i = 0; i < Object.keys(scode_last_files).length; i++) {
-                var file = Object.keys(scode_last_files)[i];
-                try {
-                    if(fs.existsSync(file)){
-                        newTab(file);
-                    }
-                } catch (error) {
-                    alert(error);
-                }   
-            }
-        });
-    }
-        
-    var first_use = false;
-} else {
-    var first_use = true;
-    var error = false;
-    try {
-        fs.mkdirSync(os.homedir() + "/.scode")
-    } catch (error) {
-        console.log(error);
-        error = true;
-    }
-
-    if (error == false) {
-        fs.writeFileSync(os.homedir() + "/.scode/settings.json", JSON.stringify(settings), "utf-8");
-    }
+} catch (error) {
+    
 }
+
 
 /**
  * Adding Theme
@@ -139,7 +144,11 @@ $(document).ready(function () {
     /* ---       Window options      ---  */
     $("#closethis").get(0).onclick = function () {
         /* --- Here, we save the opened files --- */
-        fs.writeFileSync(os.homedir() + "/.scode/files.json", JSON.stringify(tabs), "utf-8");
+        try {
+            fs.writeFileSync(os.homedir() + "/.scode/files.json", JSON.stringify(tabs), "utf-8");
+        } catch (error) {
+            alert(error);
+        }
         var window = app.getCurrentWindow();
         window.close();
     }
@@ -154,7 +163,6 @@ $(document).ready(function () {
         if (e.ctrlKey) {
             if(e.shiftKey){
                 if(e.key.toLowerCase() == "s"){
-                    console.log(e);
                     newTab(os.homedir() + "/.scode/settings.json");
                 }else if(e.key.toLowerCase() == "p"){
                     var command_prompt = scode_fast_action();

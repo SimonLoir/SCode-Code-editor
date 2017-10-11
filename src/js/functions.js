@@ -18,7 +18,7 @@ function updateWorkingDir() {
         $('#working_dir').child('span').html(language.requireToOpenAWDir);
     } else {
         folder = getDirArray(folder[0]);
-        createWorkingDir(folder[1], $('#working_dir'));
+        createWorkingDir([folder], $('#working_dir'));
     }
 }
 
@@ -229,7 +229,11 @@ function openFolder() {
             //folder = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/folder.json", "utf-8"));
             let folder_json = JSON.stringify(folder);
 
-            fs.writeFileSync(os.homedir() + "/.scode/folder.json", folder_json, "utf-8");
+            try {
+                fs.writeFileSync(os.homedir() + "/.scode/folder.json", folder_json, "utf-8");
+            } catch (error) {
+                alert(error)
+            }
             updateWorkingDir();
             load_projet_setting();
         }

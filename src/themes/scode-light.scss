@@ -4,7 +4,7 @@ $color:rgb(110,110,110);
 
 $font-family: source-code-pro;
 
-$line-numbers-background: white;
+$line-numbers-background: darken(white, 4%);
 $line-numbers-color: gray;
 
 $code-editor-color:rgba(255,255,255,0.25);
@@ -21,7 +21,7 @@ $header-span-color:rgb(110,110,110);
 $header-active-element:rgba(255,255,255, 0.05);
 
 $sbar-background: $base;
-$sbar-color: white;
+$sbar-color: gray;
 $sbar-top-line:$header-bottom-line;
 
 $def-color: black;

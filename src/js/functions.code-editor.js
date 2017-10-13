@@ -22,6 +22,12 @@ function newTab(filename, full_md) {
             "id": "tab" + id
         }
 
+        try {
+            fs.writeFileSync(os.homedir() + "/.scode/files.json", JSON.stringify(tabs), "utf-8");
+        } catch (error) {
+            alert(error);
+        }
+
         id++;
 
 
@@ -47,6 +53,7 @@ function newTab(filename, full_md) {
         var frn_split = real_file_name.split('.');
 
         var xtab = $('.header').child('span').html(real_file_name);
+        xtab.addClass('xtab');
         xtab.get(0).setAttribute('data-file', filename);
         xtab.get(0).id = "x" + tabs[filename].id;
         xtab.get(0).setAttribute('data-id', tabs[filename].id);
@@ -58,20 +65,33 @@ function newTab(filename, full_md) {
             for (var i = 0; i < all_tab.length; i++) {
                 var xxtab = all_tab[i];
                 xxtab.style.display = "none";
-
             }
+            try {
+                $(document.querySelector('.active')).removeClass('active');
+            } catch (error) {
+                
+            }
+            $(this).addClass('active')
             $('#' + this.getAttribute("data-id")).get(0).style.display = "block";
             active_document = this.getAttribute('data-file');
         });
 
+        xtab.click();
+
         var cross = xtab.child('i').html("  ×");
         cross.get(0).setAttribute('data-id', tabs[filename].id);
         cross.get(0).setAttribute('data-file', filename);
+        cross.addClass('cross');
         cross.click(function () {
             delete tabs[this.getAttribute('data-file')];
             $('#' + this.getAttribute("data-id")).remove();
             $('#x' + this.getAttribute("data-id")).remove();
             active_document = "~";
+            try {
+                fs.writeFileSync(os.homedir() + "/.scode/files.json", JSON.stringify(tabs), "utf-8");
+            } catch (error) {
+                alert(error);
+            }
         });
 
         if (frn_split[frn_split.length - 1] == "md") {
@@ -346,7 +366,7 @@ function codify(text, file, el, cec) {
     }
 }
 
-function style_html_file(text, previous) {
+function style_html_file(text, previous, isPHP) {
     text = text.replace(/\&/g, "```sodeelementandelementplaceholdertextxxxscodelibrary22```");
 
     var tag_buffer = '<span style="color:cornflowerblue;">' ;
@@ -355,10 +375,14 @@ function style_html_file(text, previous) {
     var string = false;
     //console.log(tag)
     var buffer = "";
+    var is_style = false, is_script = false;
+    var style = "", script = "";
 
     for (var i = 0; i < text.length; i++) {
         var char = text[i];
-        if(char == "<"){
+        if(is_style){
+            style += char;
+        }else if(char == "<"){
             if(tag == true){
                 tag_buffer += char;
             }else{
@@ -367,6 +391,7 @@ function style_html_file(text, previous) {
             }
         }else if(char == ">"){
             if(tag == true){
+                var last_attr = tag_buffer.replace( '<span style="color:cornflowerblue;">&lt;', "");
                 if(attr > 0){
                     var xattr = "";
                     while (attr >0 ) {
@@ -378,9 +403,13 @@ function style_html_file(text, previous) {
                     var xattr = "";
                 }
                 tag_buffer +=  xattr + char + "</span>";
+
                 buffer += tag_buffer;
                 tag_buffer = "";
                 tag = false;
+                if(last_attr.indexOf("style") == 0){
+                    is_style = true;
+                }
             }else{
                 buffer += char;
             }
@@ -436,9 +465,13 @@ function style_html_file(text, previous) {
 
     if(tag == true){
         buffer += tag_buffer + "</span>";
+    }else if(is_style == true){
+        var e = addStyleToHTML(style)
+        console.log(e);
+        buffer += e;
     }
 
-    buffer = "<span style=\"color:white;\">" + buffer + "</span>";
+    buffer = "<span class=\"default_color\">" + buffer + "</span>";
     buffer = buffer.replace(/```sodeelementscodesmallerthanelementplaceholdertextxxxscodelibrary22```/g, "&lt;");
     buffer = buffer.replace( /```sodeelementandelementplaceholdertextxxxscodelibrary22```/g, '<span>&</span>');
     
@@ -446,6 +479,15 @@ function style_html_file(text, previous) {
     return [buffer, { tag : tag }];
 }
 
+function addStyleToHTML(style){
+    if(style.indexOf('</style') >= 0){
+        var split = style.split('</style')[0]
+        console.log(style.substring(split.length - 1, style.length -1), split)
+        return style_css_file(split)[0] + style_html_file(style.replace(split, ''), {})[0];
+    }else{
+        return style_css_file(style)[0];
+    }
+}
 
 function style_css_file(text) {
 

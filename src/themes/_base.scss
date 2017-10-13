@@ -1,8 +1,8 @@
 /* SCode stylesheet */
 
 @font-face{
-    font-family: souce-code-pro;
-    src:url(SourceCodePro-Regular.ttf);
+    font-family: source-code-pro;
+    src:url(../SourceCodePro-Regular.ttf);
 }
 
 *:focus{
@@ -10,8 +10,8 @@
 }
 
 body{
-    background:rgb(30,30,30);
-    font-family: source-code-pro;
+    background:$base;
+    font-family: $font-family;
 }
 
 .tabmanager{
@@ -43,7 +43,13 @@ body{
     position: absolute;
     top: 50%;
     left: 50%;
+    animation: startanimation 0.95s ease-in;
     transform: translateX(-50%) translateY(-50%);
+}
+
+@keyframes startanimation{
+    0% {transform: translateX(-50%) translateY(200%);opacity: 0;}
+    100% {transform: translateX(-50%) translateY(-50%);opacity: 1;}
 }
 
 .tab{
@@ -57,21 +63,20 @@ body{
 }
 
 .line-numbers{
-    background: transparent;
     position: absolute;
     top: 0;left: 0;bottom: 0;
     padding-right: 5px;
     padding-left: 0;
     padding-top: 25px;padding-bottom: 25px;
-    font-family: souce-code-pro, sans-serif;
-    color:rgba(255,255,255, 0.25);overflow:hidden;
+    font-family: $font-family, sans-serif;
+    color:$line-numbers-color;overflow:hidden;
     font-size:20px;
     margin:0;
     width:40px;
     height:calc(100% - 50px);
     border:none;
     white-space: nowrap;
-    background:rgb(32,32,32);
+    background:$line-numbers-background;
     text-align: right;
 }
 .code-editor{
@@ -79,8 +84,9 @@ body{
     position: absolute;
     top: 0;left: 45px;right: 0;bottom: 0;
     padding: 25px;
-    font-family: souce-code-pro, sans-serif;
-    color:rgba(255,255,255,0.25);overflow:auto;
+    font-family: $font-family, sans-serif;
+    color:$code-editor-color;
+    overflow:auto;
     font-size:20px;
     margin:0;
     width:calc(100% - 95px);
@@ -93,9 +99,9 @@ body{
     position: absolute;
     top: 0;left: 45px;right: 0;bottom: 0;
     padding: 25px;
-    font-family: souce-code-pro, sans-serif;
-    background:rgb(30,30,30);
-    color:white; overflow:auto;   
+    font-family: $font-family, sans-serif;
+    background:$code-editor-default-background;
+    color:$code-editor-default-color; overflow:auto;   
     margin:0;
     width:calc(100% - 95px);
     height:calc(100% - 50px);
@@ -119,8 +125,8 @@ body{
     top: 0;right: 0;bottom: 0;
     padding: 25px;
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
-    background:rgb(30,30,30);
-    color:white; overflow:auto;   
+    background:$code-editor-default-background;
+    color:$code-editor-default-color; overflow:auto;   
     margin:0;
     width:calc(50% - 50px);
     height:calc(100% - 50px);
@@ -135,8 +141,8 @@ body{
     position: fixed;
     top: 0;left: 0;right: 0;
     height: 29px;
-    background:rgb(30,30,30);
-    border-bottom: 1px solid rgb(24,24,24);
+    background:$header-background;
+    border-bottom: 1px solid $header-bottom-line;
     -webkit-app-region: drag;
 }
 
@@ -144,9 +150,9 @@ body{
     display: inline-block;
     height: 29px;
     padding-left: 10px;padding-right: 10px;
-    color:white;
-    border-right:1px solid rgb(24,24,24);
-    font-family: source-code-pro, sans-serif;
+    color:$header-span-color;
+    border-right:1px solid $header-bottom-line;
+    font-family: sans-serif;
     line-height: 29px;
     -webkit-app-region: no-drag;
 }
@@ -162,7 +168,7 @@ body{
     transition: 0.75s;
    cursor: pointer;   
     float:right;
-    border-left:1px solid rgb(24,24,24);
+    border-left:1px solid $header-span-border;
 }
 #minthis:hover, #closethis:hover{
     background:rgba(255,255,255,0.25);
@@ -177,9 +183,10 @@ body{
     position: fixed;
     bottom:0;
     left:0;right:0;
-    background:rgb(42, 42, 42);
+    background:$sbar-background;
+    border-top:1px solid $sbar-top-line;
     height: 25px;
-    color:white;
+    color:$sbar-color;
     padding: 0;margin: 0;
 }
 
@@ -188,9 +195,10 @@ body{
     display: inline-block;
     height: 25px;
     padding-left:5px;padding-right: 5px;
-    color:white; 
+    color:$sbar-color; 
     line-height: 25px;
-    font-family: souce-code-pro, sans-serif;    
+    font-family: $font-family, sans-serif;  
+    text-align: left;
 }
 
 #opened_files, #working_dir, #git{
@@ -200,10 +208,23 @@ body{
     padding: 25px;
     background:inherit;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.50);
-    color:white;
-    font-family: source-code-pro, sans-serif;
+    color:$color;
+    font-family: sans-serif;
     max-height: calc(100% - 100px);
     overflow: auto;
+}
+
+.cross{
+    transition:0.75s;
+    font-family: sans-serif;
+}
+.cross:hover{
+    color:red;
+    cursor:pointer;
+}
+
+.active{
+    background:$header-active-element;
 }
 
 #opened_files{
@@ -232,13 +253,14 @@ body{
     background:rgb(58, 58, 58);
     border:1px solid rgb(32, 31, 31);
     color:white;
-    font-family: source-code-pro, sans-serif;
+    font-family: $font-family, sans-serif;
     padding: 5px;
     width: calc(100% - 29px);
 }
 
 #working_dir{
     left:5px;
+    border-right:1px solid $wd-br;
 }
 
 #working_dir div, #git div{
@@ -273,7 +295,7 @@ textarea{
 }
 
 ::selection{
-    background: rgba(57, 57, 255, 0.25);
+    background: blue;
     color:white;
 }
 
@@ -314,7 +336,7 @@ textarea{
 .action-helper input{
     background:rgb(58, 58, 58);
     color:white;
-    font-family: souce-code-pro, sans-serif;
+    font-family: $font-family, sans-serif;
     font-size: 18px;
     border:none;
     padding: 15px;
@@ -324,7 +346,7 @@ textarea{
 .action-helper>div div{
     color:white;
     padding: 5px;
-    font-family: souce-code-pro;
+    font-family: $font-family;
 }
 
 .selected{
@@ -332,5 +354,5 @@ textarea{
 }
 
 .default_color{
-    color:white;
+    color:$def-color;
 }

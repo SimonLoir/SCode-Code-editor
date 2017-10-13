@@ -18,7 +18,7 @@ Settings can be modified in the file {user_dir}/.scode/settings.json
 var settings = {
     always_show_workdir_and_opened_files: false, 
     language: "en.json",
-    theme: "style.css"
+    theme: "themes/scode-dark.css"
 };
 /*
 Project settings are defined inside the .scode.json file that must be created at the root of the working dir
@@ -263,7 +263,6 @@ $(document).ready(function () {
         $('#working_dir').get(0).style.width = "250px";
         $('#working_dir').get(0).style.maxWidth = "250px";
         $('#working_dir').get(0).style.background = "transparent";
-        $('#working_dir').get(0).style.borderRight = "1px solid rgb(24,24,24)";
         $('#working_dir').get(0).style.boxShadow = "0px 0px 0px transparent";
         $('#show_working_dir').click()
     }

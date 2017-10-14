@@ -1,7 +1,6 @@
 var beautify = require('js-beautify').js_beautify;
 var beautify_html = require('js-beautify').html;
 var beautify_css= require('js-beautify').css;
-console.log(beautify_css);
 var marked = require('marked');
 
 $(document).ready(function ( ) {
@@ -142,6 +141,19 @@ var commands = [
             var window = app.getCurrentWindow();
             window.reload();
 
+    }],
+    ["Extensions - Dev", "scode-extension-dev", function () {
+        folder = getDirArray(os.homedir() + "/.scode");
+        console.log(folder)
+        let folder_json = JSON.stringify(folder);
+
+        try {
+            fs.writeFileSync(os.homedir() + "/.scode/folder.json", folder_json, "utf-8");
+        } catch (error) {
+            alert(error)
+        }
+        updateWorkingDir();
+        load_projet_setting();
     }]
 ]
 
@@ -158,3 +170,34 @@ function rmdir(dir_path) {
         fs.rmdirSync(dir_path);
     }
 }
+
+$(document).ready(function () {
+    var fs = require("fs");
+    
+    // Here will come the extensions system. 
+
+    if(fs.existsSync(os.homedir() + "/.scode/extensions") == false){
+        fs.mkdirSync(os.homedir() + "/.scode/extensions/");
+    }
+
+    var extensions_file = os.homedir() + "/.scode/extensions/app.json";
+    if(fs.existsSync(extensions_file) == false){
+        fs.writeFileSync(extensions_file, "[]");
+    }
+
+    var exts = JSON.parse(fs.readFileSync(extensions_file));
+    for (var i = 0; i < exts.length; i++) {
+        var extension = exts[i];
+        if(extension.isEnabled == true){
+            var ext_main_file = os.homedir() + "/.scode/extensions/" + extension.mainFile;
+            var x_path = require("path");
+            var ext_main_folder = x_path.dirname(ext_main_file)
+            var ext = require(ext_main_file);
+            try {
+                ext.exec(ext_main_folder);
+            } catch (error) {
+                alert('Extension (' + extension.ExtName + ') error : ' + error);
+            }
+        }
+    }
+});

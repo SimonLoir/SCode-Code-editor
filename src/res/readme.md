@@ -22,6 +22,22 @@ Once you've done your modifications, press Ctrl+F5 to reload scode with the corr
 
 Attention : FILES THAT AREN'T SAVED WILL BE LOST
 
+## Extensions
+
+You can build extensions for scode. Press Ctrl+Shift+P and type "extension". Press enter on "Extensions - Dev". In the working directory, you will find an extension folder. 
+
+To create an extension, create a folder in the extensions folder. Then add the a new item in the app.json file.
+
+Add 
+
+````js
+{
+    "ExtName":"extension_name",
+    "isEnabled": true,
+    "mainFile" : "extension_relative_path"
+}
+```
+
 ## Licenses 
 
 <pre>

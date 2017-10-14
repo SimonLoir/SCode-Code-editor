@@ -66,6 +66,7 @@ function createWorkingDir(dir, element) {
                 let clicker = element.child('span').html('<i class="icon-folder"></i> ' + folder_real_name);
                 clicker.get(0).style.cursor = "pointer";
                 clicker.get(0).setAttribute("data-path", folder[0])
+                clicker.get(0).setAttribute("data-name", folder_real_name)
                 clicker.get(0).addEventListener('contextmenu', function () {
                     var menu = new Menu();
                     var menu_item_1 = new MenuItem({
@@ -87,12 +88,66 @@ function createWorkingDir(dir, element) {
                                         updateWorkingDir();
                                         return true;
                                     }
-                                }, this.getAttribute('filename'));
+                                }, language.newFile);
+                            }
+                        }
+                    });
+
+                    var menu_item_2 = new MenuItem({
+                        label: language.newFolder,
+                        click: () => {
+                            var fa = new scode_fast_action();
+                            var file = this.getAttribute('data-path');
+                            if(tabs[file] == undefined){
+                                var x_path = require('path');
+                                var fs = require('fs');
+        
+                                fa.show((new_name, element) => {
+                                    if(fs.existsSync(file + "/" + new_name)){
+                                        element.get(0).style.background = "crimson";
+                                        return false;
+                                    }else{
+                                        //fs.renameSync(file , x_path.dirname(file) + "/" + new_name);
+                                        //fs.writeFileSync(file + "/" + new_name, "");
+                                        fs.mkdirSync(file + "/" + new_name);
+                                        updateWorkingDir();
+                                        return true;
+                                    }
+                                }, language.newFolder);
+                            }
+                        }
+                    });
+
+                    var menu_item_3 = new MenuItem({
+                        label: "Renommer",
+                        click: () => {
+                            var fa = new scode_fast_action();
+                            var file = this.getAttribute('data-path');
+                            if(tabs[file] == undefined){
+                                var x_path = require('path');
+                                var fs = require('fs');
+        
+                                fa.show((new_name, element) => {
+                                    if(fs.existsSync(x_path.dirname(file) + "/" + new_name)){
+                                        element.get(0).style.background = "crimson";
+                                        return false;
+                                    }else{
+                                        console.log(file , x_path.dirname(file) + "/" + new_name + "/");
+                                        fs.rena
+                                        fs.renameSync(file , x_path.dirname(file) + "/" + new_name + "/");
+                                        updateWorkingDir();
+                                        return true;
+                                    }
+                                }, this.getAttribute('data-name'));
+                            }else{
+                                alert('Please close the tab before renaming the file.');
                             }
                         }
                     });
                     
                     menu.append(menu_item_1);
+                    menu.append(menu_item_2);
+                    menu.append(menu_item_3);
                     menu.popup(remote.getCurrentWindow());
                   
                 });
@@ -284,7 +339,13 @@ var scode_fast_action = function () {
         text.get(0).focus();
         var index_seleted = -1;
         text.get(0).onkeydown = function (event) {
-            if (event.keyCode === 13) {
+            if(event.keyCode == 27){
+                try {
+                    e.remove();
+                } catch (error) {
+                    console.log(error);
+                }
+            }else if (event.keyCode === 13) {
                 if(commands != undefined){
                     var child = options.get(0).querySelector('.selected');
                     child.click();
@@ -356,7 +417,7 @@ var scode_fast_action = function () {
                 try {
                     $(this).remove();
                 } catch (error) {
-                    
+                    console.log(error);
                 }
             }
             

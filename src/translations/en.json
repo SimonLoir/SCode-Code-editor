@@ -13,5 +13,6 @@
     "modified" : "Modified",
     "renamed" : "Renamed",
     "requireToOpenAWDir" : "You have not yet opened a working file",
-    "newFile" : "New file"
+    "newFile" : "New file",
+    "newFolder" : "New folder"
 }

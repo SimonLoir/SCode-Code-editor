@@ -346,6 +346,7 @@ textarea{
     padding: 15px;
     padding-top: 7px;padding-bottom: 7px;
     border-radius: 2px;
+    width: calc(100% - 30px);
 }
 .action-helper>div div{
     color:$palette-color;

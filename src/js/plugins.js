@@ -172,32 +172,36 @@ function rmdir(dir_path) {
 }
 
 $(document).ready(function () {
-    var fs = require("fs");
+    try {
+        var fs = require("fs");
+        
+        // Here will come the extensions system. 
     
-    // Here will come the extensions system. 
-
-    if(fs.existsSync(os.homedir() + "/.scode/extensions") == false){
-        fs.mkdirSync(os.homedir() + "/.scode/extensions/");
-    }
-
-    var extensions_file = os.homedir() + "/.scode/extensions/app.json";
-    if(fs.existsSync(extensions_file) == false){
-        fs.writeFileSync(extensions_file, "[]");
-    }
-
-    var exts = JSON.parse(fs.readFileSync(extensions_file));
-    for (var i = 0; i < exts.length; i++) {
-        var extension = exts[i];
-        if(extension.isEnabled == true){
-            var ext_main_file = os.homedir() + "/.scode/extensions/" + extension.mainFile;
-            var x_path = require("path");
-            var ext_main_folder = x_path.dirname(ext_main_file)
-            var ext = require(ext_main_file);
-            try {
-                ext.exec(ext_main_folder);
-            } catch (error) {
-                alert('Extension (' + extension.ExtName + ') error : ' + error);
+        if(fs.existsSync(os.homedir() + "/.scode/extensions") == false){
+            fs.mkdirSync(os.homedir() + "/.scode/extensions/");
+        }
+    
+        var extensions_file = os.homedir() + "/.scode/extensions/app.json";
+        if(fs.existsSync(extensions_file) == false){
+            fs.writeFileSync(extensions_file, "[]");
+        }
+    
+        var exts = JSON.parse(fs.readFileSync(extensions_file));
+        for (var i = 0; i < exts.length; i++) {
+            var extension = exts[i];
+            if(extension.isEnabled == true){
+                var ext_main_file = os.homedir() + "/.scode/extensions/" + extension.mainFile;
+                var x_path = require("path");
+                var ext_main_folder = x_path.dirname(ext_main_file)
+                var ext = require(ext_main_file);
+                try {
+                    ext.exec(ext_main_folder);
+                } catch (error) {
+                    alert('Extension (' + extension.ExtName + ') error : ' + error);
+                }
             }
         }
+    } catch (error) {
+        
     }
 });

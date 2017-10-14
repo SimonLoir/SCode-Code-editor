@@ -1,9 +1,9 @@
-const {app, globalShortcut} = require('electron');
+const { app, globalShortcut } = require('electron');
 const electron = require('electron');
 const bw = electron.BrowserWindow;
 const path = require('path');
 const url = require('url');
-const {ipcMain} = require('electron');
+const { ipcMain } = require('electron');
 
 app.on("ready", function () {
     globalShortcut.register("CommandOrControl+L", () => {
@@ -11,6 +11,17 @@ app.on("ready", function () {
         var license = new bw({ frame: true, icon: path.join(__dirname, "src/logo.png") });
         license.loadURL(url.format({
             pathname: path.join(__dirname, "src/license.html"),
+            protocol: "file:",
+            slashes: true
+        }));
+
+    });
+
+    globalShortcut.register("CommandOrControl+E", () => {
+
+        var window = new bw({ frame: true, icon: path.join(__dirname, "src/logo.png") });
+        window.loadURL(url.format({
+            pathname: path.join(__dirname, "src/extensions-store/index.html"),
             protocol: "file:",
             slashes: true
         }));
@@ -35,8 +46,8 @@ app.on("ready", function () {
     });
 
     main_window.maximize();
-    
-    var preview_window = new bw({show:false});
+
+    var preview_window = new bw({ show: false });
 
     ipcMain.on('render-project-reg', (error, arg) => {
         try {

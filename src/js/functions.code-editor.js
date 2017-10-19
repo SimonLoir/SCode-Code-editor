@@ -664,6 +664,20 @@ function isPyOperator(char) {
 }
 
 function style_py_file(text, previous) {
+    var text_without_spaces = text.trim();
+    
+    var keywords = ["if", "else", "while", "for", "elif"];
+    var error = false;
+    for (var i = 0; i < keywords.length; i++) {
+        var e = keywords[i];
+        if (text_without_spaces.indexOf(e) == 0 && text_without_spaces[text_without_spaces.length - 1] != ":"){
+            error = true;
+        }
+    }
+    if(text_without_spaces[text_without_spaces.length - 1] == ";"){
+        error = true;
+    }
+
     text = text.replace(/\</g, "```sodeelementscodesmallerthanelementplaceholdertextxxxscodelibrary22```");
     text = text.replace(/\&/g, "```sodeelementandelementplaceholdertextxxxscodelibrary22```");
     //text = text.replace(/\&/g, "<span>&</span>");
@@ -729,7 +743,14 @@ function style_py_file(text, previous) {
                     x_buffer = '<span style="color:DarkMagenta">' + x_buffer + '</span>';
                 }
 
+                if (python_functions.indexOf(x_buffer) >= 0 && char != "(") {
+                    x_buffer = '<span style="border-bottom:1px dotted red;">' + x_buffer + '</span>';
+                }
+
                 if (char == "(") {
+                    if (python_functions.indexOf(x_buffer) >= 0) {
+                        x_buffer = '<span style="color:orange">' + x_buffer + '</span>';
+                    }
                     x_buffer = '<span style="color:green">' + x_buffer + '</span>';
                 }
 
@@ -773,6 +794,9 @@ function style_py_file(text, previous) {
     buffer = buffer.replace(/\:\:scode\~quot/g, '"');
 
     buffer = "<span style=\"color:cornflowerblue;\">" + buffer + "</span>";
+    if (error == true){
+        buffer = "<span style=\"border-bottom:1px solid red;\">" + buffer + "</span>";
+    }
     buffer = buffer.replace(/```sodeelementscodesmallerthanelementplaceholdertextxxxscodelibrary22```/g, "&lt;");
     buffer = buffer.replace( /```sodeelementandelementplaceholdertextxxxscodelibrary22```/g, '<span>&</span>');
     

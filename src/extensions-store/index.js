@@ -1,5 +1,10 @@
-download_file("https://simonloir.be/scode/extensions/sl-app-1.zip");
-function download_file (url) {
+var os = require("os");
+require('simple-git')(os.homedir() + "/.scode/extensions")
+.clone("https://github.com/SimonLoir/SCode-Code-editor", os.homedir() + "/.scode/extensions/.ext-001")
+.then(() => {
+  alert('Done');
+})
+function download_repo (repo) {
     var http = require('https');
     var fs = require('fs');
     var file = fs.createWriteStream("ext-temp.zip");

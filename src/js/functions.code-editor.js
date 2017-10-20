@@ -743,11 +743,6 @@ function style_py_file(text, previous) {
                     x_buffer = '<span style="color:DarkMagenta">' + x_buffer + '</span>';
                 }
 
-                if (python_functions.indexOf(x_buffer) >= 0) {
-                    if(char != "(" || i == text.length - 1){
-                        x_buffer = '<span style="border-bottom:1px dotted red;">' + x_buffer + '</span>';
-                    }
-                }
                 
                 if (char == "(") {
                     if (python_functions.indexOf(x_buffer) >= 0) {
@@ -755,12 +750,20 @@ function style_py_file(text, previous) {
                     }
                     x_buffer = '<span style="color:green">' + x_buffer + '</span>';
                 }
-
+                
                 if (isOperator(char)) {
                     char = '<span class="default_color">' + char + '</span>';
                 }
-
-                buffer += x_buffer + char;
+                
+                if (python_functions.indexOf(x_buffer + char) >= 0 && (char != "(" || i == text.length - 1)) {
+                        buffer += '<span style="border-bottom:1px dotted red;">' + x_buffer + char + '</span>';
+                }else{
+                    if (python_functions.indexOf(x_buffer) >= 0 && char != "(") {
+                        x_buffer = '<span style="border-bottom:1px dotted red;">' + x_buffer + '</span>';
+                    }
+                    buffer += x_buffer + char;
+                }
+                
                 x_buffer = "";
             } else if (comment == true) {
                 comment_buffer += char;
@@ -797,7 +800,7 @@ function style_py_file(text, previous) {
 
     buffer = "<span style=\"color:cornflowerblue;\">" + buffer + "</span>";
     if (error == true){
-        buffer = "<span style=\"border-bottom:1px solid red;\">" + buffer + "</span>";
+        buffer = "<span style=\"border-bottom:1px dotted red;\">" + buffer + "</span>";
     }
     buffer = buffer.replace(/```sodeelementscodesmallerthanelementplaceholdertextxxxscodelibrary22```/g, "&lt;");
     buffer = buffer.replace( /```sodeelementandelementplaceholdertextxxxscodelibrary22```/g, '<span>&</span>');

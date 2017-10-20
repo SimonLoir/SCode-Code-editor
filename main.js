@@ -66,4 +66,21 @@ app.on("ready", function () {
             console.log(error);
         }
     });
+
+    ipcMain.on('print-it', (error, event) => {
+        //console.log(event)
+        var window = new bw({show:false, title: "Scode - Print - Preview"});
+        let fsystem = require('fs');
+        fsystem.writeFileSync("print.html", "<style>body{color:black;font-family:sans-serif, arial;}.default_color{color:rgb(20,20,20)}</style>" + event.content.replace('color:white', "color:rgb(20,20,20)"));
+        window.once('ready-to-show', function () {
+            console.log('show')
+            window.show();
+            window.webContents.print();
+        });
+        window.loadURL(url.format({
+            pathname: path.join(__dirname, "print.html"),
+            protocol: "file:",
+            slashes: true
+        }));
+    });
 });

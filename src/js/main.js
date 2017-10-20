@@ -200,6 +200,11 @@ $(document).ready(function () {
                 if (project_settings.address != undefined) {
                     ipcRenderer.send('render-project');
                 }
+            }else if(e.key == "p"){
+                var window = app.getCurrentWindow();
+                var id = tabs[active_document].id;                
+                ipcRenderer.send('print-it', {content:$('#' + id + " .code-editor-colors").html()});
+                //window.webContents.print();
             } else if (e.keyCode == 116) {
                 var window = app.getCurrentWindow();
                 window.reload();

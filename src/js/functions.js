@@ -1,12 +1,12 @@
 /**
  * Shows an alert
  * @param {String} text The text that has to be displayed
- */
+ 
 window.alert = function (text) {
     new Notification("SCode", {
         body: text
     });
-}
+}*/
 
 /**
  * Updates the working directory panel
@@ -83,7 +83,6 @@ function createWorkingDir(dir, element) {
                                         element.get(0).style.background = "crimson";
                                         return false;
                                     }else{
-                                        //fs.renameSync(file , x_path.dirname(file) + "/" + new_name);
                                         fs.writeFileSync(file + "/" + new_name, "");
                                         updateWorkingDir();
                                         return true;
@@ -107,8 +106,6 @@ function createWorkingDir(dir, element) {
                                         element.get(0).style.background = "crimson";
                                         return false;
                                     }else{
-                                        //fs.renameSync(file , x_path.dirname(file) + "/" + new_name);
-                                        //fs.writeFileSync(file + "/" + new_name, "");
                                         fs.mkdirSync(file + "/" + new_name);
                                         updateWorkingDir();
                                         return true;

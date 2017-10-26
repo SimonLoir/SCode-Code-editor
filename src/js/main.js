@@ -9,6 +9,7 @@ const os = require('os');
 const { ipcRenderer } = require('electron');
 
 var tabs = {};
+var folder_status = {};
 var id = 0;
 var active_document = null;
 var folder = null;
@@ -73,7 +74,33 @@ try {
 
             }
         }
-    
+
+        /**
+         * Folders that are opened
+         */
+        
+        if (fs.existsSync(os.homedir() + "/.scode/folder_status.json")) {
+            try {
+                folder_status = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/folder_status.json", "utf-8"));
+            } catch (error) {
+                alert(error);
+                alert('SCode a rencontré une erreur : le fichier de préférences est corrompu.');
+                if(confirm('Rétablir les paramètres par défaut ?')){
+                    if(fs.writeFileSync(os.homedir() + "/.scode/folder_status.json", JSON.stringify(folder_status), "utf-8") == null){
+                        alert('SCode est de nouveau fonctionnel !');
+                    }else{
+                        alert('Une erreur est survenue lors de la sauvegarde du fichier de configuration.')
+                    }
+                    alert('Redémarrage de SCode');
+                    var xwindow = app.getCurrentWindow();
+                    xwindow.reload();
+                }else{
+                    alert('Vous pouvez encore modifier le fichier de configuration en appuyant sur Ctrl+Maj+S')
+                }
+
+            }
+        }
+
         /*
         We try to open the files that were opned the last time
         */

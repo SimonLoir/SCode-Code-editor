@@ -27,15 +27,34 @@ function updateWorkingDir() {
  * @param {Object} e The ExtJs object on which we want to add the event 
  * @param {Object} x The ExtJs object that we want to diplay
  */
-function addClickOnDir(e, x){
+start = false;
+function addClickOnDir(e, x, folder){
     x.get(0).style.display = "none";
-    e.click(function () {
+    e.get(0).onclick = function () {
         if(x.get(0).style.display == "block"){
+            folder_status[folder] = false;            
             x.get(0).style.display = "none";
         }else{
+            folder_status[folder] = true;
             x.get(0).style.display = "block";
         }
-    });
+        try {
+            if(start == false){
+                console.log('written')
+                var fs = require('fs');
+                fs.writeFileSync(os.homedir() + "/.scode/folder_status.json", JSON.stringify(folder_status), "utf-8");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    if(folder_status[folder] == true){
+        start = true;
+        e.click();
+        start = false;
+    }else{
+        folder_status[folder] = false;        
+    }
 }
 
 /**
@@ -151,7 +170,7 @@ function createWorkingDir(dir, element) {
                 let child = element.child("div");
                 element.child('br');
                 createWorkingDir(folder[1], child);
-                addClickOnDir(clicker, child);
+                addClickOnDir(clicker, child, folder[0]);
 
             }
         }

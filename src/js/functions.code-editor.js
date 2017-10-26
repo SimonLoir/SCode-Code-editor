@@ -6,6 +6,8 @@ console.log(emmet);
  */
 function newTab(filename, full_md) {
     if (tabs[filename] != undefined) { $('#x' + tabs[filename].id).click();return; }
+    var x_filename = filename.replace(/\\/g, "/");
+    var x_settings = os.homedir().replace(/\\/g, "/") + "/.scode/settings.json";
     var fs = require('fs');
 
     fs.readFile(filename, "utf-8", (err, data) => {
@@ -94,12 +96,55 @@ function newTab(filename, full_md) {
             }
         });
 
-        if (frn_split[frn_split.length - 1] == "md") {
+        if (frn_split[frn_split.length - 1] == "md"  || x_filename == x_settings) {
             tab.addClass('md');
             var md_preview = tab.child('div').addClass('md-preview');
         }
 
-        if (frn_split[frn_split.length - 1] == "md" && full_md == true) {
+        if(x_filename == x_settings){
+            md_preview.html('<h1>Paramètres SCode</h1>');
+
+            var x_data = JSON.parse(data);
+            var keys = Object.keys(x_data)
+
+            for (var i = 0; i < keys.length; i++) {
+                var e = keys[i];
+                var c = md_preview.child("p").addClass('x_data');
+                c.get(0).setAttribute('key', e);
+                c.child('span').html(e + " : ")
+                c.child('input').get(0).value = x_data[e];
+            }
+
+            md_preview.get(0).oninput = function (){
+                var jarray = {};
+                var all = document.querySelectorAll('.x_data');
+                for (var i = 0; i < all.length; i++) {
+                    var ell = all[i];
+                    if(ell.querySelector('input').value != "true" && ell.querySelector('input').value != "false"){
+                        x_val = ell.querySelector('input').value;
+                    }else if(ell.querySelector('input').value == "true"){
+                        x_val = true;
+                    }else{
+                        x_val = false;
+                    }
+                    jarray[ell.getAttribute('key')] = x_val;
+                }
+                console.log(all)
+                code_editor.get(0).value = JSON.stringify(jarray);
+            }
+            var btn = md_preview.child("button").html('Ne pas utiliser d\'interface grahique').click(function () {
+                tab.removeClass('md');
+                $(this).remove();
+            });
+            var style = btn.get(0).style;
+            style.position = "absolute";
+            style.transform = "translateX(0) translateY(0)";
+            style.right = "15px";
+            style.bottom = "15px"
+            style.left = "auto"
+        }
+
+        if ((frn_split[frn_split.length - 1] == "md" && full_md == true) || x_filename == x_settings) {
             tab.addClass('md');
             tab.addClass('hide-all');
         }

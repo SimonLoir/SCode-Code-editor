@@ -16,7 +16,7 @@ var folder = null;
 Settings can be modified in the file {user_dir}/.scode/settings.json
 */
 var settings = {
-    always_show_workdir_and_opened_files: false, 
+    always_show_workdir_and_opened_files: true, 
     language: "en.json",
     theme: "themes/scode-dark.css"
 };
@@ -53,7 +53,25 @@ try {
         We try to import the settings from the settings file
         */
         if (fs.existsSync(os.homedir() + "/.scode/settings.json")) {
-            settings = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/settings.json", "utf-8"));
+            try {
+                settings = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/settings.json", "utf-8"));
+            } catch (error) {
+                alert(error);
+                alert('SCode a rencontré une erreur : le fichier de préférences est corrompu.');
+                if(confirm('Rétablir les paramètres par défaut ?')){
+                    if(fs.writeFileSync(os.homedir() + "/.scode/settings.json", JSON.stringify(settings), "utf-8") == null){
+                        alert('SCode est de nouveau fonctionnel !');
+                    }else{
+                        alert('Une erreur est survenue lors de la sauvegarde du fichier de configuration.')
+                    }
+                    alert('Redémarrage de SCode');
+                    var xwindow = app.getCurrentWindow();
+                    xwindow.reload();
+                }else{
+                    alert('Vous pouvez encore modifier le fichier de configuration en appuyant sur Ctrl+Maj+S')
+                }
+
+            }
         }
     
         /*

@@ -28,7 +28,7 @@ app.on("ready", function () {
 
     });
 
-    var main_window = new bw({ frame: false, icon: path.join(__dirname, "src/logo.png") });
+    var main_window = new bw({ frame: false, icon: path.join(__dirname, "src/logo.png"), show:false});
 
     main_window.loadURL(url.format({
         pathname: path.join(__dirname, "src/index.html"),
@@ -40,6 +40,10 @@ app.on("ready", function () {
         main_window = null;
         app.exit();
     });
+
+    main_window.on('ready-to-show', function () {
+        main_window.show();
+    })
 
     app.on('window-all-closed', function () {
         app.quit();

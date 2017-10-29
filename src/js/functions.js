@@ -11,14 +11,17 @@ window.alert = function (text) {
 /**
  * Updates the working directory panel
  */
-function updateWorkingDir() {
+function updateWorkingDir(e) {
+    if (e == true){
+        folder_status = [];
+    }
     $('#working_dir').get(0).style.display = "block";
     $('#working_dir').html('<b>' + language.workingDir + ' :</b><br />');
     if (folder == null) {
         $('#working_dir').child('span').html(language.requireToOpenAWDir);
     } else {
         folder = getDirArray(folder[0]);
-        createWorkingDir([folder], $('#working_dir'));
+        createWorkingDir([folder], $('#working_dir'), e);
     }
 }
 
@@ -40,7 +43,6 @@ function addClickOnDir(e, x, folder){
         }
         try {
             if(start == false){
-                console.log('written')
                 var fs = require('fs');
                 fs.writeFileSync(os.homedir() + "/.scode/folder_status.json", JSON.stringify(folder_status), "utf-8");
             }
@@ -62,7 +64,7 @@ function addClickOnDir(e, x, folder){
  * @param {Array} dir the directory has an array 
  * @param {Object} element the extjs object on which we want to create the directory
  */
-function createWorkingDir(dir, element) {
+function createWorkingDir(dir, element, first) {
     var files = [];
     var folders = [];
     for (var i = 0; i < dir.length; i++) {
@@ -171,7 +173,12 @@ function createWorkingDir(dir, element) {
                 element.child('br');
                 createWorkingDir(folder[1], child);
                 addClickOnDir(clicker, child, folder[0]);
+                if( first == true ){
+                    clicker.click();
+                }
 
+            }else{
+                console.log(first, folder_real_name)
             }
         }
     }
@@ -305,7 +312,7 @@ function openFolder() {
             } catch (error) {
                 alert(error)
             }
-            updateWorkingDir();
+            updateWorkingDir(true);
             load_projet_setting();
         }
 

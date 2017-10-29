@@ -14,15 +14,15 @@
   "author": "Simon Loir",
   "license": "MIT",
   "dependencies": {
-    "electron": "^1.7.9",
     "emmet": "^1.6.3",
     "js-beautify": "^1.6.14",
     "jslint": "^0.11.0",
     "marked": "^0.3.6",
-    "simple-git": "^1.76.0"
+    "node-pty": "^0.7.2",
+    "simple-git": "^1.76.0",
+    "xterm": "^2.9.2"
   },
   "devDependencies": {
-    "esprima": "^4.0.0",
-    "electron-rebuild": "^1.6.0"
+    "esprima": "^4.0.0"
   }
 }

@@ -11,11 +11,11 @@ const process = require('process');
 const { ipcRenderer } = require('electron');
 function encode_utf8(s) {
     return unescape(encodeURIComponent(s));
-  }
-  
-  function decode_utf8(s) {
+}
+
+function decode_utf8(s) {
     return decodeURIComponent(escape(s));
-  }
+}
 var tabs = {};
 var folder_status = {};
 var id = 0;
@@ -232,89 +232,93 @@ $(document).ready(function () {
             } else if (e.key == "o") {
                 openFile();
             } else if (e.keyCode == 192) {
-                var term = $(document.body).child("div");
-                term.css('z-index', 100);
-                term.css('position', "fixed");
-                term.css('overflow', "hidden");
-                term.css('bottom', "25px");
-                term.css('height', "250px");
-                term.css('left', "0");
-                term.css('right', "0");
-                term.css('background', "rgb(34,34,34)");
-                var x_term = term;
-                var term_resizer = term.child("div");
+                var x_term = $(document.body).child("div");
+                x_term.css('z-index', 100);
+                x_term.css('position', "fixed");
+                x_term.css('overflow', "hidden");
+                x_term.css('bottom', "25px");
+                x_term.css('height', "250px");
+                x_term.css('left', "0");
+                x_term.css('right', "0");
+                x_term.css('background', "rgb(34,34,34)");
+                x_term.css('padding', "5px");
+                var x_x_term = x_term;
+                var x_term_resizer = x_term.child("div");
 
                 var m_pos;
-                function resize(e){
+                function resize(e) {
                     var parent = resize_el.parentNode;
                     var dx = m_pos - e.y;
                     m_pos = e.y;
                     parent.style.height = (parseInt(getComputedStyle(parent, '').height) + dx) + "px";
+                    term.fit();
                 }
-                
-                var resize_el = term_resizer.get(0);
-                resize_el.addEventListener("mousedown", function(e){
+
+                var resize_el = x_term_resizer.get(0);
+                resize_el.addEventListener("mousedown", function (e) {
                     m_pos = e.y;
                     document.addEventListener("mousemove", resize, false);
                 }, false);
-                document.addEventListener("mouseup", function(){
+                document.addEventListener("mouseup", function () {
                     document.removeEventListener("mousemove", resize, false);
                 }, false);
 
-                term_resizer.css('position', "absolute");
-                term_resizer.css('top', "0px");
-                term_resizer.css('left', "0");
-                term_resizer.css('right', "0");
-                term_resizer.css('background', "#ccc");
-                term_resizer.css('height', "4px");
-                term_resizer.css('cursor', "n-resize");
+                x_term_resizer.css('position', "absolute");
+                x_term_resizer.css('top', "0px");
+                x_term_resizer.css('left', "0");
+                x_term_resizer.css('right', "0");
+                x_term_resizer.css('background', "#ccc");
+                x_term_resizer.css('height', "4px");
+                x_term_resizer.css('cursor', "n-resize");
 
-                term = term.child('textarea');
-                term.css("color", "white");
-                term.css('background', "transparent");
-                term.css('height', "calc(100% - 4px)");
-                term.css('width', "100%");
-                term.css('position', "absolute");
-                term.css('bottom', "0");
-                term.css('top', "4px");
-                term.css('left', "0");
-                term.css('right', "0");
+                var term = new Terminal();
+                term.open(x_term.get(0));
+                term.cursorBlink = true
+                term.fit()
+                var pty = require('node-pty');
 
-                var command_prompt = spawn(process.env.ComSpec, [], {cwd:folder[0]})
-                command_prompt.stdout.setEncoding('utf8')
-                var last_text = "";
-                term.get(0).value = last_text
-                term.get(0).focus();
-                term.get(0).selectionStart = term.get(0).selectionEnd = term.get(0).value.length;
-                term.get(0).focus();
-                command_prompt.stdout.on('data', (data) => {
-                    data = data.replace(/�/g, "");
-                    console.log("> " + data)
-                    last_text = last_text + data;
-                    console.log(">>" + last_text);
-                    term.get(0).value = last_text
-                    term.get(0).focus();
-                    term.get(0).selectionStart = term.get(0).selectionEnd = term.get(0).value.length;
-                    term.get(0).focus();
-                    last_text = term.get(0).value;
+                var shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
+
+                var ptyProcess = pty.spawn(shell, [], {
+                    name: 'xterm-color',
+                    cwd: folder[0],
+                    env: process.env
                 });
 
-                command_prompt.stderr.on('data', (data) => {
-                    console.log(`stderr: ${data}`);
+                ptyProcess.on('data', function (data) {
+                    term.write(data)
+                    console.log(term.textarea)
                 });
 
-                command_prompt.on('close', (code) => {
-                    console.log(`child process exited with code ${code}`);
+                ptyProcess.on('close', function (data) {
                     x_term.remove();
                 });
-                term.get(0).onkeydown = function (event) {
 
-                    if (event.keyCode == 13) {
-                        var command = this.value.replace(last_text, "");
-                        command_prompt.stdin.write(command + "\n");
+                ptyProcess.on('exit', function (data) {
+                    x_term.remove();
+                });
+
+                term.textarea.onkeydown = function (e) {
+                    if (e.key == "Backspace") {
+                        ptyProcess.write("\b");
+                    } else if (e.key == "Enter") {
+                        ptyProcess.write("\r");
+                    } else if (e.key == "c" && e.ctrlKey == true) {
+                        ptyProcess.write("\x03");
+                    } else {
+                        ptyProcess.write(e.key);
+                    }
+
+                }
+
+                term.attachCustomKeyEventHandler(function (e) {
+                    if (e.keyCode == 9) {
+                        // Do nothing
                         return false;
                     }
-                }
+                });
+
+
             } else if (e.key == "s") {
 
                 if (tabs[active_document] != undefined) {

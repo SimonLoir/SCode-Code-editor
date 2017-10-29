@@ -209,7 +209,11 @@ $(document).ready(function () {
     }
 });
 
+var terminal_last_id = 0;
+var terms = {};
+
 function newTerminal(){
+    terminal_last_id ++;
     var x_term = $(document.body).child("div");
     x_term.css('z-index', 100);
     x_term.css('position', "fixed");
@@ -220,7 +224,14 @@ function newTerminal(){
     x_term.css('left', "0");
     x_term.css('right', "0");
     x_term.css('background', "rgb(34,34,34)");
-    x_term.css('padding', "5px");
+    x_term.css('padding', "15px");
+    x_term.get(0).setAttribute("data-id", "t" + terminal_last_id);
+
+    terms[x_term.get(0).getAttribute("data-id")] = {
+        name:""
+    }
+
+
     var x_x_term = x_term;
     var x_term_resizer = x_term.child("div");
 

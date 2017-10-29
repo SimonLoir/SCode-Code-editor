@@ -9,7 +9,7 @@ function newTab(filename, full_md) {
     var x_filename = filename.replace(/\\/g, "/");
     var x_settings = os.homedir().replace(/\\/g, "/") + "/.scode/settings.json";
     var fs = require('fs');
-
+    
     fs.readFile(filename, "utf-8", (err, data) => {
 
         if (err) {
@@ -44,7 +44,25 @@ function newTab(filename, full_md) {
         code_editor.get(0).value = data;
         code_editor.get(0).setAttribute('contenteditable', "true");
 
+        var last_fired;
+        var cross;
 
+        var watch = fs.watch(filename, function (e, ee) {
+            var fired = new Date();
+            setTimeout(function () {
+                if(fired == last_fired){
+                    if (fs.readFileSync(filename) != code_editor.get(0).value){
+                        if (confirm("Une autre version de ce fichier existe sur votre disque dur. Charger la version du disque ?")){
+                            cross.click();
+                            newTab(filename);
+                        }
+                    }else{
+                        console.log("ok")
+                    }
+                }
+            }, 2500);
+            last_fired = fired;
+        });
 
         var xfilename = filename.replace(/\\/g, "/");
 
@@ -80,7 +98,7 @@ function newTab(filename, full_md) {
 
         xtab.click();
 
-        var cross = xtab.child('i').html("  ×");
+        cross = xtab.child('i').html("  ×");
         cross.get(0).setAttribute('data-id', tabs[filename].id);
         cross.get(0).setAttribute('data-file', filename);
         cross.addClass('cross');
@@ -88,8 +106,10 @@ function newTab(filename, full_md) {
             delete tabs[this.getAttribute('data-file')];
             $('#' + this.getAttribute("data-id")).remove();
             $('#x' + this.getAttribute("data-id")).remove();
+            
             active_document = "~";
             try {
+                watch.close();
                 fs.writeFileSync(os.homedir() + "/.scode/files.json", JSON.stringify(tabs), "utf-8");
             } catch (error) {
                 alert(error);
@@ -534,8 +554,15 @@ function addStyleToHTML(style){
     }
 }
 
-function style_css_file(text) {
+function style_css_file(text, previous) {
 
+    var buffer = "";
+
+    for (var i = 0; i < text.length; i++) {
+        var char = text[i];
+        
+    }
+/*
     text = text.replace(/(.[^\n|\r|\{|\}|\.]+)\{/g, function (m, $1) {
         return '<span style="color:yellow">' + $1 + '</span>{';
     });
@@ -543,8 +570,8 @@ function style_css_file(text) {
     text = text.replace(/(.[^\n|\r|;|\;]+)\:(.+)\;/g, function (m, $1, $2) {
         return '<b style="color:red">' + $1 + '</b>:<span>' + $2 + ';</span>';
     });
-
-    return [text, {}];
+*/
+    return [buffer, {}];
 }
 
 function style_js_file(text, previous) {

@@ -41,8 +41,8 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 Name: "{app}\resources"; Permissions: users-full
 
 [Files]
-Source: "C:\Users\simon\Documents\Electron\releases\scode-win32-ia32\scode.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\simon\Documents\Electron\releases\scode-win32-ia32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Users\simon\Documents\scode-releases\scode-win32-ia32\scode.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\simon\Documents\scode-releases\scode-win32-ia32\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

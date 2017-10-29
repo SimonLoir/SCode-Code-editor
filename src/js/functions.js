@@ -12,8 +12,8 @@ window.alert = function (text) {
  * Updates the working directory panel
  */
 function updateWorkingDir(e) {
-    if (e == true){
-        folder_status = [];
+    if (e == true) {
+        folder_status = {};
     }
     $('#working_dir').get(0).style.display = "block";
     $('#working_dir').html('<b>' + language.workingDir + ' :</b><br />');
@@ -30,32 +30,33 @@ function updateWorkingDir(e) {
  * @param {Object} e The ExtJs object on which we want to add the event 
  * @param {Object} x The ExtJs object that we want to diplay
  */
-start = false;
-function addClickOnDir(e, x, folder){
+start = true;
+function addClickOnDir(e, x, folder) {
+    if(folder != undefined){
+    }else{
+        folder = "::undefined"
+    }
     x.get(0).style.display = "none";
     e.get(0).onclick = function () {
-        if(x.get(0).style.display == "block"){
-            folder_status[folder] = false;            
+        if (x.get(0).style.display == "block") {
+            folder_status[folder] = false;
             x.get(0).style.display = "none";
-        }else{
+        } else {
             folder_status[folder] = true;
             x.get(0).style.display = "block";
         }
         try {
-            if(start == false){
-                var fs = require('fs');
-                fs.writeFileSync(os.homedir() + "/.scode/folder_status.json", JSON.stringify(folder_status), "utf-8");
-            }
+            var fs = require('fs');
+            fs.writeFileSync(os.homedir() + "/.scode/folder_status.json", JSON.stringify(folder_status), "utf-8");
         } catch (error) {
-            console.log(error);
+            console.log("error : " + error);
         }
+        console.log(folder_status, JSON.stringify(folder_status))
     };
     if(folder_status[folder] == true){
-        start = true;
-        e.click();
-        start = false;
+        x.get(0).style.display = "block";
     }else{
-        folder_status[folder] = false;        
+        x.get(0).style.display = "none";
     }
 }
 
@@ -83,7 +84,7 @@ function createWorkingDir(dir, element, first) {
             let folder_split_slash = folder_replace.split("/");
             let folder_real_name = folder_split_slash[folder_split_slash.length - 1];
             if (folder_real_name != ".git") {
-                
+
                 let clicker = element.child('span').html('<i class="icon-folder"></i> ' + folder_real_name);
                 clicker.get(0).style.cursor = "pointer";
                 clicker.get(0).setAttribute("data-path", folder[0])
@@ -95,15 +96,15 @@ function createWorkingDir(dir, element, first) {
                         click: () => {
                             var fa = new scode_fast_action();
                             var file = this.getAttribute('data-path');
-                            if(tabs[file] == undefined){
+                            if (tabs[file] == undefined) {
                                 var x_path = require('path');
                                 var fs = require('fs');
-        
+
                                 fa.show((new_name, element) => {
-                                    if(fs.existsSync(file + "/" + new_name)){
+                                    if (fs.existsSync(file + "/" + new_name)) {
                                         element.get(0).style.background = "crimson";
                                         return false;
-                                    }else{
+                                    } else {
                                         fs.writeFileSync(file + "/" + new_name, "");
                                         updateWorkingDir();
                                         return true;
@@ -118,15 +119,15 @@ function createWorkingDir(dir, element, first) {
                         click: () => {
                             var fa = new scode_fast_action();
                             var file = this.getAttribute('data-path');
-                            if(tabs[file] == undefined){
+                            if (tabs[file] == undefined) {
                                 var x_path = require('path');
                                 var fs = require('fs');
-        
+
                                 fa.show((new_name, element) => {
-                                    if(fs.existsSync(file + "/" + new_name)){
+                                    if (fs.existsSync(file + "/" + new_name)) {
                                         element.get(0).style.background = "crimson";
                                         return false;
-                                    }else{
+                                    } else {
                                         fs.mkdirSync(file + "/" + new_name);
                                         updateWorkingDir();
                                         return true;
@@ -141,48 +142,48 @@ function createWorkingDir(dir, element, first) {
                         click: () => {
                             var fa = new scode_fast_action();
                             var file = this.getAttribute('data-path');
-                            if(tabs[file] == undefined){
+                            if (tabs[file] == undefined) {
                                 var x_path = require('path');
                                 var fs = require('fs');
-        
+
                                 fa.show((new_name, element) => {
-                                    if(fs.existsSync(x_path.dirname(file) + "/" + new_name)){
+                                    if (fs.existsSync(x_path.dirname(file) + "/" + new_name)) {
                                         element.get(0).style.background = "crimson";
                                         return false;
-                                    }else{
-                                        console.log(file , x_path.dirname(file) + "/" + new_name + "/");
+                                    } else {
+                                        console.log(file, x_path.dirname(file) + "/" + new_name + "/");
                                         fs.rena
-                                        fs.renameSync(file , x_path.dirname(file) + "/" + new_name + "/");
+                                        fs.renameSync(file, x_path.dirname(file) + "/" + new_name + "/");
                                         updateWorkingDir();
                                         return true;
                                     }
                                 }, this.getAttribute('data-name'));
-                            }else{
+                            } else {
                                 alert('Please close the tab before renaming the file.');
                             }
                         }
                     });
-                    
+
                     menu.append(menu_item_1);
                     menu.append(menu_item_2);
                     menu.append(menu_item_3);
                     menu.popup(remote.getCurrentWindow());
-                  
+
                 });
                 let child = element.child("div");
                 element.child('br');
                 createWorkingDir(folder[1], child);
                 addClickOnDir(clicker, child, folder[0]);
-                if( first == true ){
+                if (first == true) {
                     clicker.click();
                 }
 
-            }else{
+            } else {
                 console.log(first, folder_real_name)
             }
         }
     }
-    
+
     for (var i in files) {
         if (files.hasOwnProperty(i)) {
             var file = files[i];
@@ -220,21 +221,21 @@ function createWorkingDir(dir, element, first) {
                     click: () => {
                         var fa = new scode_fast_action();
                         var file = this.getAttribute('data-file-path');
-                        if(tabs[file] == undefined){
+                        if (tabs[file] == undefined) {
                             var x_path = require('path');
                             var fs = require('fs');
-    
+
                             fa.show((new_name, element) => {
-                                if(fs.existsSync(x_path.dirname(file) + "/" + new_name)){
+                                if (fs.existsSync(x_path.dirname(file) + "/" + new_name)) {
                                     element.get(0).style.background = "crimson";
                                     return false;
-                                }else{
-                                    fs.renameSync(file , x_path.dirname(file) + "/" + new_name);
+                                } else {
+                                    fs.renameSync(file, x_path.dirname(file) + "/" + new_name);
                                     updateWorkingDir();
                                     return true;
                                 }
                             }, this.getAttribute('filename'));
-                        }else{
+                        } else {
                             alert('Please close the tab before renaming the file.');
                         }
                     }
@@ -347,7 +348,7 @@ function getDirArray(folder) {
 }
 
 var scode_fast_action = function () {
-    
+
     this.show = function (callback, default_text, commands) {
 
         var e = $('body').child('div');
@@ -356,65 +357,65 @@ var scode_fast_action = function () {
         var text = e.child("input");
         var options = e.child("div");
 
-        if(default_text != undefined){
-            text.get(0).value = default_text;           
+        if (default_text != undefined) {
+            text.get(0).value = default_text;
         }
         text.get(0).focus();
         var index_seleted = -1;
         text.get(0).onkeydown = function (event) {
-            if(event.keyCode == 27){
+            if (event.keyCode == 27) {
                 try {
                     e.remove();
                 } catch (error) {
                     console.log(error);
                 }
-            }else if (event.keyCode === 13) {
-                if(commands != undefined){
+            } else if (event.keyCode === 13) {
+                if (commands != undefined) {
                     var child = options.get(0).querySelector('.selected');
                     child.click();
-                }else{
-                    if(callback(text.get(0).value, text)){
+                } else {
+                    if (callback(text.get(0).value, text)) {
                         e.remove();
                     }
                 }
                 return false;
-            }else if (event.keyCode === 9) {
+            } else if (event.keyCode === 9) {
                 e.remove();
                 console.log('e');
                 return false;
-            }else if (event.keyCode === 40 || event.keyCode === 38) {
+            } else if (event.keyCode === 40 || event.keyCode === 38) {
                 var childs = options.get(0).querySelectorAll('div');
                 for (var i = 0; i < childs.length; i++) {
                     var child = childs[i];
                     $(child).removeClass('selected');
                 }
-                if(event.keyCode === 40){
-                    index_seleted ++;
-                }else{
-                    index_seleted --;
+                if (event.keyCode === 40) {
+                    index_seleted++;
+                } else {
+                    index_seleted--;
                 }
-                if(index_seleted >= childs.length || index_seleted < 0){
+                if (index_seleted >= childs.length || index_seleted < 0) {
                     index_seleted = 0;
                 }
                 childs[index_seleted].classList.add('selected')
                 return false;
             }
-        
+
         }
 
         text.get(0).oninput = function () {
-            if(commands != undefined){
+            if (commands != undefined) {
                 options.html('');
                 actual = "";
                 var x_val = text.get(0).value.split('');
                 for (var i = 0; i < x_val.length; i++) {
                     var c = x_val[i];
                     actual += c + "(.*)";
-                } 
+                }
                 for (var i = 0; i < commands.length; i++) {
                     var cmd = commands[i];
                     //console.log(cmd);
-                    if(cmd[0].toLowerCase().search(actual.toLowerCase()) >= 0){
+                    if (cmd[0].toLowerCase().search(actual.toLowerCase()) >= 0) {
 
                         var opt = options.child('div').html(cmd[0]);
 
@@ -427,23 +428,23 @@ var scode_fast_action = function () {
                             e.remove();
                             return false;
                         };
-                    }else{
+                    } else {
                         //console.log(cmd[0].search(actual), actual, cmd[0])
                     }
-                }                
+                }
             }
         }
 
         e.get(0).addEventListener('blur', function (event) {
             console.log(event)
-            if(event.relatedTarget != null){
+            if (event.relatedTarget != null) {
                 try {
                     $(this).remove();
                 } catch (error) {
                     console.log(error);
                 }
             }
-            
+
         }, true)
 
     }

@@ -281,10 +281,27 @@ function newTerminal(){
             ptyProcess.write("\b");
         } else if (e.key == "Enter") {
             ptyProcess.write("\r");
-        } else if (e.key == "c" && e.ctrlKey == true) {
+        }else if (e.key == "c" && e.ctrlKey == true) {
             ptyProcess.write("\x03");
+        }else if (e.keyCode == 32) {
+            ptyProcess.write(' ');
+        }else if (e.keyCode == 9) {
+            ptyProcess.write('\t');
+        }else if (e.keyCode < 37) {
+        }else if(e.keyCode == 37){
+            ptyProcess.write("\u001b[D");
+        }else if(e.keyCode == 38){
+            ptyProcess.write("\u001b[A");
+        }else if(e.keyCode == 39){
+            ptyProcess.write("\u001b[C");
+        }else if(e.keyCode == 40){
+            ptyProcess.write("\u001b[B");
         } else {
             ptyProcess.write(e.key);
+        }
+
+        if(e.keyCode == 9){
+            return false;
         }
 
     }

@@ -21,9 +21,17 @@ var terminal = require(__dirname + "/js/terminal");
 /**
  * SCode init
  */
-var tabs = {};
-var folder_status = {};
-var id = 0;
-var active_document = null;
-var folder = null;
-var settings = editor.load('settings');
+var tabs = {}, id = 0, active_document = null, settings, folder, folder_status, language, first_use;
+
+$(document).ready(function () {
+    first_use = editor.verifyInstallation()
+    settings = editor.load('settings');
+    folder = editor.load('working_dir');
+    folder_status = editor.load('folders');
+    editor.load("tabs");
+    editor.setStyle();
+    language = editor.load("translations")
+    editor.addFunctionalities();
+});
+
+

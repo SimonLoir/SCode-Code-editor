@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/SimonLoir/SCode-Text-editor#readme",
   "dependencies": {
-    "electron": "^1.7.9"
+    "electron": "^1.7.9",
+    "node-pty": "^0.7.2"
   }
 }

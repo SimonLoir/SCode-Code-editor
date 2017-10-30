@@ -29,7 +29,7 @@ $(document).ready(function ( ) {
         }
 
     }
-    git.git_receiver = $('#git').child('div');
+    git.git_receiver = $('#git').child('div').html("<br />Aucun dépôt git n'est initialisé. Utilisez la commande git init dans le terminal ou utilisez la commande git clone pour cloner un dépôt git distant.<br />");    
 });
 
 var git = {

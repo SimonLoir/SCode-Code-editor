@@ -8,9 +8,12 @@ Français : Pour mettre SCode en Français, appuyez sur Ctrl+Maj+S. Et modifiez 
 "language": "fr.json"
 </code>
 
-## Keyboard shortcut
+## Keyboard shortcuts
 
 * ``` Control+L ``` Shows the license window
+* ``` Control+E ``` Opens the extensions store
+* ``` Control+Shift+P ``` Opens the command palette
+* ``` Control+P ``` Opens the print dialog
 * ``` Control+G ``` Shows git interface and put the cursor inside the commit area.
 * ``` Control+Shift+S ``` Opens the settings file (json)
 

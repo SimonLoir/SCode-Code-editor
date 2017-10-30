@@ -49,9 +49,9 @@ function addClickOnDir(e, x, folder) {
             var fs = require('fs');
             fs.writeFileSync(os.homedir() + "/.scode/folder_status.json", JSON.stringify(folder_status), "utf-8");
         } catch (error) {
-            console.log("error : " + error);
+            //console.log("error : " + error);
         }
-        console.log(folder_status, JSON.stringify(folder_status))
+        //console.log(folder_status, JSON.stringify(folder_status))
     };
     if(folder_status[folder] == true){
         x.get(0).style.display = "block";
@@ -151,7 +151,7 @@ function createWorkingDir(dir, element, first) {
                                         element.get(0).style.background = "crimson";
                                         return false;
                                     } else {
-                                        console.log(file, x_path.dirname(file) + "/" + new_name + "/");
+                                        //console.log(file, x_path.dirname(file) + "/" + new_name + "/");
                                         fs.rena
                                         fs.renameSync(file, x_path.dirname(file) + "/" + new_name + "/");
                                         updateWorkingDir();
@@ -179,7 +179,7 @@ function createWorkingDir(dir, element, first) {
                 }
 
             } else {
-                console.log(first, folder_real_name)
+                //console.log(first, folder_real_name)
             }
         }
     }
@@ -367,7 +367,7 @@ var scode_fast_action = function () {
                 try {
                     e.remove();
                 } catch (error) {
-                    console.log(error);
+                    //console.log(error);
                 }
             } else if (event.keyCode === 13) {
                 if (commands != undefined) {
@@ -381,7 +381,7 @@ var scode_fast_action = function () {
                 return false;
             } else if (event.keyCode === 9) {
                 e.remove();
-                console.log('e');
+                //console.log('e');
                 return false;
             } else if (event.keyCode === 40 || event.keyCode === 38) {
                 var childs = options.get(0).querySelectorAll('div');
@@ -423,7 +423,7 @@ var scode_fast_action = function () {
                         opt.get(0).onclick = function (event) {
                             event.stopPropagation();
                             event.preventDefault();
-                            console.log("e")
+                            //console.log("e")
                             callback(this.getAttribute("data-onclick"), e);
                             e.remove();
                             return false;
@@ -436,12 +436,12 @@ var scode_fast_action = function () {
         }
 
         e.get(0).addEventListener('blur', function (event) {
-            console.log(event)
+            //console.log(event)
             if (event.relatedTarget != null) {
                 try {
                     $(this).remove();
                 } catch (error) {
-                    console.log(error);
+                    //console.log(error);
                 }
             }
 

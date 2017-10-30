@@ -43,7 +43,7 @@ var ptyProcess = pty.spawn(shell, [], {
  
 ptyProcess.on('data', function(data) {
   term.write(data)
-  console.log(term.textarea)
+  //console.log(term.textarea)
 });
  
 term.textarea.onkeydown = function(e) {

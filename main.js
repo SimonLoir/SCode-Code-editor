@@ -59,7 +59,7 @@ app.on("ready", function () {
             preview_window.loadURL(arg);
             preview_window.show();
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     });
 
@@ -67,7 +67,7 @@ app.on("ready", function () {
         try {
             preview_window.reload(true);
         } catch (error) {
-            console.log(error);
+            //console.log(error);
         }
     });
 
@@ -77,7 +77,7 @@ app.on("ready", function () {
         let fsystem = require('fs');
         fsystem.writeFileSync("print.html", "<style>body{color:black;font-family:sans-serif, arial;}.default_color{color:rgb(20,20,20)}</style>" + event.content.replace('color:white', "color:rgb(20,20,20)"));
         window.once('ready-to-show', function () {
-            console.log('show')
+            //console.log('show')
             window.show();
             window.webContents.print();
         });

@@ -147,7 +147,7 @@ var commands = [
     }],
     ["Extensions - Dev", "scode-extension-dev", function () {
         folder = getDirArray(os.homedir() + "/.scode");
-        console.log(folder)
+        //console.log(folder)
         let folder_json = JSON.stringify(folder);
 
         try {

@@ -136,7 +136,7 @@ try {
         try {
             fs.mkdirSync(os.homedir() + "/.scode")
         } catch (error) {
-            console.log(error);
+            //console.log(error);
             error = true;
         }
 
@@ -307,7 +307,7 @@ $(document).ready(function () {
             if (settings["always_show_workdir_and_opened_files"] == false || settings["always_show_workdir_and_opened_files"] == undefined) {
                 $('#working_dir').get(0).style.display = "none";
             } else {
-                console.log(settings["always_show_workdir_and_opened_files"]);
+                //console.log(settings["always_show_workdir_and_opened_files"]);
             }
         } else {
             updateWorkingDir();

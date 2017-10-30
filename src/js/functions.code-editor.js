@@ -1,5 +1,5 @@
 var emmet = require('emmet');
-console.log(emmet);
+//console.log(emmet);
 /**
  * Creates a new tab in the tab manager
  * @param {String} filename the filename
@@ -57,7 +57,7 @@ function newTab(filename, full_md) {
                             newTab(filename);
                         }
                     }else{
-                        console.log("ok")
+                        //console.log("ok")
                     }
                 }
             }, 2500);
@@ -149,7 +149,7 @@ function newTab(filename, full_md) {
                     }
                     jarray[ell.getAttribute('key')] = x_val;
                 }
-                console.log(all)
+                //console.log(all)
                 code_editor.get(0).value = JSON.stringify(jarray);
             }
             var btn = md_preview.child("button").html('Ne pas utiliser d\'interface grahique').click(function () {
@@ -319,7 +319,7 @@ function addFunc(ce, cec, file, line_n) {
                 }
                 emmet_exp = element + emmet_exp;
             }
-            console.log(emmet_exp);
+            //console.log(emmet_exp);
 
             try {
                 if(emmet_exp.trim() == ""){
@@ -336,10 +336,10 @@ function addFunc(ce, cec, file, line_n) {
                 }
                 var str = emmet.expandAbbreviation(emmet_exp, type).replace(/\t/g, "    ").replace(/\$\{([0-9]*)(\:*)/g, "").replace(/\}/g, "");
                 s = s - emmet_exp.length;
-                console.log(s);
+                //console.log(s);
             } catch (error) {
                 var str = "    ";
-                console.log(error);
+                //console.log(error);
             }
 
             this.value = v.substring(0, s) + str + v.substring(e);
@@ -400,7 +400,7 @@ function codify(text, file, el, cec) {
         text = text.replace('::scode~cursor-element', '');
         tabs[file.filename]["split"] = text.split(/\r?\n/);
 
-        tabs[file.filename]["previous"] = {}
+        tabs[file.filename]["previous"] = []
 
         var x_split = text.split(/\r?\n/);
 
@@ -413,6 +413,8 @@ function codify(text, file, el, cec) {
 
         if (file.extension == "js") {
             text = "<span style=\"color:cornflowerblue;\">" + text + "</span>";
+        }else if(file.extension == "css"){
+            text = '<span style="color:yellow;">' + text + '</span>';
         }
 
         cec.innerHTML = text + '<br /><br /><br />';
@@ -423,11 +425,10 @@ function codify(text, file, el, cec) {
             var line = tabs[file.filename]["split"][i];
             var x_result = codify_line(line, file, previous);
             previous = x_result[1];
-            tabs[file.filename]["previous"][i] = previous;
+            previous.id = i;
+            tabs[file.filename]["previous"].push(previous);
             cec.querySelector("#e" + i).innerHTML = x_result[0];
         }
-
-        //console.log(tabs[file.filename]["previous"]);
     }
 }
 
@@ -532,7 +533,7 @@ function style_html_file(text, previous, isPHP) {
         buffer += tag_buffer + "</span>";
     }else if(is_style == true){
         var e = addStyleToHTML(style)
-        console.log(e);
+        //console.log(e);
         buffer += e;
     }
 
@@ -545,33 +546,71 @@ function style_html_file(text, previous, isPHP) {
 }
 
 function addStyleToHTML(style){
+    return style
+    /*
     if(style.indexOf('</style') >= 0){
         var split = style.split('</style')[0]
-        console.log(style.substring(split.length - 1, style.length -1), split)
+        //console.log(style.substring(split.length - 1, style.length -1), split)
         return style_css_file(split)[0] + style_html_file(style.replace(split, ''), {})[0];
     }else{
         return style_css_file(style)[0];
-    }
+    }*/
 }
 
 function style_css_file(text, previous) {
+
+    var x = previous;
+
+    if(x.blevel == undefined){
+        blevel = 0;
+    }else{
+        blevel = x.blevel;
+    }
+    if(x.colon == undefined){
+        colon = false;
+    }
 
     var buffer = "";
 
     for (var i = 0; i < text.length; i++) {
         var char = text[i];
         
-    }
-/*
-    text = text.replace(/(.[^\n|\r|\{|\}|\.]+)\{/g, function (m, $1) {
-        return '<span style="color:yellow">' + $1 + '</span>{';
-    });
+        if(char == "{"){
+            blevel += 1;
+            buffer += '<span  class="default_color">{</span>'
+        }else if(char == "}"){
+            blevel -= 1;
+            buffer += '<span  class="default_color">}</span>'            
+        }else if(blevel  > 0){
+            if(char == ":"){
+                buffer += '<span  class="default_color">' + char + '</span>';
+                colon = true;
+                colon_buffer = '<span style="color:coral;">';
+            }else if(char == ";"){
+                buffer += colon_buffer+ "</span>";
+                buffer += '<span class="default_color">' + char + '</span>';
+                colon = false;
+            }else if(colon == true){
+                colon_buffer += char
+                
+            }else{
+                buffer += '<span style="color:cornflowerblue;">' + char + '</span>';
+            }
+        }else{
+            buffer += char;
+        }
 
-    text = text.replace(/(.[^\n|\r|;|\;]+)\:(.+)\;/g, function (m, $1, $2) {
-        return '<b style="color:red">' + $1 + '</b>:<span>' + $2 + ';</span>';
-    });
-*/
-    return [buffer, {}];
+    }
+    
+    if (colon == true){
+        colon = false;
+        buffer += colon_buffer+ "</span>";
+    }
+    colon_buffer = "";
+    return [buffer, {
+        blevel: blevel,
+        colon: colon
+    }];
 }
 
 function style_js_file(text, previous) {

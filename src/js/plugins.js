@@ -110,7 +110,7 @@ var git = {
 
         for (var i = 0; i < changes.renamed.length; i++) {
             var renamed = changes.renamed[i];
-            renamed_list.child('span').html("> " + renamed);
+            renamed_list.child('span').html("> " + renamed.from + " -> " + renamed.to);
             renamed_list.child('br');
         }
         

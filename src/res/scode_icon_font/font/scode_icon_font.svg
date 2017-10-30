@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2017 by original authors @ fontello.com</metadata>
+<defs>
+<font id="scode_icon_font" horiz-adv-x="1000" >
+<font-face font-family="scode_icon_font" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="file" unicode="&#xe800;" d="M760 575l-161 163-359 0 0-776 520 0 0 613z m-158 158l158-157-158 0 0 157z" horiz-adv-x="1000" />
+
+<glyph glyph-name="folder" unicode="&#xe801;" d="M39 622c0 0 0 0 0 1l0 118 234 0 71-128c4-6 11-10 18-10 0 0 1 0 2 0 1 0 2 0 2 0l496 0 1-60-732 0c-11 0-20-9-20-20l0-564-72 0 0 661c0 1 0 1 0 2m941-570c-10 0-19-9-19-20l0-73-810 0 0 544 810 0 0-471c0-11 13-29 23-29 11 0 16 18 16 29l0 491c0 11-9 20-20 20l-78 0-1 80c0 11-9 19-20 19l-508 0-72 128c-3 6-10 10-17 10l-264 0c-11 0-20-9-20-20l0-137c0-1 0-1 0-1 0-1 0-1 0-2l0-680c0-11 9-20 20-20l106 0c1 0 2 0 3 0 0 0 1 0 2 0l849 0c11 0 20 9 20 20l0 92c0 11-9 20-20 20" horiz-adv-x="1000" />
+</font>
+</defs>
+</svg>

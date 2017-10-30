@@ -1,0 +1,18 @@
+{
+    "liveReloadEnabled" : "Rechargement automatique activé pour le projet. Pour le désactiver, modifiez .scode.json",
+    "organizeTheCode" : "Organiser le code",
+    "filesOpenedInScode": "Fichiers ouverts dans SCode",
+    "openAFile" : "Ouvrir un fichier",
+    "workingDir" : "Dossier de travail",
+    "openedFiles" : "Fichiers ouverts",
+    "commitDoneSuccesfully" : "Commit effectué avec succès",
+    "pushDone" : "Push effectué avec succès",
+    "cantPush" : "Impossible de pusher",
+    "created" : "Créés",
+    "removed" : "Supprimés",
+    "modified" : "Modifiés",
+    "renamed" : "Renommés",
+    "requireToOpenAWDir" : "Vous n'avez pas encore ouvert un dossier de travail",
+    "newFile" : "Nouveau fichier",
+    "newFolder" : "Nouveau dossier"    
+}

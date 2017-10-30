@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>License</title>
+    <link rel="stylesheet" href="../node_modules/xterm/dist/xterm.css" />
+    <style>
+    .terminal .xterm-viewport {
+        background:rgb(24,24,24);
+    }
+    </style>
+    <script src="../node_modules/xterm/dist/xterm.js"></script>
+    <script src="../node_modules/xterm/dist/addons/fit/fit.js"></script>
+    <script src="js/extjs.js"></script>
+    <style>
+    </style>
+</head>
+<div id="terminal" style="position:relative;width:400px; height:500px;"></div>
+<script>
+  var term = new Terminal();
+  term.open(document.getElementById('terminal'));
+  term.cursorBlink = true
+$(document).ready(function (){
+    term.fit();
+})
+</script>
+<script>
+const app = require('electron').remote;
+const dialog = app.dialog;
+const fs = require("fs");
+const os = require('os'); 
+var pty = require('node-pty');
+ 
+var shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
+ 
+var ptyProcess = pty.spawn(shell, [], {
+  name: 'xterm-color',
+  cwd: process.env.HOME,
+  env: process.env
+});
+ 
+ptyProcess.on('data', function(data) {
+  term.write(data)
+  //console.log(term.textarea)
+});
+ 
+term.textarea.onkeydown = function(e) {
+    if(e.key == "Backspace"){
+        ptyProcess.write("\b");
+    }else if(e.key == "Enter"){
+        ptyProcess.write("\r");
+    }else if(e.key == "c" && e.ctrlKey == true){
+        ptyProcess.write("\x03");
+    }else{
+        ptyProcess.write(e.key);
+    }
+  
+}
+
+term.attachCustomKeyEventHandler(function (e) {
+  if (e.keyCode == 9) {
+    // Do nothing
+    return false;
+  }
+});
+
+//ptyProcess.write('cd ../\r');
+//ptyProcess.write('netsta\r');
+</script>
+<body>
+<h2>License SCode</h2>
+<pre>
+MIT License
+
+Copyright (c) 2017 Simon Loir
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+</pre>
+<h2>Other Licenses</h2>
+
+You can find the license for the modules in the folder resources/app/node_modules/{module_name}
+
+</body>
+</html>

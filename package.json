@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/SimonLoir/SCode-Text-editor/issues"
   },
-  "homepage": "https://github.com/SimonLoir/SCode-Text-editor#readme"
+  "homepage": "https://github.com/SimonLoir/SCode-Text-editor#readme",
+  "dependencies": {
+    "electron": "^1.7.9"
+  }
 }

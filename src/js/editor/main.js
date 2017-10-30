@@ -68,7 +68,7 @@ exports.init = function () {
         } else if (toLoad == "folders") {
             if (fs.existsSync(os.homedir() + "/.scode/folder_status.json")) {
                 try {
-                    return SON.parse(fs.readFileSync(os.homedir() + "/.scode/folder_status.json", "utf-8"));
+                    return JSON.parse(fs.readFileSync(os.homedir() + "/.scode/folder_status.json", "utf-8"));
                 } catch (error) {
                     return {};
                 }
@@ -85,18 +85,16 @@ exports.init = function () {
             var ed = this;
             if (fs.existsSync(os.homedir() + "/.scode/files.json")) {
                 scode_last_files = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/files.json", "utf-8"));
-                $(document).ready(function () {
-                    for (var i = 0; i < Object.keys(scode_last_files).length; i++) {
-                        var file = Object.keys(scode_last_files)[i];
-                        try {
-                            if (fs.existsSync(file)) {
-                                ed.newTab(file);
-                            }
-                        } catch (error) {
-                            alert(error);
+                for (var i = 0; i < Object.keys(scode_last_files).length; i++) {
+                    var file = Object.keys(scode_last_files)[i];
+                    try {
+                        if (fs.existsSync(file)) {
+                            ed.newTab(file);
                         }
+                    } catch (error) {
+                        alert(error);
                     }
-                });
+                }
             }
         } else if (toLoad == "translations") {
             if (fs.existsSync(__dirname + "/../../translations/" + settings.language)) {
@@ -281,7 +279,7 @@ exports.init = function () {
         if (folder == null) {
             $('#working_dir').child('span').html(language.requireToOpenAWDir);
         } else {
-            folder = getDirArray(folder[0]);
+            folder = this.getDirArray(folder[0]);
             this.createWorkingDir([folder], $('#working_dir'), e);
         }
     }
@@ -325,7 +323,7 @@ exports.init = function () {
     * @param {Array} dir the directory has an array 
     * @param {Object} element the extjs object on which we want to create the directory
     */
-    this.createWorkingDir = function(dir, element, first) {
+    this.createWorkingDir = function (dir, element, first) {
         var ed = this;
         var files = [];
         var folders = [];
@@ -434,7 +432,7 @@ exports.init = function () {
                     let child = element.child("div");
                     element.child('br');
                     ed.createWorkingDir(folder[1], child);
-                    addClickOnDir(clicker, child, folder[0]);
+                    ed.addClickOnDir(clicker, child, folder[0]);
                     if (first == true) {
                         clicker.click();
                     }
@@ -510,6 +508,75 @@ exports.init = function () {
 
             }
         }
+    }
+
+    /**
+    * Shows an openfile dialog
+    */
+    this.openFile = function () {
+        ed = this;
+        dialog.showOpenDialog({ defaultPath: __dirname, title: "Ouvrir un fichier dans SCode", properties: ["multiSelections", "openFile"] }, (filenames) => {
+            if (filenames == undefined) return;
+            filenames.forEach(function (element) {
+                ed.newTab(element);
+            }, this);
+        });
+    }
+
+    /**
+    * Shows an open directory dialog
+    */
+    this.openFolder = function () {
+        var ed = this;
+        dialog.showOpenDialog({ defaultPath: __dirname, title: "Ouvrir un dossier dans SCode", properties: ["openDirectory"] }, (folders) => {
+
+            if (folders != null) {
+                folder = ed.getDirArray(folders[0]);
+                //folder = JSON.parse(fs.readFileSync(os.homedir() + "/.scode/folder.json", "utf-8"));
+                let folder_json = JSON.stringify(folder);
+
+                try {
+                    fs.writeFileSync(os.homedir() + "/.scode/folder.json", folder_json, "utf-8");
+                } catch (error) {
+                    alert(error)
+                }
+                ed.updateWorkingDir(true);
+                load_projet_setting();
+            }
+
+        });
+    }
+
+    /**
+    * Gets an array of all the files and directories in a directory
+    * @param {String} folder The directory
+    */
+    this.getDirArray = function (folder) {
+
+        var array = [];
+
+        var dir = fs.readdirSync(folder);
+
+        if (dir != null) {
+            for (var i = 0; i < dir.length; i++) {
+                var e = dir[i];
+                if (fs.statSync(folder + "/" + e).isDirectory()) {
+                    try {
+                        array.push(this.getDirArray(folder + "/" + e));
+                    } catch (error) {
+
+                    }
+                } else {
+                    array.push(folder + "/" + e);
+                }
+            }
+        }
+
+        return [folder, array]
+    }
+
+    this.newTab = function (a, b) {
+        tabmanager.newTab(a, b)
     }
 
     return this;

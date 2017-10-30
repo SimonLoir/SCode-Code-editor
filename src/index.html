@@ -30,14 +30,14 @@
 
 <body>
     <div class="header">
-        <span onclick="openFolder()"><i class="icon-folder"></i></span>
-        <span onclick="openFile()" style="margin-left:-10px;">+</span>
+        <span onclick="editor.openFolder()"><i class="icon-folder"></i></span>
+        <span onclick="editor.openFile()" style="margin-left:-10px;">+</span>
         <span id="closethis">×</span>
         <span id="minthis">-</span>
     </div>
     <div class="tabmanager">
         <img src="logo.svg" style="width:50%;max-width:50%;max-height:50%;"></img>
-        <button onclick="openFile()" id="e_open">an error occured (translate.nw-issue)</button>
+        <button onclick="editor.openFile()" id="e_open">an error occured (translate.nw-issue)</button>
     </div>
     <div class="status">
         <span id="show_working_dir" style="cursor: pointer;" unselectable="on" onselectstart="return false;">error</span>

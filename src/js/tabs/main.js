@@ -337,7 +337,7 @@ exports.addFunc = function (ce, cec, file, line_n) {
                 //console.log(s);
             } catch (error) {
                 var str = "    ";
-                //console.log(error);
+                console.log(error);
             }
 
             this.value = v.substring(0, s) + str + v.substring(e);

@@ -1,7 +1,41 @@
+exports.updateTerms = function (){
+    var all = document.querySelectorAll('.term-interface');
+    if(all.length == 0)
+        return $('#terminals').html('Aucun terminal ouvert')
+    else
+        createTerminalsList(all);
+}
+
+this.createTerminalsList = function (all)  {
+    $('#terminals').html('');
+    var e = $('#terminals');
+    function addClick(x, element) {
+        x.click(function () {
+            if(element.style.display == "block"){
+                element.style.display = "none"
+            }else{
+                var all = document.querySelectorAll('.term-interface');
+                for (var i = 0; i < all.length; i++) {
+                    var xe = all[i];
+                    xe.style.display = "none"
+                }
+                element.style.display = "block";
+            }
+            /**/        
+        });
+    }
+    for (var i = 0; i < all.length; i++) {
+        var element = all[i];
+        addClick(e.child('b').html("T" + (i+1) + " "), element);
+    }
+}
+
 exports.newTerminal = function (){
     terminal_last_id ++;
     var x_term = $(document.body).child("div");
+    x_term.addClass('term-interface')
     x_term.css('z-index', 100);
+    x_term.css('display', "block");
     x_term.css('position', "fixed");
     x_term.css('overflow', "hidden");
     x_term.css('bottom', "25px");
@@ -12,11 +46,6 @@ exports.newTerminal = function (){
     x_term.css('background', "rgb(34,34,34)");
     x_term.css('padding', "15px");
     x_term.get(0).setAttribute("data-id", "t" + terminal_last_id);
-
-    terms[x_term.get(0).getAttribute("data-id")] = {
-        name:""
-    }
-
 
     var x_x_term = x_term;
     var x_term_resizer = x_term.child("div");
@@ -67,10 +96,12 @@ exports.newTerminal = function (){
 
     ptyProcess.on('close', function (data) {
         x_term.remove();
+        updateTerms()
     });
 
     ptyProcess.on('exit', function (data) {
         x_term.remove();
+        updateTerms()
     });
 
     term.textarea.onkeydown = function (e) {
@@ -109,5 +140,6 @@ exports.newTerminal = function (){
             return false;
         }
     });
+    updateTerms();
     return[x_term, term, ptyProcess];
 }

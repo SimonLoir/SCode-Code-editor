@@ -1,12 +1,14 @@
-this.init = function () {
-    $('#build').html('');
-    var btn_build = $('#build').html('<i style="font-size:45px;">&#8227;</i>');
-    btn_build.addClass('default_color');
+exports.init = function () {
     var e = this;
-
-    btn_build.click(this.testElectron);
+    $(document).ready(function () {
+        $('#build').html('->');
+        var btn_build = $('#build').html('<i style="font-size:45px;">&#8227;</i>');
+        btn_build.addClass('default_color');
+        btn_build.click(e.testElectron);
+    });
+    return this;
 }
-this.testElectron = function () {
+exports.testElectron = function () {
     var instance = newTerminal();
 
     setTimeout(function () {
@@ -14,7 +16,7 @@ this.testElectron = function () {
     }, 1500);
 }
 
-this.buildElectron = function () {
+exports.buildElectron = function () {
     var instance = newTerminal();
 
     setTimeout(function () {

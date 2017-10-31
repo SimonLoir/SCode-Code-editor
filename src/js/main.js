@@ -16,14 +16,15 @@ const beautify_html = require('js-beautify').html;
 const beautify_css= require('js-beautify').css;
 const marked = require('marked');
 const path = require('path');
+const emmet = require('emmet');
 
 /**
  * SCode internal modules
  */
 var editor = require(__dirname + "/js/editor").init();
-var newTerminal = require(__dirname + "/js/terminal").newTerminal;
+var {newTerminal, updateTerms, createTerminalsList} = require(__dirname + "/js/terminal");
 var tabmanager = require(__dirname + "/js/tabs");
-var build_tools = require(__dirname + "/js/build-tools");
+var build_tools = require(__dirname + "/js/build-tools").init();
 var highlighting = require(__dirname + "/js/highlighting").init();
 var git = require(__dirname + "/js/git").init();
 
@@ -42,6 +43,7 @@ $(document).ready(function () {
     language = editor.load("translations")
     editor.addFunctionalities();
     load_projet_setting();
+    updateTerms();
 });
 
 /**

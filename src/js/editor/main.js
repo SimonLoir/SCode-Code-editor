@@ -352,6 +352,7 @@ exports.init = function () {
     * @param {Object} element the extjs object on which we want to create the directory
     */
     this.createWorkingDir = function (dir, element, first) {
+        load_projet_setting();
         var ed = this;
         var files = [];
         var folders = [];

@@ -30,7 +30,7 @@ var git = require(__dirname + "/js/git").init();
 /**
  * SCode init
  */
-var tabs = {}, id = 0, active_document = null, settings, folder, folder_status, language, first_use,terminal_last_id = 0,terms = {};
+var tabs = {}, id = 0, project_settings, active_document = null, settings, folder, folder_status, language, first_use,terminal_last_id = 0,terms = {};
 
 $(document).ready(function () {
     first_use = editor.verifyInstallation()
@@ -41,6 +41,7 @@ $(document).ready(function () {
     editor.setStyle();
     language = editor.load("translations")
     editor.addFunctionalities();
+    load_projet_setting();
 });
 
 /**

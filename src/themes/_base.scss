@@ -286,13 +286,13 @@ body{
 
 ::-webkit-scrollbar-thumb{
     -webkit-app-region: no-drag;    
-    background: rgba(255,255,255,0.05);
+    background: $scrollbar-thumb;
     transition:0.75s;
     cursor: pointer;
 }
 ::-webkit-scrollbar-thumb:hover{
     -webkit-app-region: no-drag;    
-    background: rgba(255,255,255,0.50);
+    background: $scrollbar-thumb-hover;
 }
 
 textarea{

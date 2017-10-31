@@ -168,3 +168,14 @@ function rmdir(dir_path) {
         fs.rmdirSync(dir_path);
     }
 }
+
+function load_projet_setting() {
+    if (fs.existsSync(folder[0] + "/.scode.json")) {
+
+        project_settings = JSON.parse(fs.readFileSync(folder[0] + "/.scode.json"), 'utf-8');
+        if (project_settings.address != undefined) {
+            alert(language.liveReloadEnabled);
+            ipcRenderer.send('render-project-reg', project_settings.address);
+        }
+    }
+}

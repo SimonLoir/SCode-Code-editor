@@ -31,4 +31,6 @@ $sbar-top-line:$header-bottom-line;
 $def-color: black;
 $wd-br:$header-bottom-line;
 
+$scrollbar-thumb:rgba(0,0,0,0.1);
+$scrollbar-thumb-hover:rgba(0,0,0,0.50);
 @import "base";

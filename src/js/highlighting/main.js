@@ -132,6 +132,11 @@ exports.init = function () {
                     blevel += 1;
                     buffer += '<span  class="default_color">{</span>'
                 }else if(char == "}"){
+                    if (colon == true){
+                        colon = false;
+                        buffer += colon_buffer+ "</span>";
+                        colon_buffer = "";
+                    }
                     blevel -= 1;
                     buffer += '<span  class="default_color">}</span>'            
                 }else if(blevel  > 0){

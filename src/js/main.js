@@ -23,6 +23,7 @@ const path = require('path');
 var editor = require(__dirname + "/js/editor").init();
 var newTerminal = require(__dirname + "/js/terminal").newTerminal;
 var tabmanager = require(__dirname + "/js/tabs");
+var build_tools = require(__dirname + "/js/build-tools");
 var highlighting = require(__dirname + "/js/highlighting").init();
 var git = require(__dirname + "/js/git").init();
 

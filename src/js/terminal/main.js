@@ -109,5 +109,5 @@ exports.newTerminal = function (){
             return false;
         }
     });
-
+    return[x_term, term, ptyProcess];
 }

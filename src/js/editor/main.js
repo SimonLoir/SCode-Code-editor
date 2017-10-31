@@ -265,6 +265,34 @@ exports.init = function () {
             $('#working_dir').get(0).style.boxShadow = "0px 0px 0px transparent";
             $('#show_working_dir').click()
         }
+
+        $('#git').html('<b>Git</b><br /><br />');
+        $('#git').child("button").html('push').click(function () {
+            git.push();
+            $('#git_status').click();
+        });
+        var form = $('#git').child('div').child('form');
+        var commit_message = form.child('textarea');
+        commit_message.get(0).placeholder = "Message (Enter to commit)";
+
+        commit_message.get(0).onkeydown = function (event) {
+            if (event.keyCode === 13) {
+                commit_message.get(0).style.display = "none";
+                git.commit(commit_message.get(0).value, function () {
+                    commit_message.get(0).style.display = "block";
+                    alert(language.commitDoneSuccesfully);
+                    git.status(git.updateGitPanel);
+                }, function () {
+                    commit_message.get(0).style.display = "block";
+                })
+                commit_message.get(0).value = "";
+
+                return false;
+            }
+
+        }
+        git.git_receiver = $('#git').child('div').html("<br />Aucun dépôt git n'est initialisé. Utilisez la commande git init dans le terminal ou utilisez la commande git clone pour cloner un dépôt git distant.<br />");
+
     }
 
     /**

@@ -24,6 +24,7 @@ var editor = require(__dirname + "/js/editor").init();
 var newTerminal = require(__dirname + "/js/terminal").newTerminal;
 var tabmanager = require(__dirname + "/js/tabs");
 var highlighting = require(__dirname + "/js/highlighting").init();
+var git = require(__dirname + "/js/git").init();
 
 /**
  * SCode init

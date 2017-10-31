@@ -362,7 +362,7 @@ exports.init = function () {
                         x_buffer = '<span style="color:green">' + x_buffer + '</span>';
                     }
 
-                    if (isOperator(char)) {
+                    if (isPyOperator(char)) {
                         char = '<span class="default_color">' + char + '</span>';
                     }
 

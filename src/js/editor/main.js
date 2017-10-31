@@ -155,7 +155,7 @@ exports.init = function () {
             if (e.ctrlKey) {
                 if (e.shiftKey) {
                     if (e.key.toLowerCase() == "s") {
-                        newTab(os.homedir() + "/.scode/settings.json");
+                        ed.newTab(os.homedir() + "/.scode/settings.json");
                     } else if (e.key.toLowerCase() == "p") {
                         var command_prompt = scode_fast_action();
                         command_prompt.show((response, element) => {

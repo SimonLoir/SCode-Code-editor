@@ -11,6 +11,10 @@ const os = require('os');
 const { spawn } = require('child_process');
 const process = require('process');
 const { ipcRenderer } = require('electron');
+const beautify = require('js-beautify').js_beautify;
+const beautify_html = require('js-beautify').html;
+const beautify_css= require('js-beautify').css;
+const marked = require('marked');
 
 /**
  * SCode internal modules
@@ -18,7 +22,7 @@ const { ipcRenderer } = require('electron');
 var editor = require(__dirname + "/js/editor").init();
 var terminal = require(__dirname + "/js/terminal");
 var tabmanager = require(__dirname + "/js/tabs");
-
+var highlighting = require(__dirname + "/js/highlighting").init();
 
 /**
  * SCode init

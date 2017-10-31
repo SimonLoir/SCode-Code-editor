@@ -261,7 +261,167 @@ exports.init = function () {
         return [buffer, { comment: comment }];
     }
 
-    this.notype = function (text, previous){
+    this.style_py_file = function (text, previous) {
+
+        function isPy_system_key(x_buffer) {
+            return false;
+        }
+
+        function isPyOperator(char) {
+            if ([';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<', "+", "-", "*", "/", ":"].indexOf(char) >= 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        var text_without_spaces = text.trim();
+
+        var keywords = ["if", "else", "while", "for", "elif"];
+        var error = false;
+        for (var i = 0; i < keywords.length; i++) {
+            var e = keywords[i];
+            if (text_without_spaces.indexOf(e) == 0 && text_without_spaces[text_without_spaces.length - 1] != ":") {
+                error = true;
+            }
+        }
+        if (text_without_spaces[text_without_spaces.length - 1] == ";") {
+            error = true;
+        }
+
+        text = text.replace(/\</g, "```sodeelementscodesmallerthanelementplaceholdertextxxxscodelibrary22```");
+        text = text.replace(/\&/g, "```sodeelementandelementplaceholdertextxxxscodelibrary22```");
+        //text = text.replace(/\&/g, "<span>&</span>");
+
+        if (previous.comment != undefined) {
+            var comment = previous.comment;
+            var comment_type = "/*";
+        } else {
+            var comment = false;
+            var comment_type = null;
+
+        }
+
+        var buffer = "";
+        if (comment == true) {
+            buffer = '<span style="color:black;">';
+        }
+        var string = null;
+        var comment_buffer = '';
+        var string_buffer = "";
+        var x_buffer = "";
+
+        for (var i = 0; i < text.length; i++) {
+            var char = text[i];
+            if (char == "'" || char == '"') {
+                if (string != null) {
+                    string_buffer += char;
+                    if (string == char) {
+                        if (text[i - 1] != "\\") {
+                            string = null;
+                            buffer += '<span style="color:coral">' + string_buffer + '</span>';
+                            string_buffer = "";
+                        }
+                    }
+                } else {
+                    if (comment != true) {
+                        string = char;
+                        string_buffer = char;
+                    } else {
+                        comment_buffer += char;
+                    }
+                }
+            } else if (char == "#" && string == null) {
+                buffer += x_buffer;
+                x_buffer = "";
+                comment = true;
+                comment_type = "#";
+                comment_buffer = '<span style="color:black;">#';
+            } else if (char == " " || char == " " || isPyOperator(char) || i == text.length - 1) {
+                if (string == null && comment == false) {
+                    var system_key = isPy_system_key(x_buffer);
+
+
+                    if (system_key) {
+                        x_buffer = '<span style="color:orange">' + x_buffer + '</span>';
+                    }
+
+                    if (x_buffer == "True" || x_buffer == "False" || x_buffer == "None") {
+                        x_buffer = '<span style="color:darkblue">' + x_buffer + '</span>';
+                    }
+
+                    if (["class", "finally", "is", "return", "continue", "for", "lambda", "try", "def", "from", "nonlocal", "while", "and", "del", "global", "not", "with", "as", "elif", "if", "or", "yield", "assert", "else", "import", "pass", "break", "except", "in", "raise"].indexOf(x_buffer) >= 0) {
+                        x_buffer = '<span style="color:DarkMagenta">' + x_buffer + '</span>';
+                    }
+
+
+                    if (char == "(") {
+                        if (python_functions.indexOf(x_buffer) >= 0) {
+                            x_buffer = '<span style="color:orange">' + x_buffer + '</span>';
+                        }
+                        x_buffer = '<span style="color:green">' + x_buffer + '</span>';
+                    }
+
+                    if (isOperator(char)) {
+                        char = '<span class="default_color">' + char + '</span>';
+                    }
+
+                    if (python_functions.indexOf(x_buffer + char) >= 0 && (char != "(" || i == text.length - 1)) {
+                        buffer += '<span style="border-bottom:1px dotted red;">' + x_buffer + char + '</span>';
+                    } else {
+                        if (python_functions.indexOf(x_buffer) >= 0 && char != "(") {
+                            x_buffer = '<span style="border-bottom:1px dotted red;">' + x_buffer + '</span>';
+                        }
+                        buffer += x_buffer + char;
+                    }
+
+                    x_buffer = "";
+                } else if (comment == true) {
+                    comment_buffer += char;
+                } else if (string != null) {
+                    string_buffer += char;
+                }
+            } else {
+                if (string != null) {
+                    string_buffer += char;
+                } else if (comment == true) {
+                    comment_buffer += char;
+                } else {
+                    x_buffer += char;
+                }
+            }
+
+            if (i == text.length - 1) {
+                if (string == null && comment == false) {
+                    buffer += x_buffer;
+                } else if (comment == true) {
+                    buffer += comment_buffer + "</span>";
+                    if (comment_type == "#") {
+                        comment = false;
+                    }
+                } else if (string != null) {
+                    buffer += string_buffer;
+                }
+            }
+
+        }
+
+
+        buffer = buffer.replace(/\:\:scode\~quot/g, '"');
+
+        buffer = "<span style=\"color:cornflowerblue;\">" + buffer + "</span>";
+        if (error == true) {
+            buffer = "<span style=\"border-bottom:1px dotted red;\">" + buffer + "</span>";
+        }
+        buffer = buffer.replace(/```sodeelementscodesmallerthanelementplaceholdertextxxxscodelibrary22```/g, "&lt;");
+        buffer = buffer.replace(/```sodeelementandelementplaceholdertextxxxscodelibrary22```/g, '<span>&</span>');
+
+
+        return [buffer, { comment: comment }];
+    }
+
+
+    this.notype = function (text, previous) {
         return [text, previous];
     }
 
@@ -274,14 +434,15 @@ exports.init = function () {
         "svg": this.style_html_file,
         "xml": this.style_html_file,
         "md": this.style_html_file,
-        "js" : this.style_js_file,
-        "json" : this.style_js_file
+        "js": this.style_js_file,
+        "json": this.style_js_file,
+        "py": this.style_py_file
     }
 
-    this.chooseHighlighter= function (ext) {
-        if(this.highlighters[ext] != undefined){
+    this.chooseHighlighter = function (ext) {
+        if (this.highlighters[ext] != undefined) {
             return this.highlighters[ext];
-        }else{
+        } else {
             return this.highlighters["none"];
         }
     }

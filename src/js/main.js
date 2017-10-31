@@ -47,7 +47,7 @@ $(document).ready(function () {
  */
 var commands = [
     ["Paramètres, settings", "settings", function () {
-        newTab(os.homedir() + "/.scode/settings.json");
+        editor.newTab(os.homedir() + "/.scode/settings.json");
     }],
     ["Scode reload", "reload", function () {
         var window = app.getCurrentWindow();
@@ -58,7 +58,7 @@ var commands = [
         $('#git textarea').get(0).focus();
     }],
     ['Show help', 'help', function() {
-        newTab('src/res/readme.md', true);
+        editor.newTab('src/res/readme.md', true);
     }],
     ['New Terminal', 'scode-new-terminal', function() {
         newTerminal();
@@ -82,7 +82,7 @@ var commands = [
         } catch (error) {
             alert(error)
         }
-        updateWorkingDir();
+        editor.updateWorkingDir();
         load_projet_setting();
     }]
 ]

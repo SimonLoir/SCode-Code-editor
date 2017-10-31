@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,9 +8,9 @@
     <title>License</title>
     <link rel="stylesheet" href="../node_modules/xterm/dist/xterm.css" />
     <style>
-    .terminal .xterm-viewport {
-        background:rgb(24,24,24);
-    }
+        .terminal .xterm-viewport {
+            background: rgb(24, 24, 24);
+        }
     </style>
     <script src="../node_modules/xterm/dist/xterm.js"></script>
     <script src="../node_modules/xterm/dist/addons/fit/fit.js"></script>
@@ -19,59 +20,60 @@
 </head>
 <div id="terminal" style="position:relative;width:400px; height:500px;"></div>
 <script>
-  var term = new Terminal();
-  term.open(document.getElementById('terminal'));
-  term.cursorBlink = true
-$(document).ready(function (){
-    term.fit();
-})
+    var term = new Terminal();
+    term.open(document.getElementById('terminal'));
+    term.cursorBlink = true
+    $(document).ready(function() {
+        term.fit();
+    })
 </script>
 <script>
-const app = require('electron').remote;
-const dialog = app.dialog;
-const fs = require("fs");
-const os = require('os'); 
-var pty = require('node-pty');
- 
-var shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
- 
-var ptyProcess = pty.spawn(shell, [], {
-  name: 'xterm-color',
-  cwd: process.env.HOME,
-  env: process.env
-});
- 
-ptyProcess.on('data', function(data) {
-  term.write(data)
-  //console.log(term.textarea)
-});
- 
-term.textarea.onkeydown = function(e) {
-    if(e.key == "Backspace"){
-        ptyProcess.write("\b");
-    }else if(e.key == "Enter"){
-        ptyProcess.write("\r");
-    }else if(e.key == "c" && e.ctrlKey == true){
-        ptyProcess.write("\x03");
-    }else{
-        ptyProcess.write(e.key);
+    const app = require('electron').remote;
+    const dialog = app.dialog;
+    const fs = require("fs");
+    const os = require('os');
+    var pty = require('node-pty');
+
+    var shell = os.platform() === 'win32' ? 'powershell.exe' : 'bash';
+
+    var ptyProcess = pty.spawn(shell, [], {
+        name: 'xterm-color',
+        cwd: process.env.HOME,
+        env: process.env
+    });
+
+    ptyProcess.on('data', function(data) {
+        term.write(data)
+        //console.log(term.textarea)
+    });
+
+    term.textarea.onkeydown = function(e) {
+        if (e.key == "Backspace") {
+            ptyProcess.write("\b");
+        } else if (e.key == "Enter") {
+            ptyProcess.write("\r");
+        } else if (e.key == "c" && e.ctrlKey == true) {
+            ptyProcess.write("\x03");
+        } else {
+            ptyProcess.write(e.key);
+        }
+
     }
-  
-}
 
-term.attachCustomKeyEventHandler(function (e) {
-  if (e.keyCode == 9) {
-    // Do nothing
-    return false;
-  }
-});
+    term.attachCustomKeyEventHandler(function(e) {
+        if (e.keyCode == 9) {
+            // Do nothing
+            return false;
+        }
+    });
 
-//ptyProcess.write('cd ../\r');
-//ptyProcess.write('netsta\r');
+    //ptyProcess.write('cd ../\r');
+    //ptyProcess.write('netsta\r');
 </script>
+
 <body>
-<h2>License SCode</h2>
-<pre>
+    <h2>License SCode</h2>
+    <pre>
 MIT License
 
 Copyright (c) 2017 Simon Loir
@@ -94,9 +96,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 </pre>
-<h2>Other Licenses</h2>
+    <h2>Other Licenses</h2>
 
-You can find the license for the modules in the folder resources/app/node_modules/{module_name}
+    You can find the license for the modules in the folder resources/app/node_modules/{module_name}
 
 </body>
+
 </html>

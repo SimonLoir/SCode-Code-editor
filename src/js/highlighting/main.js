@@ -165,6 +165,7 @@ exports.init = function () {
                 buffer += colon_buffer+ "</span>";
             }
             colon_buffer = "";
+            buffer = '<span style="color:orange">' + buffer + '</span>'
             return [buffer, {
                 blevel: blevel,
                 colon: colon

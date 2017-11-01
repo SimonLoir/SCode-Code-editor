@@ -393,10 +393,8 @@ exports.codify = function (text, file, el, cec) {
 
         if (file.extension == "js") {
             text = "<span style=\"color:cornflowerblue;\">" + text + "</span>";
-        } else if (file.extension == "css") {
-            text = '<span style="color:yellow;">' + text + '</span>';
         }
-
+        
         cec.innerHTML = text + '<br /><br /><br />';
 
         var previous = {};

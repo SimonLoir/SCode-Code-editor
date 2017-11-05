@@ -58,7 +58,7 @@ exports.newTab = function (filename, full_md) {
                         //console.log("ok")
                     }
                 }
-            }, 2500);
+            }, 300);
             last_fired = fired;
         });
 

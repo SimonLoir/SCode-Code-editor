@@ -471,7 +471,7 @@ exports.init = function () {
 
         buffer = buffer.replace(/\:\:scode\~quot/g, '"');
 
-        buffer = "<span style=\"color:cornflowerblue;\">" + buffer + "</span>";
+        buffer = "<span class=\"default_color\">" + buffer + "</span>";
         if (error == true) {
             buffer = "<span style=\"border-bottom:1px dotted red;\">" + buffer + "</span>";
         }

@@ -31,7 +31,7 @@
     "js-beautify": "^1.7.4",
     "marked": "^0.3.6",
     "node-pty": "^0.7.2",
-    "simple-git": "^1.80.1",
+    "simple-git": "^1.81.1",
     "xterm": "^2.9.2"
   }
 }

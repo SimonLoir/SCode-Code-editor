@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
+@import "base";
+
+
+*{
+    letter-spacing: 2px;
+    font-family: "Roboto";
+    font-weight: 400;
+}
+
+.tabmanager #scode-logo{
+    display:none;
+}
+
+#working_dir{
+    font-weight: 500;    
+    font-size: 15px;
+    & b {
+        padding-bottom:5px;
+        display:inline-block;
+    }
+    & span{
+        padding-bottom:8px;
+        &[data-file-path]{
+            padding: 3px;
+            display: block;
+            color:rgb(102,123,136);
+            
+        }
+        &[data-path]{
+            display: inline-block;
+            height: 14px;
+            font-weight: 700;
+            color:rgb(179, 190, 195);
+        }
+        & i {
+            padding-right: 8px;
+        }
+    }
+}
+
+.header span{
+    font-family: "Roboto";
+}
+
+.active{
+    display: inline-block;
+    height: 27px;
+    line-height: 27px;
+    border-bottom:2px solid rgb(106,180,172);
+}
+
+.md-preview h1{
+    border-bottom: 1px solid rgb(106,180,172);
+}

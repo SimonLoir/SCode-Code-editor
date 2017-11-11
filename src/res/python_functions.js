@@ -73,4 +73,5 @@ var python_functions = ["abs",
     "dir",
     "id",
     "oct",
-    "sorted"]
+    "sorted"
+]

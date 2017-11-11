@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
-$base:rgb(30,30,30);
-
-$font-family: 'Roboto', source-code-pro, sans-serif;
+$base:rgb(40,49,55);
+//rgb(106,180,172)
+$font-family: "Roboto", source-code-pro;
 
 $color:white;
 
-$line-numbers-background: rgb(32,32,32);
+$line-numbers-background: lighten(rgb(40,49,55), 2%);
 $line-numbers-color: rgba(255,255,255, 0.25);
 
 $code-editor-color:rgba(255,255,255,0.25);
 $code-editor-default-color:white;
-$code-editor-default-background:rgb(30,30,30);
+$code-editor-default-background:rgb(40,49,55);
 
 $text-editor-shadow:"none";
 $scode-caret-color:auto;
@@ -19,7 +19,7 @@ $palette-background:rgb(58, 58, 58);
 $palette-color:white;
 
 $header-background: $base;
-$header-bottom-line:rgb(24,24,24);
+$header-bottom-line:darken(rgb(40,49,55), 2%);
 $header-span-color:$color;
 $header-span-border: $header-bottom-line;
 $header-active-element:rgba(255,255,255, 0.05);
@@ -40,3 +40,31 @@ $scrollbar-thumb-hover:rgba(255,255,255,0.50);
 }
 
 @import "base";
+
+.tabmanager #scode-logo{
+    display:none;
+}
+
+#working_dir{
+    font-weight: 500;    
+    font-size: 15px;
+    & b {
+        padding-bottom:5px;
+        display:inline-block;
+    }
+    & span{
+        padding-bottom:8px;
+        &[data-file-path]{
+            padding: 3px;
+            display: block;
+        }
+        &[data-path]{
+            display: inline-block;
+            height: 14px;
+            font-weight: 700;
+        }
+        & i {
+            padding-right: 8px;
+        }
+    }
+}

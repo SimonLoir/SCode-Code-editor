@@ -53,3 +53,25 @@
 .md-preview h1{
     border-bottom: 1px solid rgb(106,180,172);
 }
+
+.code-editor{
+    font-weight: normal;
+    letter-spacing: normal;
+    font-family: source-code-pro, sans-serif;
+}
+
+.code-editor-search{
+    font-weight: normal;
+    letter-spacing: normal;
+    font-family: source-code-pro, sans-serif;
+}
+
+.code-editor-colors{
+    font-weight: normal;
+    letter-spacing: normal;
+    font-family: source-code-pro, sans-serif;
+    & *{
+        letter-spacing: normal;
+        font-family:  source-code-pro, sans-serif;
+    }
+}

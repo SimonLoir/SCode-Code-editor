@@ -75,7 +75,7 @@ app.on("ready", function () {
         //console.log(event)
         var window = new bw({show:false, title: "Scode - Print - Preview"});
         let fsystem = require('fs');
-        fsystem.writeFileSync("print.html", "<style>body{color:black;font-family:sans-serif, arial;}.default_color{color:rgb(20,20,20)}</style>" + event.content.replace('color:white', "color:rgb(20,20,20)"));
+        fsystem.writeFileSync(__dirname + "/print.html", "<style>body{color:black;font-family:sans-serif, arial;}.default_color{color:rgb(20,20,20)}</style>" + event.content.replace('color:white', "color:rgb(20,20,20)"));
         window.once('ready-to-show', function () {
             //console.log('show')
             window.show();

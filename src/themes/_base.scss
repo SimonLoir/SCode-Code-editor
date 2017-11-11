@@ -60,6 +60,25 @@ body{
     bottom:0;
     height: 100%;
     width: 100%;
+    overflow: hidden;
+}
+
+.search_tool{
+    position: absolute;
+    top:0;
+    right:15px;
+    background:lighten($code-editor-default-background, 5%);
+    color:$code-editor-default-color;
+    padding: 8px;
+    box-shadow: 0px 0px 10px hsla(0, 0%, 9%, 0.82);
+    & input{
+
+        background:lighten($code-editor-default-background, 8%);
+        color:$code-editor-default-color;
+        border:none;
+        padding: 5px;
+
+    }
 }
 
 .line-numbers{
@@ -95,6 +114,23 @@ body{
     border:none;
     white-space: nowrap;
 }
+
+.code-editor-search{
+    background: transparent;
+    position: absolute;
+    top: 0;left: 45px;right: 0;bottom: 0;
+    padding: 25px;
+    font-family: $font-family, sans-serif;
+    color:transparent;
+    overflow:auto;
+    font-size:20px;
+    margin:0;
+    width:calc(100% - 95px);
+    height:calc(100% - 50px);
+    border:none;
+    white-space: nowrap;
+}
+
 .code-editor-colors{
     @if $text-editor-shadow != "none"{
         -webkit-text-stroke: 1px $text-editor-shadow;

@@ -119,6 +119,21 @@ String.prototype.insertAt = function (index, string) {
     return this.substr(0, index) + string + this.substr(index);
 }
 
+String.prototype.find = function(regex, startpos) {
+    var indexOf = this.substring(startpos || 0).search(regex);
+    var value = regex.exec(this.substring(startpos || 0));
+    
+    try {
+        return [(indexOf >= 0) ? (indexOf + (startpos || 0)) : indexOf, value[0], value[0].length];
+    } catch (error) {
+        return false;
+    }
+}
+
+String.prototype.findStr = function(regex, startpos) {
+    return this.find(new RegExp(regex, "i"), startpos);
+}
+
 /**
  * Inserts text at the position of the cursor
  * @param {String} text 
@@ -172,10 +187,14 @@ function rmdir(dir_path) {
 function load_projet_setting() {
     if (fs.existsSync(folder[0] + "/.scode.json")) {
 
-        project_settings = JSON.parse(fs.readFileSync(folder[0] + "/.scode.json"), 'utf-8');
-        if (project_settings.address != undefined) {
-            alert(language.liveReloadEnabled);
-            ipcRenderer.send('render-project-reg', project_settings.address);
+        try {
+            project_settings = JSON.parse(fs.readFileSync(folder[0] + "/.scode.json"), 'utf-8');
+            if (project_settings.address != undefined) {
+                alert(language.liveReloadEnabled);
+                ipcRenderer.send('render-project-reg', project_settings.address);
+            }
+        } catch (error) {
+            
         }
     }
 }

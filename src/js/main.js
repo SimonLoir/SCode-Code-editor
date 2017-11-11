@@ -24,7 +24,7 @@ const emmet = require('emmet');
 var editor = require(__dirname + "/js/editor").init();
 var {newTerminal, updateTerms, createTerminalsList} = require(__dirname + "/js/terminal");
 var tabmanager = require(__dirname + "/js/tabs");
-var build_tools = require(__dirname + "/js/build-tools").init();
+var build_tools = require(__dirname + "/js/build-tools");
 var highlighting = require(__dirname + "/js/highlighting").init();
 var git = require(__dirname + "/js/git").init();
 
@@ -43,6 +43,7 @@ $(document).ready(function () {
     language = editor.load("translations")
     editor.addFunctionalities();
     load_projet_setting();
+    build_tools = build_tools.init();
     updateTerms();
 });
 

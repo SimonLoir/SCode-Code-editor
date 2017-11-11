@@ -38,9 +38,11 @@ exports.newTab = function (filename, full_md) {
 
         var code_editor_colors = tab.child('div').addClass("code-editor-colors");
 
+        var code_editor_search = tab.child('div').addClass("code-editor-search");
+        code_editor_search.get(0).value = data;
+
         var code_editor = tab.child('textarea').addClass("code-editor");
         code_editor.get(0).value = data;
-        code_editor.get(0).setAttribute('contenteditable', "true");
 
         var last_fired;
         var cross;
@@ -170,7 +172,7 @@ exports.newTab = function (filename, full_md) {
         tabmanager.addFunc(code_editor.get(0), code_editor_colors.get(0), {
             extension: frn_split[frn_split.length - 1],
             filename: filename
-        }, line_numbers);
+        }, line_numbers, code_editor_search);
 
         code_editor.get(0).onscroll = function () {
             if (code_editor_colors.get(0).scrollHeight >= this.scrollTop) {
@@ -249,7 +251,7 @@ exports.newTab = function (filename, full_md) {
     });
 }
 
-exports.addFunc = function (ce, cec, file, line_n) {
+exports.addFunc = function (ce, cec, file, line_n, code_editor_search) {
     var last = 0;
     ce.onkeyup = function (event) {
         if (event != undefined && event.keyCode == 13) {
@@ -344,6 +346,30 @@ exports.addFunc = function (ce, cec, file, line_n) {
             this.selectionStart = this.selectionEnd = s + str.length;
             this.oninput();
             return false;
+        }else if (event.key == "f" && event.ctrlKey){
+            var xe = this;
+            var start_position = 0;
+            $("#" + tabs[file.filename].id  + " .search_tool").remove();
+            var div = $("#" + tabs[file.filename].id).child("div")
+            div.addClass('search_tool');
+            div.html('')
+            var input = div.child("input");
+            input.get(0).onkeyup = function (){
+                console.log(xe.value.findStr(this.value))
+
+                var val = xe.value.replace(/ /g).replace(/\n/g, "<br />").replace(/\s/g, " ");
+
+                console.log(val);
+                console.log(xe.value);
+
+                code_editor_search.html(val);
+            }
+            input.get(0).onkeydown = function (ev){
+                if(ev.key == "Enter"){
+                    
+                }
+            }
+            input.get(0).focus()
         }
 
     }

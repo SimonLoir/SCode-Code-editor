@@ -184,6 +184,7 @@ body{
     background:$header-background;
     border-bottom: 1px solid $header-bottom-line;
     -webkit-app-region: drag;
+    overflow: hidden;
 }
 
 .header span{

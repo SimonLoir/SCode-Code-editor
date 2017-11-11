@@ -227,7 +227,10 @@ exports.init = function () {
                 var files = Object.keys(tabs);
                 for (var i = 0; i < files.length; i++) {
                     var file = files[i];
-                    $('#opened_files').child("span").html(file + '<br />');
+                    $('#opened_files').child("span").html(file).click(function (){
+                        editor.newTab(this.innerText)
+                    });
+                    $('#opened_files').child('br');
                 }
             }
         });

@@ -177,6 +177,7 @@ exports.newTab = function (filename, full_md) {
         code_editor.get(0).onscroll = function () {
             if (code_editor_colors.get(0).scrollHeight >= this.scrollTop) {
                 code_editor_colors.get(0).scrollTop = this.scrollTop;
+                code_editor_search.get(0).scrollTop = this.scrollTop;
                 line_numbers.get(0).scrollTop = this.scrollTop;
             } else {
                 this.scrollTop = code_editor_colors.get(0).scrollTop;
@@ -185,6 +186,7 @@ exports.newTab = function (filename, full_md) {
 
             if (code_editor_colors.get(0).scrollWidth >= this.scrollLeft) {
                 code_editor_colors.get(0).scrollLeft = this.scrollLeft;
+                code_editor_search.get(0).scrollLeft = this.scrollLeft;
             } else {
                 this.scrollLeft = code_editor_colors.get(0).scrollLeft;
                 return false;
@@ -347,27 +349,44 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search) {
             this.oninput();
             return false;
         }else if (event.key == "f" && event.ctrlKey){
-            var xe = this;
-            var start_position = 0;
+            let xe = this;
+            let start_position = 0;
             $("#" + tabs[file.filename].id  + " .search_tool").remove();
-            var div = $("#" + tabs[file.filename].id).child("div")
+            let div = $("#" + tabs[file.filename].id).child("div")
             div.addClass('search_tool');
             div.html('')
-            var input = div.child("input");
-            input.get(0).onkeyup = function (){
-                console.log(xe.value.findStr(this.value))
+            let input = div.child("input");
+            let last = false;
+            input.get(0).onkeyup = function (e){
+                if(e.key == "Escape"){
+                    div.remove();
+                    code_editor_search.html("");
+                    return false;
+                }
+                if((e == undefined && last != false) || e.key == "Enter"){
+                    var match = xe.value.findStr(this.value, last[0] + last [2]);
+                                   
+                }else{
+                    var match = xe.value.findStr(this.value);
+                }
+                last = match;
 
-                var val = xe.value.replace(/ /g).replace(/\n/g, "<br />").replace(/\s/g, " ");
+                if(match == false){
+                    code_editor_search.html("");                    
+                    return false;
+                }
 
-                console.log(val);
-                console.log(xe.value);
+                var color_start = '``--scode--match--search~~~~~~~scode-start``';
+                var color_end = '``--scode--match--search~~~~~~~scode-end``';
+
+                var val = xe.value.insertAt(match[0] + match[2], color_end).insertAt(match[0], color_start).replace(/\</g, "&lt;").replace(/\n/g, "<br>").replace(/\s/g, " ");
+
+                val = val.replace(color_start, '<span style="background:cornflowerblue;color:white;">');
+                val = val.replace(color_end, '</span>');
+
 
                 code_editor_search.html(val);
-            }
-            input.get(0).onkeydown = function (ev){
-                if(ev.key == "Enter"){
-                    
-                }
+                ce.scrollTop = code_editor_search.get(0).querySelector('span').offsetTop - 50;
             }
             input.get(0).focus()
         }

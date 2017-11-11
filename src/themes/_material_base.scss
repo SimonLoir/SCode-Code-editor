@@ -60,10 +60,20 @@
     font-family: source-code-pro, sans-serif;
 }
 
+.line-numbers{
+    font-weight: normal;
+    letter-spacing: normal;
+    font-family: source-code-pro, sans-serif;
+}
+
 .code-editor-search{
     font-weight: normal;
     letter-spacing: normal;
     font-family: source-code-pro, sans-serif;
+    & *{
+        letter-spacing: normal;
+        font-family:  source-code-pro, sans-serif;
+    }
 }
 
 .code-editor-colors{

@@ -257,13 +257,42 @@ exports.init = function () {
         }
         if (settings["always_show_workdir_and_opened_files"] == true) {
             $('.tabmanager').get(0).style.left = "300px";
-            $('#working_dir').get(0).style.top = "29px";
+            $('#working_dir').get(0).style.top = "31px";
             $('#working_dir').get(0).style.left = "0";
             $('#working_dir').get(0).style.width = "250px";
-            $('#working_dir').get(0).style.maxWidth = "250px";
             $('#working_dir').get(0).style.background = "transparent";
             $('#working_dir').get(0).style.boxShadow = "0px 0px 0px transparent";
-            $('#show_working_dir').click()
+            $('#show_working_dir').click();
+            var wd_resizer = $('#working_dir').child("div");
+            
+                var m_pos;
+                function resize(e) {
+                    var parent = resize_el.parentNode;
+                    var dx = m_pos - e.x;
+                    m_pos = e.x;
+                    var w = (parseInt(getComputedStyle(parent, '').width) - dx);
+                    parent.style.width =  w + "px";
+                    $('.tabmanager').get(0).style.left = (w + 50) + "px";
+            
+                }
+            
+                var resize_el = wd_resizer.get(0);
+                resize_el.addEventListener("mousedown", function (e) {
+                    m_pos = e.x;
+                    document.addEventListener("mousemove", resize, false);
+                }, false);
+                document.addEventListener("mouseup", function () {
+                    document.removeEventListener("mousemove", resize, false);
+                }, false);
+            
+                wd_resizer.css('position', "absolute");
+                wd_resizer.css('top', "0px");
+                wd_resizer.css('right', "0");
+                wd_resizer.css('bottom', "0");
+                wd_resizer.css('width', "10px");
+                wd_resizer.css('padding', "0");
+                wd_resizer.css('margin', "0");
+                wd_resizer.css('cursor', "w-resize");
         }
 
         $('#git').html('<b>Git</b><br /><br />');

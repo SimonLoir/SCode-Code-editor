@@ -1,6 +1,6 @@
 {
   "name": "highlighting",
-  "version": "1.0.0",
+  "version": "1.17.11",
   "description": "The highlighting module",
   "main": "main.js",
   "scripts": {

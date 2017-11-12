@@ -1,6 +1,6 @@
 {
   "name": "git",
-  "version": "1.0.0",
+  "version": "1.17.11",
   "description": "git interface for scode",
   "main": "main.js",
   "scripts": {

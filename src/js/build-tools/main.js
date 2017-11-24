@@ -8,7 +8,7 @@ exports.init = function () {
         if(project_settings.project_type == "electron"){
             btn_build.click(e.testElectron);
             if(project_settings.launch_command != undefined){
-                e.launch_command = project_settings.launch_command;
+                e.launch_command = project_settings.launch_command + ";exit";
             }
         }
     }else{

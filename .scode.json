@@ -1,0 +1,4 @@
+{
+    "project_type":"electron",
+    "launch_command" : "npm test"
+}

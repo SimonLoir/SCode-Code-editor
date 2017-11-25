@@ -12,7 +12,7 @@ exports.init = function () {
     }
 
     /**
-     * It search for the .scode folder 
+     * It searches for the .scode folder 
      */
     this.verifyInstallation = function () {
         if (fs.existsSync(os.homedir() + "/.scode")) {

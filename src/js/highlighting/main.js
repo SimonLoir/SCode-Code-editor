@@ -110,67 +110,67 @@ exports.init = function () {
         return [buffer, { tag: tag }];
     }
 
-    this.style_css_file = function(text, previous) {
-        
-            var x = previous;
-        
-            if(x.blevel == undefined){
-                blevel = 0;
-            }else{
-                blevel = x.blevel;
-            }
-            if(x.colon == undefined){
-                colon = false;
-            }
-        
-            var buffer = "";
-        
-            for (var i = 0; i < text.length; i++) {
-                var char = text[i];
-                
-                if(char == "{"){
-                    blevel += 1;
-                    buffer += '<span  class="default_color">{</span>'
-                }else if(char == "}"){
-                    if (colon == true){
-                        colon = false;
-                        buffer += colon_buffer+ "</span>";
-                        colon_buffer = "";
-                    }
-                    blevel -= 1;
-                    buffer += '<span  class="default_color">}</span>'            
-                }else if(blevel  > 0){
-                    if(char == ":"){
-                        buffer += '<span  class="default_color">' + char + '</span>';
-                        colon = true;
-                        colon_buffer = '<span style="color:coral;">';
-                    }else if(char == ";"){
-                        buffer += colon_buffer+ "</span>";
-                        buffer += '<span class="default_color">' + char + '</span>';
-                        colon = false;
-                    }else if(colon == true){
-                        colon_buffer += char
-                        
-                    }else{
-                        buffer += '<span style="color:cornflowerblue;">' + char + '</span>';
-                    }
-                }else{
-                    buffer += char;
-                }
-        
-            }
-            
-            if (colon == true){
-                colon = false;
-                buffer += colon_buffer+ "</span>";
-            }
-            colon_buffer = "";
-            buffer = '<span style="color:orange">' + buffer + '</span>'
-            return [buffer, {
-                blevel: blevel,
-                colon: colon
-            }];
+    this.style_css_file = function (text, previous) {
+
+        var x = previous;
+
+        if (x.blevel == undefined) {
+            blevel = 0;
+        } else {
+            blevel = x.blevel;
         }
+        if (x.colon == undefined) {
+            colon = false;
+        }
+
+        var buffer = "";
+
+        for (var i = 0; i < text.length; i++) {
+            var char = text[i];
+
+            if (char == "{") {
+                blevel += 1;
+                buffer += '<span  class="default_color">{</span>'
+            } else if (char == "}") {
+                if (colon == true) {
+                    colon = false;
+                    buffer += colon_buffer + "</span>";
+                    colon_buffer = "";
+                }
+                blevel -= 1;
+                buffer += '<span  class="default_color">}</span>'
+            } else if (blevel > 0) {
+                if (char == ":") {
+                    buffer += '<span  class="default_color">' + char + '</span>';
+                    colon = true;
+                    colon_buffer = '<span style="color:coral;">';
+                } else if (char == ";") {
+                    buffer += colon_buffer + "</span>";
+                    buffer += '<span class="default_color">' + char + '</span>';
+                    colon = false;
+                } else if (colon == true) {
+                    colon_buffer += char
+
+                } else {
+                    buffer += '<span style="color:cornflowerblue;">' + char + '</span>';
+                }
+            } else {
+                buffer += char;
+            }
+
+        }
+
+        if (colon == true) {
+            colon = false;
+            buffer += colon_buffer + "</span>";
+        }
+        colon_buffer = "";
+        buffer = '<span style="color:orange">' + buffer + '</span>'
+        return [buffer, {
+            blevel: blevel,
+            colon: colon
+        }];
+    }
 
     this.style_js_file = function (text, previous) {
 
@@ -487,6 +487,160 @@ exports.init = function () {
         return [text, previous];
     }
 
+    this.style_php_file = function (text, previous) {
+
+
+        function is_system_key(x_buffer) {
+            if (x_buffer == "Class") {
+                return true;
+            } else if (x_buffer == "function") {
+                return true;
+            } else if (x_buffer == "static") {
+                return true;
+            } else if (x_buffer == "public") {
+                return true;
+            } else if (x_buffer == "private") {
+                return true;
+            } else if (x_buffer == "protected") {
+                return true;
+            }
+
+            return false;
+        }
+
+        function isOperator(char) {
+            if ([';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<', "+", "-", "*", "/", ":", "&"].indexOf(char) >= 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        text = text.replace(/\</g, "```sodeelementscodesmallerthanelementplaceholdertextxxxscodelibrary22```");
+        text = text.replace(/\&/g, "```sodeelementandelementplaceholdertextxxxscodelibrary22```");
+        //text = text.replace(/\&/g, "<span>&</span>");
+
+        if (previous.comment != undefined) {
+            var comment = previous.comment;
+            var comment_type = "/*";
+        } else {
+            var comment = false;
+            var comment_type = null;
+
+        }
+
+        var buffer = "";
+        if (comment == true) {
+            buffer = '<span style="color:black;">';
+        }
+        var string = null;
+        var comment_buffer = '';
+        var string_buffer = "";
+        var x_buffer = "";
+
+        for (var i = 0; i < text.length; i++) {
+            var char = text[i];
+            if (char == "'" || char == '"') {
+                if (string != null) {
+                    string_buffer += char;
+                    if (string == char) {
+                        if (text[i - 1] != "\\") {
+                            string = null;
+                            buffer += '<span style="color:coral">' + string_buffer + '</span>';
+                            string_buffer = "";
+                        }
+                    }
+                } else {
+                    if (comment != true) {
+                        string = char;
+                        string_buffer = char;
+                    } else {
+                        comment_buffer += char;
+                    }
+                }
+            } else if (char == "/" && text[i + 1] == "/" && comment != true && text[i - 1] != "*" && string == null) {
+                buffer += x_buffer;
+                x_buffer = "";
+                comment = true;
+                comment_type = "//";
+                comment_buffer = '<span style="color:black;">/';
+            } else if (char == "/" && text[i + 1] == "*" && comment != true && string == null) {
+                buffer += x_buffer;
+                x_buffer = "";
+                comment = true;
+                comment_type = "/*";
+                comment_buffer = '<span style="color:black;">/';
+            } else if (char == "/" && text[i - 1] == "*" && comment == true) {
+                comment = false;
+                buffer += comment_buffer + '/</span>';
+                comment_buffer = "";
+            } else if (char == " " || char == " " || isOperator(char)) {
+                if (string == null && comment == false) {
+                    var system_key = is_system_key(x_buffer);
+
+                    if (system_key) {
+                        x_buffer = '<span style="color:orange">' + x_buffer + '</span>';
+                    }
+
+                    if (x_buffer == "true" || x_buffer == "false") {
+                        x_buffer = '<span style="color:darkblue">' + x_buffer + '</span>';
+                    }
+
+                    if (["if", "else", "try", "catch", "return", "for", "while"].indexOf(x_buffer) >= 0) {
+                        x_buffer = '<span style="color:DarkMagenta">' + x_buffer + '</span>';
+                    }
+
+                    if (char == "(") {
+                        x_buffer = '<span style="color:green">' + x_buffer + '</span>';
+                    }
+
+                    if (isOperator(char)) {
+                        char = '<span class="default_color">' + char + '</span>';
+                    }
+
+                    buffer += x_buffer + char;
+                    x_buffer = "";
+                } else if (comment == true) {
+                    comment_buffer += char;
+                } else if (string != null) {
+                    string_buffer += char;
+                }
+            } else {
+                if (string != null) {
+                    string_buffer += char;
+                } else if (comment == true) {
+                    comment_buffer += char;
+                } else {
+                    x_buffer += char;
+                }
+            }
+
+            if (i == text.length - 1) {
+                if (string == null && comment == false) {
+                    buffer += x_buffer;
+                } else if (comment == true) {
+                    buffer += comment_buffer + "</span>";
+                    if (comment_type == "//") {
+                        comment = false;
+                    }
+                } else if (string != null) {
+                    buffer += string_buffer;
+                }
+            }
+
+        }
+
+
+        buffer = buffer.replace(/\:\:scode\~quot/g, '"');
+
+        buffer = "<span style=\"color:cornflowerblue;\">" + buffer + "</span>";
+        buffer = buffer.replace(/```sodeelementscodesmallerthanelementplaceholdertextxxxscodelibrary22```/g, "&lt;");
+        buffer = buffer.replace(/```sodeelementandelementplaceholdertextxxxscodelibrary22```/g, '<span>&</span>');
+
+
+        return [buffer, { comment: comment }];
+    }
+
 
     this.highlighters = {
         "none": this.notype,
@@ -500,7 +654,8 @@ exports.init = function () {
         "json": this.style_js_file,
         "py": this.style_py_file,
         "css": this.style_css_file,
-        "scss": this.style_css_file
+        "scss": this.style_css_file,
+        "php": this.style_php_file
     }
 
     this.chooseHighlighter = function (ext) {

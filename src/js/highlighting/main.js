@@ -533,9 +533,20 @@ exports.init = function () {
         if (comment == true) {
             buffer = '<span style="color:black;">';
         }
-        var string = null;
+
+        if(previous.string != undefined){
+            var string = previous.string;
+            if(previous.string_buffer != undefined){
+                var string_buffer = previous.string_buffer;
+                
+            }else{
+                var string_buffer = "";
+            }
+        }else{
+            var string = null;
+            var string_buffer = "";
+        }
         var comment_buffer = '';
-        var string_buffer = "";
         var x_buffer = "";
 
         for (var i = 0; i < text.length; i++) {
@@ -623,13 +634,13 @@ exports.init = function () {
                     if (comment_type == "//") {
                         comment = false;
                     }
-                } else if (string != null) {
-                    buffer += string_buffer;
+                } else if (string != null) { 
+                    buffer += '<span style="color:coral">' + string_buffer + '</span>';
+                    string_buffer = "";
                 }
             }
 
         }
-
 
         buffer = buffer.replace(/\:\:scode\~quot/g, '"');
 
@@ -638,7 +649,7 @@ exports.init = function () {
         buffer = buffer.replace(/```sodeelementandelementplaceholdertextxxxscodelibrary22```/g, '<span>&</span>');
 
 
-        return [buffer, { comment: comment }];
+        return [buffer, { comment: comment, string:string }];
     }
 
 

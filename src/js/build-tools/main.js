@@ -19,7 +19,7 @@ exports.init = function () {
     btn_build_package.addClass('default_color');
     if(project_settings != undefined){
         if(project_settings.project_type == "electron"){
-            btn_build_package.click(e.testElectron);
+            btn_build_package.click(e.buildElectron);
             if(project_settings.build_script != undefined){
                 e.build_script = project_settings.build_script + ";exit";
             }
@@ -42,8 +42,9 @@ exports.testElectron = function () {
 
 exports.buildElectron = function () {
     var instance = newTerminal();
-
+    var e = build_tools;
+    console.log(e)
     setTimeout(function () {
-        instance[2].write("electron .\r");
+        instance[2].write(e.build_script + "\r");
     }, 800);
 }

@@ -33,3 +33,30 @@ $scrollbar-thumb:rgba(255,255,255,0.05);
 $scrollbar-thumb-hover:rgba(255,255,255,0.50);
 
 @import "_material_base";
+
+#working_dir{
+    font-weight: 500;    
+    font-size: 15px;
+    & b {
+        padding-bottom:5px;
+        display:inline-block;
+    }
+    & span{
+        padding-bottom:8px;
+        &[data-file-path]{
+            padding: 3px;
+            display: block;
+            color:white;
+            
+        }
+        &[data-path]{
+            display: inline-block;
+            height: 14px;
+            font-weight: 700;
+            color:white;
+        }
+        & i {
+            padding-right: 8px;
+        }
+    }
+}

@@ -5,14 +5,14 @@
   "main": "main.js",
   "scripts": {
     "test": "electron .",
-    "dist" : "build --linux --windows --x64 --ia32",
+    "dist": "build --linux --windows --ia32 --x64",
     "build": "electron-packager . --all --electron-version=1.8.1 --out=../scode-releases --icon=src/logo.ico --overwrite --ignore=releases/"
   },
   "build": {
-    "appId" : "simonloir.scode",
-    "win" : {
-      "target" : "nsis",
-      "icon" : "src/logo.ico"
+    "appId": "simonloir.scode",
+    "win": {
+      "target": "nsis",
+      "icon": "src/logo.ico"
     }
   },
   "repository": {

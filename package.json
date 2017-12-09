@@ -5,7 +5,15 @@
   "main": "main.js",
   "scripts": {
     "test": "electron .",
+    "dist" : "build --linux --windows --x64 --ia32",
     "build": "electron-packager . --all --electron-version=1.8.1 --out=../scode-releases --icon=src/logo.ico --overwrite --ignore=releases/"
+  },
+  "build": {
+    "appId" : "simonloir.scode",
+    "win" : {
+      "target" : "nsis",
+      "icon" : "src/logo.ico"
+    }
   },
   "repository": {
     "type": "git",
@@ -26,12 +34,15 @@
   },
   "homepage": "https://github.com/SimonLoir/SCode-Text-editor#readme",
   "dependencies": {
-    "electron": "^1.8.1",
     "emmet": "^1.6.3",
     "js-beautify": "^1.7.5",
     "marked": "^0.3.7",
     "node-pty": "^0.7.4",
     "simple-git": "^1.85.0",
     "xterm": "^2.9.2"
+  },
+  "devDependencies": {
+    "electron": "^1.8.1",
+    "electron-builder": "^19.48.3"
   }
 }

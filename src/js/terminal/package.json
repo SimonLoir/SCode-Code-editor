@@ -1,6 +1,6 @@
 {
   "name": "terminal",
-  "version": "1.17.11",
+  "version": "1.17.12",
   "description": "scode-terminal",
   "main": "main.js",
   "scripts": {

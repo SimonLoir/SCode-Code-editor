@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "SCode"
-#define MyAppVersion "1.17.11"
+#define MyAppVersion "1.17.12"
 #define MyAppPublisher "Simon Loir"
 #define MyAppURL "https://simonloir.be"
 #define MyAppExeName "scode.exe"

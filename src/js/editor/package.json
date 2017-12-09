@@ -1,6 +1,6 @@
 {
   "name": "editor",
-  "version": "1.17.11",
+  "version": "1.17.12",
   "description": "scode-editor",
   "main": "main.js",
   "scripts": {

@@ -3,10 +3,20 @@
  * @param {String} filename the filename
  */
 exports.newTab = function (filename, full_md) {
+    var fs = require('fs');
     if (tabs[filename] != undefined) { $('#x' + tabs[filename].id).click(); return; }
+    if(path.extname(filename).toLowerCase() == ".pdf"){
+        alert('Format non pris en charge ou fichier trop volumineux.');
+        delete tabs[filename];
+        try {
+            fs.writeFileSync(os.homedir() + "/.scode/files.json", JSON.stringify(tabs), "utf-8");
+        } catch (error) {
+            alert(error);
+        }
+        return;
+    }
     var x_filename = filename.replace(/\\/g, "/");
     var x_settings = os.homedir().replace(/\\/g, "/") + "/.scode/settings.json";
-    var fs = require('fs');
 
     fs.readFile(filename, "utf-8", (err, data) => {
 

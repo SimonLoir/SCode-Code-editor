@@ -148,6 +148,19 @@ exports.init = function () {
             var window = app.getCurrentWindow();
             window.minimize();
         });
+        $('#togglefullscreen').click(function () {
+            var window = app.getCurrentWindow()
+            if(window.isFullScreen() == true){
+                window.setFullScreen(false);
+                $('#togglefullscreen i').removeClass('icon-resize-small');                
+                $('#togglefullscreen i').addClass('icon-resize-full');
+
+            } else {
+                window.setFullScreen(true);
+                $('#togglefullscreen i').removeClass('icon-resize-full');                                
+                $('#togglefullscreen i').addClass('icon-resize-small');
+            }
+        });
         /* --- [end] Window options [end] --- */
 
         /* --- Keyboard shortcuts --- */
@@ -207,9 +220,12 @@ exports.init = function () {
                     $('#git textarea').get(0).focus();
                 }
             }else{
-                if(e.key == 122){
-                    var xwindow = app.getCurrentWindow();
-                    xwindow.toggleFullScreen();
+                if(e.keyCode == 122){
+                    console.log(e)
+                    $('#togglefullscreen').click();
+                    return false;
+                }else{
+                    console.log(e.key)
                 }
             }
         }

@@ -206,6 +206,11 @@ exports.init = function () {
                     $('#git_status').click();
                     $('#git textarea').get(0).focus();
                 }
+            }else{
+                if(e.key == 122){
+                    var xwindow = app.getCurrentWindow();
+                    xwindow.toggleFullScreen();
+                }
             }
         }
         /* --- [end] Keyboard Shortcuts [end] --- */

@@ -28,10 +28,10 @@
   "dependencies": {
     "electron": "^1.8.1",
     "emmet": "^1.6.3",
-    "js-beautify": "^1.7.4",
-    "marked": "^0.3.6",
-    "node-pty": "^0.7.2",
-    "simple-git": "^1.81.1",
+    "js-beautify": "^1.7.5",
+    "marked": "^0.3.7",
+    "node-pty": "^0.7.4",
+    "simple-git": "^1.85.0",
     "xterm": "^2.9.2"
   }
 }

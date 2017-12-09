@@ -277,7 +277,7 @@ exports.init = function () {
             }
         });
         if (first_use) {
-            ed.newTab(__dirname + "/res/readme.md", true);
+            ed.newTab(__dirname + "/../../res/readme.md", true);
         }
         if (settings["always_show_workdir_and_opened_files"] == true) {
             $('.tabmanager').get(0).style.left = "300px";

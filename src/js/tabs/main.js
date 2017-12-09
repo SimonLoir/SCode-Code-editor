@@ -21,7 +21,7 @@ exports.newTab = function (filename, full_md) {
     fs.readFile(filename, "utf-8", (err, data) => {
 
         if (err) {
-            alert('Une erreur est survenue');
+            alert('Une erreur est survenue' + filename);
             return;
         }
 

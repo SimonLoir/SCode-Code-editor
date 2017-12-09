@@ -45,6 +45,11 @@ $(document).ready(function () {
     load_projet_setting();
     build_tools = build_tools.init();
     updateTerms();
+    try {
+        git.status(git.updateGitPanel);        
+    } catch (error) {
+        
+    }
 });
 
 /**

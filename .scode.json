@@ -1,4 +1,5 @@
 {
     "project_type":"electron",
-    "launch_command" : "npm test"
+    "launch_command" : "npm test",
+    "build_script" : "npm run dist"
 }

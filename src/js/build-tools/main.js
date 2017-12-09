@@ -1,8 +1,7 @@
 exports.launch_command = "electron .";
 exports.init = function () {
     var e = this;
-    $('#build').html('->');
-    var btn_build = $('#build').html('<i style="font-size:45px;">&#8227;</i>');
+    var btn_build = $('#build').child("span").html('<i class="icon-play" style="cursor:pointer;"></i>');
     btn_build.addClass('default_color');
     if(project_settings != undefined){
         if(project_settings.project_type == "electron"){
@@ -13,6 +12,20 @@ exports.init = function () {
         }
     }else{
         btn_build.click(function (){
+            alert('Mettez à jour .scode.json dans votre projet pour accèder au build tools');
+        });
+    }
+    var btn_build_package = $('#build').child("span").html('<i class="icon-box" style="cursor:pointer;"></i>');
+    btn_build_package.addClass('default_color');
+    if(project_settings != undefined){
+        if(project_settings.project_type == "electron"){
+            btn_build_package.click(e.testElectron);
+            if(project_settings.build_script != undefined){
+                e.build_script = project_settings.build_script + ";exit";
+            }
+        }
+    }else{
+        btn_build_package.click(function (){
             alert('Mettez à jour .scode.json dans votre projet pour accèder au build tools');
         });
     }

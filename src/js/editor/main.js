@@ -8,7 +8,7 @@ exports.init = function () {
     this.base_settings = {
         always_show_workdir_and_opened_files: true,
         language: "en.json",
-        theme: "themes/scode-dark.css"
+        theme: "themes/scode-dark-material.css"
     }
 
     /**

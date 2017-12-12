@@ -408,3 +408,16 @@ textarea{
 .default_color{
     color:$def-color;
 }
+
+.o-file{
+    padding: 2px;
+    transition: 0.25s;
+    &:hover{
+        background:rgba(255,255,255,0.05);
+    }
+    & .cross-x {
+        color:crimson;
+        padding-right: 5px;
+        display: inline-block;
+    }
+}

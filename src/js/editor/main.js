@@ -356,13 +356,42 @@ exports.init = function () {
             folder_status = {};
         }
         $('#working_dir').get(0).style.display = "block";
-        $('#working_dir').html('<b>' + language.workingDir + ' :</b><br />');
+        $('#working_dir').html("");
+        let opened_files = $('#working_dir').child('span').html(language.openedFiles);
+        opened_files.child('span').get(0).id = "ofiles";
+        $('#working_dir').child('br')
+        $('#working_dir').child("span").html('<b>' + language.workingDir + ' :</b><br />');
         if (folder == null) {
             $('#working_dir').child('span').html(language.requireToOpenAWDir);
         } else {
             folder = this.getDirArray(folder[0]);
             this.createWorkingDir([folder], $('#working_dir'), e);
         }
+    }
+
+    this.updateWorkingDirOpenedFiles = function () {
+        $('#ofiles').html('<br />');
+        var xtabs = Object.keys(tabs);
+
+        if(xtabs.length == 0){
+            $('#ofiles').html('<br />');
+            return;
+        }
+        for (let i = 0; i < xtabs.length; i++) {
+            const element = xtabs[i];
+            let el000 = $('#ofiles').child('div').html("")
+            this.addClickOnOpenedFile(el000.child("span").addClass('cross-x').html('×'), '#x' + tabs[xtabs[i]].id + " .cross")
+            el000.child('span').html(path.basename(element));
+            el000.css('cursor', "pointer");
+            el000.addClass('o-file');
+            this.addClickOnOpenedFile(el000, '#x' + tabs[xtabs[i]].id);
+        }
+    }
+
+    this.addClickOnOpenedFile = function (e, d){
+        e.click(function () {
+            $(d).click();
+        });
     }
 
     /**

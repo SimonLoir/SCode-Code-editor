@@ -38,6 +38,7 @@
     "js-beautify": "^1.7.5",
     "marked": "^0.3.7",
     "node-pty": "^0.7.4",
+    "pdf.js-viewer": "^0.2.8",
     "simple-git": "^1.85.0",
     "xterm": "^2.9.2"
   },

@@ -5,14 +5,88 @@
 exports.newTab = function (filename, full_md) {
     var fs = require('fs');
     if (tabs[filename] != undefined) { $('#x' + tabs[filename].id).click(); return; }
-    if(path.extname(filename).toLowerCase() == ".pdf"){
-        alert('Format non pris en charge ou fichier trop volumineux.');
-        delete tabs[filename];
+    if (path.extname(filename).toLowerCase() == ".pdf") {
+
+        tabs[filename] = {
+            "title": filename,
+            "id": "tab" + id
+        }
+
         try {
+            editor.updateWorkingDirOpenedFiles();
             fs.writeFileSync(os.homedir() + "/.scode/files.json", JSON.stringify(tabs), "utf-8");
         } catch (error) {
             alert(error);
         }
+
+        id++;
+
+        var tab = $('.tabmanager').child('div').addClass('tab');
+        tab.get(0).id = tabs[filename].id;
+
+        var cross;
+
+        var xfilename = filename.replace(/\\/g, "/");
+
+        var filename_split = xfilename.split('/');
+
+        var real_file_name = filename_split[filename_split.length - 1];
+
+        var frn_split = real_file_name.split('.');
+
+        var xtab = $('.header').child('span').html(real_file_name);
+        xtab.addClass('xtab');
+        xtab.get(0).setAttribute('data-file', filename);
+        xtab.get(0).id = "x" + tabs[filename].id;
+        xtab.get(0).setAttribute('data-id', tabs[filename].id);
+
+        active_document = filename;
+
+        xtab.click(function () {
+            var all_tab = document.querySelectorAll('.tab');
+            for (var i = 0; i < all_tab.length; i++) {
+                var xxtab = all_tab[i];
+                xxtab.style.display = "none";
+            }
+            try {
+                $(document.querySelector('.active')).removeClass('active');
+            } catch (error) {
+
+            }
+            $(this).addClass('active')
+            $('#' + this.getAttribute("data-id")).get(0).style.display = "block";
+            active_document = this.getAttribute('data-file');
+        });
+
+        xtab.click();
+
+        cross = xtab.child('i').html("  ×");
+        cross.get(0).setAttribute('data-id', tabs[filename].id);
+        cross.get(0).setAttribute('data-file', filename);
+        cross.addClass('cross');
+        cross.click(function () {
+            delete tabs[this.getAttribute('data-file')];
+            editor.updateWorkingDirOpenedFiles();
+            $('#' + this.getAttribute("data-id")).remove();
+            $('#x' + this.getAttribute("data-id")).remove();
+
+            active_document = "~";
+            try {
+                fs.writeFileSync(os.homedir() + "/.scode/files.json", JSON.stringify(tabs), "utf-8");
+            } catch (error) {
+                alert(error);
+            }
+        });
+
+        var div = tab.child('div');
+        div.css("width", "100%")
+        div.css('height', "100%")
+        div.addClass('pdfjs');
+
+        //window.PDFJS.webViewerLoad();
+
+        //PDFJS.webViewerLoad(filename);
+
         return;
     }
     var x_filename = filename.replace(/\\/g, "/");
@@ -33,6 +107,7 @@ exports.newTab = function (filename, full_md) {
         }
 
         try {
+            editor.updateWorkingDirOpenedFiles();
             fs.writeFileSync(os.homedir() + "/.scode/files.json", JSON.stringify(tabs), "utf-8");
         } catch (error) {
             alert(error);
@@ -114,6 +189,7 @@ exports.newTab = function (filename, full_md) {
         cross.addClass('cross');
         cross.click(function () {
             delete tabs[this.getAttribute('data-file')];
+            editor.updateWorkingDirOpenedFiles();
             $('#' + this.getAttribute("data-id")).remove();
             $('#x' + this.getAttribute("data-id")).remove();
 
@@ -358,31 +434,31 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search) {
             this.selectionStart = this.selectionEnd = s + str.length;
             this.oninput();
             return false;
-        }else if (event.key == "f" && event.ctrlKey){
+        } else if (event.key == "f" && event.ctrlKey) {
             let xe = this;
             let start_position = 0;
-            $("#" + tabs[file.filename].id  + " .search_tool").remove();
+            $("#" + tabs[file.filename].id + " .search_tool").remove();
             let div = $("#" + tabs[file.filename].id).child("div")
             div.addClass('search_tool');
             div.html('')
             let input = div.child("input");
             let last = false;
-            input.get(0).onkeyup = function (e){
-                if(e.key == "Escape"){
+            input.get(0).onkeyup = function (e) {
+                if (e.key == "Escape") {
                     div.remove();
                     code_editor_search.html("");
                     return false;
                 }
-                if((e == undefined && last != false) || e.key == "Enter"){
-                    var match = xe.value.findStr(this.value, last[0] + last [2]);
-                                   
-                }else{
+                if ((e == undefined && last != false) || e.key == "Enter") {
+                    var match = xe.value.findStr(this.value, last[0] + last[2]);
+
+                } else {
                     var match = xe.value.findStr(this.value);
                 }
                 last = match;
 
-                if(match == false){
-                    code_editor_search.html("");                    
+                if (match == false) {
+                    code_editor_search.html("");
                     return false;
                 }
 
@@ -449,7 +525,7 @@ exports.codify = function (text, file, el, cec) {
         if (file.extension == "js") {
             text = "<span style=\"color:cornflowerblue;\">" + text + "</span>";
         }
-        
+
         cec.innerHTML = text + '<br /><br /><br />';
 
         var previous = {};

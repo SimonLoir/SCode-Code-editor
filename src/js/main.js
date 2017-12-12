@@ -17,6 +17,7 @@ const beautify_css= require('js-beautify').css;
 const marked = require('marked');
 const path = require('path');
 const emmet = require('emmet');
+require("pdf.js-viewer")
 
 /**
  * SCode internal modules

@@ -254,12 +254,24 @@ exports.newTab = function (filename, full_md) {
             tab.addClass('md');
             tab.addClass('hide-all');
         }
+        
+        var ext = frn_split[frn_split.length - 1];
+        if(ext == "js" && window.esprima != undefined){
+            let array = esprima.tokenize(data);
+            for (let i = 0; i < array.length; i++) {
+                const token = array[i];
+                if(token.type == "Identifier"){
+                    //Getting tokens for autocomplete
+                    console.log(token.value);
+                }
+            }
+        }
 
         tabmanager.addFunc(code_editor.get(0), code_editor_colors.get(0), {
             extension: frn_split[frn_split.length - 1],
             filename: filename
         }, line_numbers, code_editor_search);
-
+        
         code_editor.get(0).onscroll = function () {
             if (code_editor_colors.get(0).scrollHeight >= this.scrollTop) {
                 code_editor_colors.get(0).scrollTop = this.scrollTop;
@@ -291,7 +303,6 @@ exports.newTab = function (filename, full_md) {
         }
         var file_buffer = "";
         code_editor.get(0).addEventListener('contextmenu', function () {
-            var ext = frn_split[frn_split.length - 1];
             if (ext == "js" || ext == "json" || ext == "html" || ext == "svg" || ext == "css") {
                 var menu = new Menu();
                 if (file_buffer == "") {

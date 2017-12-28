@@ -17,6 +17,7 @@ const beautify_css= require('js-beautify').css;
 const marked = require('marked');
 const path = require('path');
 const emmet = require('emmet');
+var esprima = require("esprima");//using var for tab module
 require("pdf.js-viewer")
 
 /**

@@ -112,6 +112,14 @@ body{
         display: block;
         padding: 5px;
     }
+    & .ac-selected{
+        border-bottom:1px solid orange;
+        color:orange;
+        & .word{
+            color:white;
+            font-weight: 900;
+        }
+    }
 }
 
 .code-editor{

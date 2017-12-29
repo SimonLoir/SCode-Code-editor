@@ -362,19 +362,23 @@ exports.newTab = function (filename, full_md) {
 exports.addFunc = function (ce, cec, file, line_n, code_editor_search, tab) {
     var last = 0;
     ce.onkeyup = function (event) {
-        if(document.querySelector('.autocomplete')){
+        if (document.querySelector('.autocomplete')) {
             var was_opened = true;
-        }else{
-            var was_opened = false;            
+            if (event.keyCode == 13 || event.keyCode == 38 || event.keyCode == 40) {
+                return;
+            } else {
+                $('.autocomplete').remove();
+            }
+        } else {
+            var was_opened = false;
         }
-        $('.autocomplete').remove();
         if (event != undefined && event.keyCode == 13 && was_opened == false) {
-            
+
             var text = this.value.insertAt(getCaretPos(this), "::scode~cursor-element");
             var line_to_update = text.split('::scode~cursor-element')[0].split(/\r?\n/).length - 1;
-            
+
             var x_text = tabs[file.filename]["split"][line_to_update - 1];
-            
+
             var number_of_spaces = x_text.indexOf(x_text.trim());
             if (x_text.trim().length == 0) {
                 number_of_spaces = x_text.length;
@@ -385,7 +389,7 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search, tab) {
                 i++;
                 spaces += " ";
             }
-            
+
             var v = this.value, s = this.selectionStart, e = this.selectionEnd;
             this.value = v.substring(0, s) + spaces + v.substring(e);
             this.selectionStart = this.selectionEnd = s + number_of_spaces;
@@ -398,9 +402,11 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search, tab) {
                 var x_val = v.substring(0, s);
                 var word = "";
                 var brackets = false;
+                var breakers = [';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<', "+", "-", "*", "/", ":", "&", " ", "\n"];
                 for (var i = x_val.length - 1; i >= 0; i--) {
                     var element = x_val[i];
-                    if ((element == " " || element == "\n" || [';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<', "+", "-", "*", "/", ":", "&"].indexOf(element) >= 0)) {
+
+                    if (breakers.indexOf(element) >= 0) {
                         break;
                     }
                     word = element + word;
@@ -420,27 +426,39 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search, tab) {
                             usables.push(e);
                         }
                     }
-                    if (usables.length > 0) {
-                        //console.log(tab)
+                    if (usables.length > 0 && breakers.indexOf(v[s]) >= 0) {
                         var ac = tab.child("div").addClass('autocomplete');
                         ac.html('');
                         ac.css("top", (caret.top + 20 + 5) + "px");
                         ac.css("left", (caret.left + 42 + 5) + "px");
                         for (let i = 0; i < usables.length; i++) {
-                            const element = usables[i];
-                            ac.child("span").html(element);
+                            let element = usables[i];
+                            let end = element.replace(word, '');
+                            element = element.replace(word, '<b class="word">' + word + '</b>');
+                            var child = ac.child("span").html(element);
+                            child.addClass('ac-internal')
+                            child.get(0).setAttribute('word', end);
+                            child.click(function () {
+                                ce.value = v.substring(0, s) + this.getAttribute('word') + v.substring(e);
+                                ce.selectionStart = ce.selectionEnd = s + this.getAttribute('word').length;
+                                ce.oninput();
+                                $('.autocomplete').remove();
+                            });
+                            if (i == 0) {
+                                child.addClass('ac-selected');
+                            }
                         }
-                        
+
                     }
                 }
-                
+
             }
         }
-        
+
     }
     $(ce).click(ce.onkeyup)
     ce.oninput = function (event) {
-        
+
         if (file.extension == "md") {
             ce.parentElement.querySelector('.md-preview').innerHTML = marked(ce.value) + "<br /><br /><br />";
         }
@@ -479,7 +497,6 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search, tab) {
                 }
                 emmet_exp = element + emmet_exp;
             }
-            //console.log(emmet_exp);
 
             try {
                 if (emmet_exp.trim() == "") {
@@ -547,12 +564,51 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search, tab) {
                 ce.scrollTop = code_editor_search.get(0).querySelector('span').offsetTop - 50;
             }
             input.get(0).focus()
-        }else if(event.keyCode == 13 || event.keyCode == 38 || event.keyCode == 40){
-            if(document.querySelector('.autocomplete')){
+        } else if (event.keyCode == 13 || event.keyCode == 38 || event.keyCode == 40) {
+            if (document.querySelector('.autocomplete')) {
                 var was_opened = true;
-                
-            }else{
-                var was_opened = false;            
+                let kk = event.keyCode;
+                if (kk == 13) {
+                    $('.ac-selected').click();
+                } else {
+                    let all_ac = document.querySelectorAll('.ac-internal');
+                    let index = 0;
+                    for (let i = 0; i < all_ac.length; i++) {
+                        const e = all_ac[i];
+                        if (e == document.querySelector('.ac-selected')) {
+                            $(e).removeClass("ac-selected");
+                            index = i;
+                            break;
+                        }
+                    }
+                    if (event.keyCode == 40) {
+                        if (all_ac[index + 1] != undefined) {
+                            $(all_ac[index + 1]).addClass('ac-selected');
+                        } else {
+                            index = 0;
+                            $(all_ac[index]).addClass('ac-selected');
+                        }
+                    } else {
+                        if (all_ac[index - 1] != undefined) {
+                            $(all_ac[index - 1]).addClass('ac-selected');
+                        } else {
+                            index = all_ac.length - 1;
+                            $(all_ac[index]).addClass('ac-selected');
+                        }
+                    }
+                    function findPos(obj) {
+                        var curtop = 0;
+                        if (obj.offsetParent) {
+                            do {
+                                curtop += obj.offsetTop;
+                            } while (obj = obj.offsetParent);
+                            return [curtop];
+                        }
+                    }
+                    document.querySelector('.autocomplete').scrollTop = $('.ac-selected').get(0).offsetTop;
+                }
+            } else {
+                var was_opened = false;
             }
             return !was_opened;
         }

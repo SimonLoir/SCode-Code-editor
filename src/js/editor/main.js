@@ -225,7 +225,7 @@ exports.init = function () {
                     $('#togglefullscreen').click();
                     return false;
                 }else{
-                    console.log(e.key)
+                    //console.log(e.key)
                 }
             }
         }

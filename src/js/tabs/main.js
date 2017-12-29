@@ -1,3 +1,9 @@
+exports.keywords = {
+    js: []
+}
+exports.keywords_base =  {
+    js : ["close","stop","focus","blur","open","alert","confirm","prompt","print","postMessage","captureEvents","releaseEvents","getSelection","getComputedStyle","matchMedia","moveTo","moveBy","resizeTo","resizeBy","scroll","scrollTo","scrollBy","requestAnimationFrame","cancelAnimationFrame","getDefaultComputedStyle","scrollByLines","scrollByPages","sizeToContent","updateCommands","find","dump","setResizable","requestIdleCallback","cancelIdleCallback","btoa","atob","setTimeout","clearTimeout","setInterval","clearInterval","createImageBitmap","fetch","self","name","history","locationbar","menubar","personalbar","scrollbars","statusbar","toolbar","status","closed","frames","length","opener","parent","frameElement","navigator","external","applicationCache","screen","innerWidth","innerHeight","scrollX","pageXOffset","scrollY","pageYOffset","screenX","screenY","outerWidth","outerHeight","performance","mozInnerScreenX","mozInnerScreenY","devicePixelRatio","scrollMaxX","scrollMaxY","fullScreen","mozPaintCount","ondevicemotion","ondeviceorientation","onabsolutedeviceorientation","ondeviceproximity","onuserproximity","ondevicelight","sidebar","onvrdisplayconnect","onvrdisplaydisconnect","onvrdisplayactivate","onvrdisplaydeactivate","onvrdisplaypresentchange","crypto","onabort","onblur","onfocus","onauxclick","oncanplay","oncanplaythrough","onchange","onclick","onclose","oncontextmenu","ondblclick","ondrag","ondragend","ondragenter","ondragexit","ondragleave","ondragover","ondragstart","ondrop","ondurationchange","onemptied","onended","oninput","oninvalid","onkeydown","onkeypress","onkeyup","onload","onloadeddata","onloadedmetadata","onloadend","onloadstart","onmousedown","onmouseenter","onmouseleave","onmousemove","onmouseout","onmouseover","onmouseup","onwheel","onpause","onplay","onplaying","onprogress","onratechange","onreset","onresize","onscroll","onseeked","onseeking","onselect","onshow","onstalled","onsubmit","onsuspend","ontimeupdate","onvolumechange","onwaiting","onselectstart","ontoggle","onmozfullscreenchange","onmozfullscreenerror","onanimationcancel","onanimationend","onanimationiteration","onanimationstart","ontransitioncancel","ontransitionend","ontransitionrun","ontransitionstart","onwebkitanimationend","onwebkitanimationiteration","onwebkitanimationstart","onwebkittransitionend","onerror","speechSynthesis","onafterprint","onbeforeprint","onbeforeunload","onhashchange","onlanguagechange","onmessage","onmessageerror","onoffline","ononline","onpagehide","onpageshow","onpopstate","onstorage","onunload","localStorage","origin","isSecureContext","indexedDB","caches","sessionStorage","window","document","location","top"]
+}
 /**
  * Creates a new tab in the tab manager
  * @param {String} filename the filename
@@ -254,15 +260,18 @@ exports.newTab = function (filename, full_md) {
             tab.addClass('md');
             tab.addClass('hide-all');
         }
-        
+
         var ext = frn_split[frn_split.length - 1];
-        if(ext == "js" && window.esprima != undefined){
+        if (ext == "js" && window.esprima != undefined) {
             let array = esprima.tokenize(data);
             for (let i = 0; i < array.length; i++) {
                 const token = array[i];
-                if(token.type == "Identifier"){
+                if (token.type == "Identifier") {
                     //Getting tokens for autocomplete
-                    console.log(token.value);
+                    if (this.keywords.js.indexOf(token.value) < 0) {
+                        console.log(token.value);
+                        this.keywords.js.push(token.value);
+                    }
                 }
             }
         }
@@ -271,7 +280,7 @@ exports.newTab = function (filename, full_md) {
             extension: frn_split[frn_split.length - 1],
             filename: filename
         }, line_numbers, code_editor_search);
-        
+
         code_editor.get(0).onscroll = function () {
             if (code_editor_colors.get(0).scrollHeight >= this.scrollTop) {
                 code_editor_colors.get(0).scrollTop = this.scrollTop;
@@ -394,6 +403,44 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search) {
             }
         }
         last = number_of_lines;
+
+        if(tabmanager.keywords[file.extension] != undefined){
+            var v = this.value, s = this.selectionStart, e = this.selectionEnd;
+            var end = false;
+            var x_val = v.substring(0, s);
+            var word = "";
+            var brackets = false;
+            for (var i = x_val.length - 1; i >= 0; i--) {
+                var element = x_val[i];
+                if ((element == " " || element == "\n" || [';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<', "+", "-", "*", "/", ":", "&"].indexOf(element) >= 0)) {
+                    break;
+                }
+                word = element + word;
+            }
+            word = word.trim();
+            if(word != ""){
+                let usables = [];
+                for (let i = 0; i < tabmanager.keywords[file.extension].length; i++) {
+                    const e = tabmanager.keywords[file.extension][i];
+                    if (e.indexOf(word) == 0) {
+                        usables.push(e);
+                    }
+                }
+                for (let i = 0; i < tabmanager.keywords_base[file.extension].length; i++) {
+                    const e = tabmanager.keywords_base[file.extension][i];
+                    if (e.indexOf(word) == 0) {
+                        usables.push(e);
+                    }
+                }
+                $('.autocomplete').remove();
+                if(usables.length > 0){
+                    console.log('=>')
+                }
+            }
+            
+        }
+
+        
     }
     //ce.onkeyup = ce.oninput;
     ce.onkeydown = function (event) {

@@ -427,8 +427,12 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search, tab) {
                         }
                     }
                     if (usables.length > 0 && breakers.indexOf(v[s]) >= 0) {
+                        /** 
+                         * Position must be set with cec
+                        */
                         var ac = tab.child("div").addClass('autocomplete');
                         ac.html('');
+                        console.log(caret.top, ce.scrollTop, caret.top - ce.scrollTop);
                         ac.css("top", (caret.top + 20 + 5) + "px");
                         ac.css("left", (caret.left + 42 + 5) + "px");
                         for (let i = 0; i < usables.length; i++) {

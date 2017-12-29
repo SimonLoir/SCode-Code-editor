@@ -1,8 +1,8 @@
 exports.keywords = {
     js: []
 }
-exports.keywords_base =  {
-    js : ["close","stop","focus","blur","open","alert","confirm","prompt","print","postMessage","captureEvents","releaseEvents","getSelection","getComputedStyle","matchMedia","moveTo","moveBy","resizeTo","resizeBy","scroll","scrollTo","scrollBy","requestAnimationFrame","cancelAnimationFrame","getDefaultComputedStyle","scrollByLines","scrollByPages","sizeToContent","updateCommands","find","dump","setResizable","requestIdleCallback","cancelIdleCallback","btoa","atob","setTimeout","clearTimeout","setInterval","clearInterval","createImageBitmap","fetch","self","name","history","locationbar","menubar","personalbar","scrollbars","statusbar","toolbar","status","closed","frames","length","opener","parent","frameElement","navigator","external","applicationCache","screen","innerWidth","innerHeight","scrollX","pageXOffset","scrollY","pageYOffset","screenX","screenY","outerWidth","outerHeight","performance","mozInnerScreenX","mozInnerScreenY","devicePixelRatio","scrollMaxX","scrollMaxY","fullScreen","mozPaintCount","ondevicemotion","ondeviceorientation","onabsolutedeviceorientation","ondeviceproximity","onuserproximity","ondevicelight","sidebar","onvrdisplayconnect","onvrdisplaydisconnect","onvrdisplayactivate","onvrdisplaydeactivate","onvrdisplaypresentchange","crypto","onabort","onblur","onfocus","onauxclick","oncanplay","oncanplaythrough","onchange","onclick","onclose","oncontextmenu","ondblclick","ondrag","ondragend","ondragenter","ondragexit","ondragleave","ondragover","ondragstart","ondrop","ondurationchange","onemptied","onended","oninput","oninvalid","onkeydown","onkeypress","onkeyup","onload","onloadeddata","onloadedmetadata","onloadend","onloadstart","onmousedown","onmouseenter","onmouseleave","onmousemove","onmouseout","onmouseover","onmouseup","onwheel","onpause","onplay","onplaying","onprogress","onratechange","onreset","onresize","onscroll","onseeked","onseeking","onselect","onshow","onstalled","onsubmit","onsuspend","ontimeupdate","onvolumechange","onwaiting","onselectstart","ontoggle","onmozfullscreenchange","onmozfullscreenerror","onanimationcancel","onanimationend","onanimationiteration","onanimationstart","ontransitioncancel","ontransitionend","ontransitionrun","ontransitionstart","onwebkitanimationend","onwebkitanimationiteration","onwebkitanimationstart","onwebkittransitionend","onerror","speechSynthesis","onafterprint","onbeforeprint","onbeforeunload","onhashchange","onlanguagechange","onmessage","onmessageerror","onoffline","ononline","onpagehide","onpageshow","onpopstate","onstorage","onunload","localStorage","origin","isSecureContext","indexedDB","caches","sessionStorage","window","document","location","top"]
+exports.keywords_base = {
+    js: ["body", "close", "stop", "focus", "blur", "open", "alert", "confirm", "prompt", "print", "postMessage", "captureEvents", "releaseEvents", "getSelection", "getComputedStyle", "matchMedia", "moveTo", "moveBy", "resizeTo", "resizeBy", "scroll", "scrollTo", "scrollBy", "requestAnimationFrame", "cancelAnimationFrame", "getDefaultComputedStyle", "scrollByLines", "scrollByPages", "sizeToContent", "updateCommands", "find", "dump", "setResizable", "requestIdleCallback", "cancelIdleCallback", "btoa", "atob", "setTimeout", "clearTimeout", "setInterval", "clearInterval", "createImageBitmap", "fetch", "self", "name", "history", "locationbar", "menubar", "personalbar", "scrollbars", "statusbar", "toolbar", "status", "closed", "frames", "length", "opener", "parent", "frameElement", "navigator", "external", "applicationCache", "screen", "innerWidth", "innerHeight", "scrollX", "pageXOffset", "scrollY", "pageYOffset", "screenX", "screenY", "outerWidth", "outerHeight", "performance", "mozInnerScreenX", "mozInnerScreenY", "devicePixelRatio", "scrollMaxX", "scrollMaxY", "fullScreen", "mozPaintCount", "ondevicemotion", "ondeviceorientation", "onabsolutedeviceorientation", "ondeviceproximity", "onuserproximity", "ondevicelight", "sidebar", "onvrdisplayconnect", "onvrdisplaydisconnect", "onvrdisplayactivate", "onvrdisplaydeactivate", "onvrdisplaypresentchange", "crypto", "onabort", "onblur", "onfocus", "onauxclick", "oncanplay", "oncanplaythrough", "onchange", "onclick", "onclose", "oncontextmenu", "ondblclick", "ondrag", "ondragend", "ondragenter", "ondragexit", "ondragleave", "ondragover", "ondragstart", "ondrop", "ondurationchange", "onemptied", "onended", "oninput", "oninvalid", "onkeydown", "onkeypress", "onkeyup", "onload", "onloadeddata", "onloadedmetadata", "onloadend", "onloadstart", "onmousedown", "onmouseenter", "onmouseleave", "onmousemove", "onmouseout", "onmouseover", "onmouseup", "onwheel", "onpause", "onplay", "onplaying", "onprogress", "onratechange", "onreset", "onresize", "onscroll", "onseeked", "onseeking", "onselect", "onshow", "onstalled", "onsubmit", "onsuspend", "ontimeupdate", "onvolumechange", "onwaiting", "onselectstart", "ontoggle", "onmozfullscreenchange", "onmozfullscreenerror", "onanimationcancel", "onanimationend", "onanimationiteration", "onanimationstart", "ontransitioncancel", "ontransitionend", "ontransitionrun", "ontransitionstart", "onwebkitanimationend", "onwebkitanimationiteration", "onwebkitanimationstart", "onwebkittransitionend", "onerror", "speechSynthesis", "onafterprint", "onbeforeprint", "onbeforeunload", "onhashchange", "onlanguagechange", "onmessage", "onmessageerror", "onoffline", "ononline", "onpagehide", "onpageshow", "onpopstate", "onstorage", "onunload", "localStorage", "origin", "isSecureContext", "indexedDB", "caches", "sessionStorage", "window", "document", "location", "top"]
 }
 /**
  * Creates a new tab in the tab manager
@@ -279,7 +279,7 @@ exports.newTab = function (filename, full_md) {
         tabmanager.addFunc(code_editor.get(0), code_editor_colors.get(0), {
             extension: frn_split[frn_split.length - 1],
             filename: filename
-        }, line_numbers, code_editor_search);
+        }, line_numbers, code_editor_search, tab);
 
         code_editor.get(0).onscroll = function () {
             if (code_editor_colors.get(0).scrollHeight >= this.scrollTop) {
@@ -359,16 +359,22 @@ exports.newTab = function (filename, full_md) {
     });
 }
 
-exports.addFunc = function (ce, cec, file, line_n, code_editor_search) {
+exports.addFunc = function (ce, cec, file, line_n, code_editor_search, tab) {
     var last = 0;
     ce.onkeyup = function (event) {
-        if (event != undefined && event.keyCode == 13) {
-
+        if(document.querySelector('.autocomplete')){
+            var was_opened = true;
+        }else{
+            var was_opened = false;            
+        }
+        $('.autocomplete').remove();
+        if (event != undefined && event.keyCode == 13 && was_opened == false) {
+            
             var text = this.value.insertAt(getCaretPos(this), "::scode~cursor-element");
             var line_to_update = text.split('::scode~cursor-element')[0].split(/\r?\n/).length - 1;
-
+            
             var x_text = tabs[file.filename]["split"][line_to_update - 1];
-
+            
             var number_of_spaces = x_text.indexOf(x_text.trim());
             if (x_text.trim().length == 0) {
                 number_of_spaces = x_text.length;
@@ -379,16 +385,62 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search) {
                 i++;
                 spaces += " ";
             }
-
+            
             var v = this.value, s = this.selectionStart, e = this.selectionEnd;
             this.value = v.substring(0, s) + spaces + v.substring(e);
             this.selectionStart = this.selectionEnd = s + number_of_spaces;
             this.oninput();
+        } else {
+            var caret = getCaretCoordinates(this, this.selectionEnd);
+            if (tabmanager.keywords[file.extension] != undefined) {
+                var v = this.value, s = this.selectionStart, e = this.selectionEnd;
+                var end = false;
+                var x_val = v.substring(0, s);
+                var word = "";
+                var brackets = false;
+                for (var i = x_val.length - 1; i >= 0; i--) {
+                    var element = x_val[i];
+                    if ((element == " " || element == "\n" || [';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<', "+", "-", "*", "/", ":", "&"].indexOf(element) >= 0)) {
+                        break;
+                    }
+                    word = element + word;
+                }
+                word = word.trim();
+                if (word != "") {
+                    let usables = [];
+                    for (let i = 0; i < tabmanager.keywords[file.extension].length; i++) {
+                        const e = tabmanager.keywords[file.extension][i];
+                        if (e.indexOf(word) == 0 && e != word) {
+                            usables.push(e);
+                        }
+                    }
+                    for (let i = 0; i < tabmanager.keywords_base[file.extension].length; i++) {
+                        const e = tabmanager.keywords_base[file.extension][i];
+                        if (e.indexOf(word) == 0 && e != word) {
+                            usables.push(e);
+                        }
+                    }
+                    if (usables.length > 0) {
+                        //console.log(tab)
+                        var ac = tab.child("div").addClass('autocomplete');
+                        ac.html('');
+                        ac.css("top", (caret.top + 20 + 5) + "px");
+                        ac.css("left", (caret.left + 42 + 5) + "px");
+                        for (let i = 0; i < usables.length; i++) {
+                            const element = usables[i];
+                            ac.child("span").html(element);
+                        }
+                        
+                    }
+                }
+                
+            }
         }
-
+        
     }
+    $(ce).click(ce.onkeyup)
     ce.oninput = function (event) {
-
+        
         if (file.extension == "md") {
             ce.parentElement.querySelector('.md-preview').innerHTML = marked(ce.value) + "<br /><br /><br />";
         }
@@ -403,46 +455,8 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search) {
             }
         }
         last = number_of_lines;
-
-        if(tabmanager.keywords[file.extension] != undefined){
-            var v = this.value, s = this.selectionStart, e = this.selectionEnd;
-            var end = false;
-            var x_val = v.substring(0, s);
-            var word = "";
-            var brackets = false;
-            for (var i = x_val.length - 1; i >= 0; i--) {
-                var element = x_val[i];
-                if ((element == " " || element == "\n" || [';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<', "+", "-", "*", "/", ":", "&"].indexOf(element) >= 0)) {
-                    break;
-                }
-                word = element + word;
-            }
-            word = word.trim();
-            if(word != ""){
-                let usables = [];
-                for (let i = 0; i < tabmanager.keywords[file.extension].length; i++) {
-                    const e = tabmanager.keywords[file.extension][i];
-                    if (e.indexOf(word) == 0) {
-                        usables.push(e);
-                    }
-                }
-                for (let i = 0; i < tabmanager.keywords_base[file.extension].length; i++) {
-                    const e = tabmanager.keywords_base[file.extension][i];
-                    if (e.indexOf(word) == 0) {
-                        usables.push(e);
-                    }
-                }
-                $('.autocomplete').remove();
-                if(usables.length > 0){
-                    console.log('=>')
-                }
-            }
-            
-        }
-
-        
     }
-    //ce.onkeyup = ce.oninput;
+
     ce.onkeydown = function (event) {
         if (event.keyCode === 9) {
             var v = this.value, s = this.selectionStart, e = this.selectionEnd;
@@ -533,6 +547,14 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search) {
                 ce.scrollTop = code_editor_search.get(0).querySelector('span').offsetTop - 50;
             }
             input.get(0).focus()
+        }else if(event.keyCode == 13 || event.keyCode == 38 || event.keyCode == 40){
+            if(document.querySelector('.autocomplete')){
+                var was_opened = true;
+                
+            }else{
+                var was_opened = false;            
+            }
+            return !was_opened;
         }
 
     }

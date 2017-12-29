@@ -98,6 +98,22 @@ body{
     background:$line-numbers-background;
     text-align: right;
 }
+
+.autocomplete{
+    position: absolute;
+    background: lighten($line-numbers-background, 5%);
+    color:white;
+    top: 15px;left: 50px;
+    max-width: 300px;
+    max-height: 50%;
+    overflow: hidden;
+    overflow-y: auto;
+    & span{
+        display: block;
+        padding: 5px;
+    }
+}
+
 .code-editor{
     caret-color: $scode-caret-color;
     background: transparent;

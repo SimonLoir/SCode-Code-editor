@@ -518,8 +518,26 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search, tab) {
                 s = s - emmet_exp.length;
                 //console.log(s);
             } catch (error) {
+                var b = [';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<', "+", "-", "*", "/", ":", "&", " ", "\n"];                
                 var str = "    ";
                 console.log(error);
+                if(editor != undefined){
+                    if(editor.snippets[file.extension] != undefined){
+                        let elexp = "";
+                        for (let ixxxxxxx = x_val.length - 1; ixxxxxxx >= 0; ixxxxxxx--) {
+                            let elllll = x_val[ixxxxxxx];
+                            if (b.indexOf(elllll) >= 0) {
+                                break;
+                            }
+                            elexp = elllll + elexp;
+                        }
+                        console.log(editor.snippets[file.extension], elexp)
+                        let elexps = editor.snippets[file.extension].find(e => e.trigger == elexp);
+                        s = s - elexp.length;
+                        var str = elexps.result;
+                        console.log(elexps);
+                    }
+                }
             }
 
             this.value = v.substring(0, s) + str + v.substring(e);

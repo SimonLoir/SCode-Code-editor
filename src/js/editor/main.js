@@ -10,6 +10,37 @@ exports.init = function () {
         language: "en.json",
         theme: "themes/scode-dark-material.css"
     }
+    /**
+     * We define default snippets for scode
+     */
+
+    this.snippets = {
+        all: [
+            {
+                trigger: ":copy",
+                result: "// Copyright (c) 2018 Your Name Here"
+            }
+        ],
+        js: [
+            {
+                trigger: "qSA",
+                result: "querySelectorAll('')"
+            },
+            {
+                trigger: "qS",
+                result: "querySelector('')"
+            },
+            {
+                trigger: "doc",
+                result: "document"
+            }
+        ]
+    }
+
+    //ES6 way to get snippets quickly : this.snippets.js.find(e => e.trigger == "qSA")    =>  {
+    //            trigger: "qSA",
+    //            result: "querySelectorAll('')"
+    //        } 
 
     /**
      * It searches for the .scode folder 

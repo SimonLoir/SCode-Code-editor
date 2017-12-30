@@ -282,6 +282,7 @@ exports.newTab = function (filename, full_md) {
         }, line_numbers, code_editor_search, tab);
 
         code_editor.get(0).onscroll = function () {
+            $('.autocomplete').remove();            
             if (code_editor_colors.get(0).scrollHeight >= this.scrollTop) {
                 code_editor_colors.get(0).scrollTop = this.scrollTop;
                 code_editor_search.get(0).scrollTop = this.scrollTop;
@@ -427,13 +428,11 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search, tab) {
                         }
                     }
                     if (usables.length > 0 && breakers.indexOf(v[s]) >= 0) {
-                        /** 
-                         * Position must be set with cec
-                        */
+                        let position = tab.get(0).querySelector('#e' + x_val.split(/\r?\n/).length).offsetTop;
                         var ac = tab.child("div").addClass('autocomplete');
                         ac.html('');
-                        console.log(caret.top, ce.scrollTop, caret.top - ce.scrollTop);
-                        ac.css("top", (caret.top + 20 + 5) + "px");
+                        console.log(position);
+                        ac.css("top", (position - ce.scrollTop) + "px");
                         ac.css("left", (caret.left + 42 + 5) + "px");
                         for (let i = 0; i < usables.length; i++) {
                             let element = usables[i];

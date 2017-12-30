@@ -520,7 +520,6 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search, tab) {
             } catch (error) {
                 var b = [';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<', "+", "-", "*", "/", ":", "&", " ", "\n"];                
                 var str = "    ";
-                console.log(error);
                 if(editor != undefined){
                     if(editor.snippets[file.extension] != undefined){
                         let elexp = "";
@@ -531,11 +530,9 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search, tab) {
                             }
                             elexp = elllll + elexp;
                         }
-                        console.log(editor.snippets[file.extension], elexp)
                         let elexps = editor.snippets[file.extension].find(e => e.trigger == elexp);
                         s = s - elexp.length;
                         var str = elexps.result;
-                        console.log(elexps);
                     }
                 }
             }

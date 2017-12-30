@@ -530,9 +530,11 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search, tab) {
                             }
                             elexp = elllll + elexp;
                         }
-                        let elexps = editor.snippets[file.extension].find(e => e.trigger == elexp);
-                        s = s - elexp.length;
-                        var str = elexps.result;
+                        let elexps = editor.snippets[file.extension].find(e => e.trigger.toLowerCase() == elexp.toLowerCase());
+                        if(elexps != undefined){
+                            s = s - elexp.length;
+                            var str = elexps.result;
+                        }
                     }
                 }
             }

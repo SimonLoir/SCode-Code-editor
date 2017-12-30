@@ -282,7 +282,7 @@ exports.newTab = function (filename, full_md) {
         }, line_numbers, code_editor_search, tab);
 
         code_editor.get(0).onscroll = function () {
-            $('.autocomplete').remove();            
+            $('.autocomplete').remove();
             if (code_editor_colors.get(0).scrollHeight >= this.scrollTop) {
                 code_editor_colors.get(0).scrollTop = this.scrollTop;
                 code_editor_search.get(0).scrollTop = this.scrollTop;
@@ -501,6 +501,7 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search, tab) {
                 emmet_exp = element + emmet_exp;
             }
 
+            console.log(file.extension)
             try {
                 if (emmet_exp.trim() == "") {
                     throw "Error";
@@ -518,24 +519,33 @@ exports.addFunc = function (ce, cec, file, line_n, code_editor_search, tab) {
                 s = s - emmet_exp.length;
                 //console.log(s);
             } catch (error) {
-                var b = [';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<', "+", "-", "*", "/", ":", "&", " ", "\n"];                
+                var b = [';', ',', '=', '!', '.', '{', '}', '[', ']', '(', ')', '>', '<', "+", "-", "*", "/", ":", "&", " ", "\n"];
                 var str = "    ";
-                if(editor != undefined){
-                    if(editor.snippets[file.extension] != undefined){
-                        let elexp = "";
-                        for (let ixxxxxxx = x_val.length - 1; ixxxxxxx >= 0; ixxxxxxx--) {
-                            let elllll = x_val[ixxxxxxx];
-                            if (b.indexOf(elllll) >= 0) {
-                                break;
-                            }
-                            elexp = elllll + elexp;
+                if (editor != undefined) {
+
+                    let elexp = "";
+                    for (let ixxxxxxx = x_val.length - 1; ixxxxxxx >= 0; ixxxxxxx--) {
+                        let elllll = x_val[ixxxxxxx];
+                        if (b.indexOf(elllll) >= 0) {
+                            break;
                         }
-                        let elexps = editor.snippets[file.extension].find(e => e.trigger.toLowerCase() == elexp.toLowerCase());
-                        if(elexps != undefined){
-                            s = s - elexp.length;
-                            var str = elexps.result;
-                        }
+                        elexp = elllll + elexp;
                     }
+                    let elexps = undefined;
+
+                    if (editor.snippets[file.extension] != undefined) {
+                        elexps = editor.snippets[file.extension].find(e => e.trigger.toLowerCase() == elexp.toLowerCase());
+                    }
+
+                    if (elexps == undefined) {
+                        elexps = editor.snippets["all"].find(e => e.trigger.toLowerCase() == elexp.toLowerCase());
+                    }
+                    
+                    if (elexps != undefined) {
+                        s = s - elexp.length;
+                        var str = elexps.result;
+                    }
+
                 }
             }
 

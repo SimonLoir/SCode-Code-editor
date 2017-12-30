@@ -17,8 +17,8 @@ exports.init = function () {
     this.snippets = {
         all: [
             {
-                trigger: ":copy",
-                result: "// Copyright (c) 2018 Your Name Here"
+                trigger: "copy",
+                result: "/* Copyright (c) 2018 Your Name Here */"
             }
         ],
         js: [
@@ -33,6 +33,10 @@ exports.init = function () {
             {
                 trigger: "doc",
                 result: "document"
+            },
+            {
+                trigger: "copy",
+                result: "// Copyright (c) 2018 Your Name Here"
             }
         ]
     }

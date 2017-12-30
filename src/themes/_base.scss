@@ -1,5 +1,13 @@
 /* SCode stylesheet */
 
+$value:18px;
+
+@if variable-exists(editor-default-font-size){
+    $value:$editor-default-font-size;
+}
+
+$editor-default-font-size:$value;
+
 @font-face{
     font-family: source-code-pro;
     src:url(../SourceCodePro-Regular.ttf);
@@ -89,7 +97,7 @@ body{
     padding-top: 25px;padding-bottom: 25px;
     font-family: $font-family, sans-serif;
     color:$line-numbers-color;overflow:hidden;
-    font-size:20px;
+    font-size:$editor-default-font-size;
     margin:0;
     width:40px;
     height:calc(100% - 50px);
@@ -131,7 +139,7 @@ body{
     font-family: $font-family, sans-serif;
     color:$code-editor-color;
     overflow:auto;
-    font-size:20px;
+    font-size:$editor-default-font-size;
     margin:0;
     width:calc(100% - 95px);
     height:calc(100% - 50px);
@@ -147,7 +155,7 @@ body{
     font-family: $font-family, sans-serif;
     color:transparent;
     overflow:auto;
-    font-size:20px;
+    font-size:$editor-default-font-size;
     margin:0;
     width:calc(100% - 95px);
     height:calc(100% - 50px);
@@ -159,7 +167,7 @@ body{
     @if $text-editor-shadow != "none"{
         -webkit-text-stroke: 1px $text-editor-shadow;
     }
-    font-size:20px;
+    font-size:$editor-default-font-size;
     position: absolute;
     top: 0;left: 45px;right: 0;bottom: 0;
     padding: 25px;
@@ -184,7 +192,7 @@ body{
 }
 
 .md .md-preview{
-    font-size:20px;
+    font-size:$editor-default-font-size;
     position: absolute;
     top: 0;right: 0;bottom: 0;
     padding: 25px;

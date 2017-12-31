@@ -176,13 +176,7 @@ exports.init = function () {
 
 
         function is_system_key(x_buffer) {
-            if (x_buffer == "const") {
-                return true;
-            } else if (x_buffer == "var") {
-                return true;
-            } else if (x_buffer == "let") {
-                return true;
-            } else if (x_buffer == "function") {
+            if(["abstract","arguments","await","boolean","break","byte","case","catch","char","class","const","continue","debugger","default","delete","do","double","else","enum","eval","export","extends","false","final","finally","float","for","function","goto","if","implements","import","in","instanceof","int","interface","let","long","native","new","null","package","private","protected","public","return","short","static","super","switch","synchronized","this","throw","throws","transient","true","try","typeof","var","void","volatile","while","with","yield"].indexOf(x_buffer) >= 0){
                 return true;
             }
 
@@ -259,8 +253,10 @@ exports.init = function () {
                 if (string == null && comment == false) {
                     var system_key = is_system_key(x_buffer);
 
-
-                    if (system_key) {
+                    if (["if", "else", "try", "catch", "return", "for", "while"].indexOf(x_buffer) >= 0) {
+                        x_buffer = '<span style="color:DarkMagenta">' + x_buffer + '</span>';
+                    } 
+                    else if (system_key) {
                         x_buffer = '<span style="color:orange">' + x_buffer + '</span>';
                     }
 
@@ -268,9 +264,6 @@ exports.init = function () {
                         x_buffer = '<span style="color:darkblue">' + x_buffer + '</span>';
                     }
 
-                    if (["if", "else", "try", "catch", "return", "for", "while"].indexOf(x_buffer) >= 0) {
-                        x_buffer = '<span style="color:DarkMagenta">' + x_buffer + '</span>';
-                    }
 
                     if (char == "(") {
                         x_buffer = '<span style="color:green">' + x_buffer + '</span>';

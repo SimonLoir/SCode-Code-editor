@@ -41,7 +41,8 @@ exports.init = function () {
         ]
     }
 
-    //ES6 way to get snippets quickly : this.snippets.js.find(e => e.trigger == "qSA")    =>  {
+    //ES6 way to get snippets quickly : this.snippets.js.find(e => e.trigger == "qSA")    // result would be
+    //       {
     //            trigger: "qSA",
     //            result: "querySelectorAll('')"
     //        } 

@@ -34,10 +34,15 @@ exports.tokenizeJs = function (text) {
                             type: "Keyword",
                             value: buffer
                         });
-                    } else {
+                    } else if (isNaN(buffer)) {
                         tokens.push({
                             type: "Identifier",
                             value: buffer
+                        });
+                    }else{
+                        tokens.push({
+                            type: "Number",
+                            value: parseFloat(buffer)
                         });
                     }
                 }
@@ -63,11 +68,11 @@ exports.tokenizeJs = function (text) {
                     }else{
                         buffer += "/"
                     }
-                    console.log(e, i, after, buffer)
+                    //console.log(e, i, after, buffer)
                 }else{
                     buffer += e;
                 }
-                console.log(buffer);
+                //console.log(buffer);
                 if(special){
                     if (buffer.trim() != "") {
                         if (reserved_keywords.indexOf(buffer) >= 0) {
@@ -75,10 +80,15 @@ exports.tokenizeJs = function (text) {
                                 type: "Keyword",
                                 value: buffer
                             });
-                        } else {
+                        } else if (isNaN(buffer)) {
                             tokens.push({
                                 type: "Identifier",
                                 value: buffer
+                            });
+                        }else{
+                            tokens.push({
+                                type: "Number",
+                                value: parseFloat(buffer)
                             });
                         }
                     }

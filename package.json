@@ -1,0 +1,27 @@
+{
+  "name": "scode",
+  "version": "2.18.1",
+  "description": "A code editor made from scratch by a student. SCode works on GNU/Linux and Windows",
+  "main": "src/js/main.js",
+  "scripts": {
+    "test": "npm start",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SimonLoir/SCode-Text-editor.git"
+  },
+  "author": "Simon Loir",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SimonLoir/SCode-Text-editor/issues"
+  },
+  "homepage": "https://github.com/SimonLoir/SCode-Text-editor#readme",
+  "dependencies": {
+  }, 
+  "devDependencies": {
+    "electron": "^1.7.10",
+    "electron-builder": "^19.50.0",
+    "typescript": "^2.6.2"
+  }
+}

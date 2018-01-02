@@ -47,7 +47,7 @@ app.on("ready", function () {
         }
     });
 
-    ipcMain.on('print-it', (error:any, event:Object) => {
+    ipcMain.on('print-it', (error:any, event:any) => {
         //console.log(event)
         var window = new BrowserWindow({show:false, title: "Scode - Print - Preview"});
         let fsystem = require('fs');
@@ -64,4 +64,3 @@ app.on("ready", function () {
         }));
     });
 });
-

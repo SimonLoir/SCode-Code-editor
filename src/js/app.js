@@ -29,7 +29,6 @@ electron_1.app.on("ready", function () {
             preview_window.show();
         }
         catch (error) {
-            //console.log(error);
         }
     });
     electron_1.ipcMain.on('render-project', function (error) {
@@ -37,16 +36,13 @@ electron_1.app.on("ready", function () {
             preview_window.reload();
         }
         catch (error) {
-            //console.log(error);
         }
     });
     electron_1.ipcMain.on('print-it', function (error, event) {
-        //console.log(event)
         var window = new electron_1.BrowserWindow({ show: false, title: "Scode - Print - Preview" });
         var fsystem = require('fs');
         fsystem.writeFileSync(__dirname + "/print.html", "<style>body{color:black;font-family:sans-serif, arial;}.default_color{color:rgb(20,20,20)}</style>" + event.content.replace('color:white', "color:rgb(20,20,20)"));
         window.once('ready-to-show', function () {
-            //console.log('show')
             window.show();
             window.webContents.print();
         });

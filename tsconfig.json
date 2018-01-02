@@ -2,7 +2,7 @@
     "compileOnSave": true,
     "compilerOptions": {
         "noImplicitAny": true,
-        "removeComments": false,
+        "removeComments": true,
         "preserveConstEnums": true,
         "outDir": "src/js/",
         "watch": true

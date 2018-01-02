@@ -1,11 +1,11 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "module": "system",
         "noImplicitAny": true,
         "removeComments": false,
         "preserveConstEnums": true,
-        "outDir": "src/js/"
+        "outDir": "src/js/",
+        "watch": true
     },
     "include": [
         "src/ts/**/*"

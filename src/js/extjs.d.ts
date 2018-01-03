@@ -5,11 +5,11 @@ interface ExtJsObject{
      */
     ready(callback: () => void)
     /**
-     * It calls the callback when the user performs a click on a sepcific element
+     * It calls the callback when the user performs a click on a sepcific element or it triggers a click event when no callback is passed.
      * @param callback Function called when the event is triggered
      * @param element Query selector of the element
      */
-    click(callback: (event:Event) => void, element?: String)
+    click(callback?: (event:Event) => void, element?: String)
 }
 declare module "extjs"{
     /**

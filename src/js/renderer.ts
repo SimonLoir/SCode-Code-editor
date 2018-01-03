@@ -9,22 +9,39 @@ import Tabmanager from "../js/tabmanager/tabmanager";
  */
 class SCode {
     
-    private _tabmanager:any;
+    private _tabmanager:Tabmanager;
+    private _settings:Settings;
 
-    set Tabmanager(tabmanager:any) {
+    public set tabmanager(tabmanager: Tabmanager) {
         this._tabmanager = tabmanager;
     }
 
-    get Tabmanager(){
+    public get tabmanager(): Tabmanager{
         return this._tabmanager;
     }
+    
+    
+    public set settings(settings: Settings) {
+        this._settings = settings;
+    }
+    
+    
+    public get settings(): Settings {
+        return this._settings;
+    }
+    
 }
 
 /**
  ****************************  SCODE INIT ****************************
  */
-$(document).ready(function () {
-    let scode = new SCode;
-    scode.Tabmanager = new Tabmanager();
-    let s = new Settings();
-});
+
+let scode = new SCode;
+scode.settings = new Settings;
+scode.tabmanager = new Tabmanager(scode.settings.getLastOpenedFiles());
+if(scode.settings.isFirstUse == true){
+    scode.tabmanager.newTab("d");
+}
+
+
+

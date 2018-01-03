@@ -1,3 +1,5 @@
+import * as path from "path";
+
 /** 
  * This file is part of the tabmanager module.
  */
@@ -11,8 +13,6 @@ export default class Tabmanager{
      * @param default_files Files that have to be opened on startup
      */
     constructor(default_files?:Array<string>){
-        
-        this._tabmanager = $(document);
 
         if(default_files != undefined){
 
@@ -26,9 +26,15 @@ export default class Tabmanager{
 
     }
 
-    newTab(filename: String) {
+    /**
+     * Creates a new tab in the tabmanager
+     * @param filename the name of the file. 
+     */
+    public newTab(filename: string) {
 
+        let file_extension = path.extname; 
 
+        
 
     }
 

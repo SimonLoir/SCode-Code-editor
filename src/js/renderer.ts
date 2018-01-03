@@ -15,10 +15,6 @@ class SCode {
         return this._tabmanager;
     }
 }
-AR.GET('dd', function() {
 
-}, function () {
-
-});
 let scode = new SCode;
 scode.Tabmanager = new Tabmanager();

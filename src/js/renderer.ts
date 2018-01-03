@@ -1,5 +1,5 @@
 import Tabmanager from "../js/tabmanager/tabmanager";
-import $ from "extjs";
+import {$, AR} from "extjs";
 /**
  * Renderer process for scode
  */
@@ -15,7 +15,9 @@ class SCode {
         return this._tabmanager;
     }
 }
-$('test').child({
+AR.GET('dd', function() {
+
+}, function () {
 
 });
 let scode = new SCode;

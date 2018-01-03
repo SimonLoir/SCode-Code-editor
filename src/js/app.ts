@@ -1,3 +1,4 @@
+///<reference path="../../node_modules/electron/electron.d.ts"/>
 import {app, globalShortcut, BrowserWindow, ipcMain} from "electron";
 import * as path from "path";
 import * as url from "url";

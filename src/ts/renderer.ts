@@ -1,3 +1,0 @@
-/**
- * Renderer process for scode
- */

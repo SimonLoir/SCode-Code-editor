@@ -17,10 +17,15 @@
     "url": "https://github.com/SimonLoir/SCode-Text-editor/issues"
   },
   "homepage": "https://github.com/SimonLoir/SCode-Text-editor#readme",
-  "dependencies": {},
+  "dependencies": {
+    "typings": "^2.1.1"
+  },
   "devDependencies": {
+    "@types/electron": "^1.6.10",
+    "@types/node": "^8.5.2",
     "electron": "^1.8.1",
     "electron-builder": "^19.51.0",
+    "ts-node": "^4.1.0",
     "typescript": "^2.6.2"
   }
 }

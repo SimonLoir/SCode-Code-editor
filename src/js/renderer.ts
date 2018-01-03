@@ -1,5 +1,5 @@
+import Settings from "../js/settings/settings";
 import Tabmanager from "../js/tabmanager/tabmanager";
-import {$, AR} from "extjs";
 /**
  * Renderer process for scode
  */
@@ -16,5 +16,8 @@ class SCode {
     }
 }
 
+
+
 let scode = new SCode;
 scode.Tabmanager = new Tabmanager();
+let s = new Settings();

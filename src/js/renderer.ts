@@ -1,7 +1,11 @@
+/**
+ ****************************  MODULES  ****************************
+ */
 import Settings from "../js/settings/settings";
 import Tabmanager from "../js/tabmanager/tabmanager";
+
 /**
- * Renderer process for scode
+ ****************************  SCODE CORE  ****************************
  */
 class SCode {
     
@@ -16,8 +20,11 @@ class SCode {
     }
 }
 
-
-
-let scode = new SCode;
-scode.Tabmanager = new Tabmanager();
-let s = new Settings();
+/**
+ ****************************  SCODE INIT ****************************
+ */
+$(document).ready(function () {
+    let scode = new SCode;
+    scode.Tabmanager = new Tabmanager();
+    let s = new Settings();
+});

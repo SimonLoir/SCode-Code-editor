@@ -15,6 +15,8 @@ class SCode {
         return this._tabmanager;
     }
 }
+$('test').child({
 
+});
 let scode = new SCode;
 scode.Tabmanager = new Tabmanager();

@@ -1,6 +1,10 @@
 /*
-SCode default style
-*/
+ * SCode default style
+ * Copyright 2018 Simon Loir
+ */
 $scode-color:white;
 $scode-background-color:rgb(30,30,30);
+$scode-header-background:$scode-background-color;
+$header-bottom-line-color:rgb(24,24,24);
+$scode-workspace-background-color:lighten($scode-background-color, 2%);
 @import "style";

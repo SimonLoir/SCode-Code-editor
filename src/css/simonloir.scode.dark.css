@@ -1,8 +1,12 @@
-/*
-SCode default style
-*/
+/* SCode default style Copyright 2018 Simon Loir */
 /* line 1, ../scss/_style.scss */
 * { color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
 /* line 5, ../scss/_style.scss */
 body { background: #1e1e1e; }
+
+/* line 9, ../scss/_style.scss */
+#scode_header { background: #1e1e1e; border-bottom: 1px solid #181818; }
+
+/* line 14, ../scss/_style.scss */
+#scode_workspace { background: #232323; }

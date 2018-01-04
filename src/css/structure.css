@@ -4,13 +4,32 @@ This files describes the default positions of the graphical components
 /* line 5, ../scss/structure.scss */
 body, html { margin: 0; padding: 0; }
 
-/* line 10, ../scss/structure.scss */
-#scode_header { position: absolute; top: 0; right: 0; left: 0; height: 26px; padding: 5px; -webkit-app-region: drag; }
-/* line 17, ../scss/structure.scss */
+/* line 12, ../scss/structure.scss */
+#scode_header { position: fixed; top: 0; right: 0; left: 0; height: 26px; padding: 5px; -webkit-app-region: drag; }
+/* line 19, ../scss/structure.scss */
 #scode_header #scode_header_logo { height: calc(100% - 5px); vertical-align: middle; }
-/* line 22, ../scss/structure.scss */
+/* line 24, ../scss/structure.scss */
 #scode_header #scode_header_title { vertical-align: middle; display: inline-block; }
-/* line 26, ../scss/structure.scss */
+/* line 28, ../scss/structure.scss */
 #scode_header .scode_controls { -webkit-app-region: no-drag; float: right; padding-left: 8px; padding-right: 8px; transition: 0.75s; }
-/* line 32, ../scss/structure.scss */
+/* line 34, ../scss/structure.scss */
 #scode_header .scode_controls:hover { color: coral; cursor: pointer; }
+
+/* line 43, ../scss/structure.scss */
+#scode_workspace { --explorer-size-in-px: 200px; position: fixed; top: 36px; left: 0; right: 0; bottom: 0; }
+/* line 49, ../scss/structure.scss */
+#scode_workspace #scode_explorer { position: absolute; top: 0; bottom: 0; left: 0; width: var(--explorer-size-in-px); height: 100%; }
+/* line 56, ../scss/structure.scss */
+#scode_workspace #scode_tabmanager { position: absolute; top: 0; bottom: 0; left: var(--explorer-size-in-px); right: 0; height: 100%; }
+
+/* line 72, ../scss/structure.scss */
+::-webkit-scrollbar { -webkit-app-region: no-drag; width: 12px; background: transparent; }
+
+/* line 78, ../scss/structure.scss */
+::-webkit-scrollbar-track { -webkit-app-region: no-drag; background: none; background: transparent; }
+
+/* line 84, ../scss/structure.scss */
+::-webkit-scrollbar-thumb { -webkit-app-region: no-drag; background: rgba(255, 255, 255, 0.05); transition: 0.75s; cursor: pointer; }
+
+/* line 90, ../scss/structure.scss */
+::-webkit-scrollbar-thumb:hover { -webkit-app-region: no-drag; background: rgba(255, 255, 255, 0.5); }

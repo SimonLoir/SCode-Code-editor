@@ -5,3 +5,18 @@
 body{
     background: $scode-background-color;
 }
+
+#scode_header{
+    background:$scode-header-background;
+    border-bottom: 1px solid $header-bottom-line-color;
+}
+
+#scode_workspace{
+    background:$scode-workspace-background-color;
+    & #scode_explorer{
+       
+    }
+    & #scode_tabmanager{
+        
+    }
+}

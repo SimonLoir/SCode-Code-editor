@@ -7,8 +7,10 @@ body, html{
     padding: 0;
 }
 
+///SCodeHeader
+
 #scode_header{
-    position: absolute;
+    position: fixed;
     top: 0;right: 0;left: 0;
     height: 26px;
     padding: 5px;
@@ -34,4 +36,58 @@ body, html{
             cursor:pointer;
         }
     }
+}
+
+///SCodeWorkspace
+
+#scode_workspace{
+    --explorer-size-in-px:200px;
+    position: fixed;
+    top: 36px;
+    left: 0;right: 0;bottom: 0;
+    
+    & #scode_explorer{
+        position: absolute;
+        top: 0;bottom: 0;left: 0;
+        width: var(--explorer-size-in-px);
+        height: 100%;
+        //border:1px solid red;
+    }
+    & #scode_tabmanager{
+        position: absolute;
+        top: 0;bottom: 0;
+        left:var(--explorer-size-in-px);
+        right:0;
+        height: 100%;
+        //border:1px solid red;
+    }
+}
+
+
+///ScrollBar 
+
+$scrollbar-thumb:rgba(255,255,255,0.05);
+$scrollbar-thumb-hover:rgba(255,255,255,0.50);
+
+::-webkit-scrollbar{
+    -webkit-app-region: no-drag;    
+    width: 12px;
+    background: transparent;
+}
+
+::-webkit-scrollbar-track{
+    -webkit-app-region: no-drag;    
+    background: none;
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb{
+    -webkit-app-region: no-drag;    
+    background: $scrollbar-thumb;
+    transition:0.75s;
+    cursor: pointer;
+}
+::-webkit-scrollbar-thumb:hover{
+    -webkit-app-region: no-drag;    
+    background: $scrollbar-thumb-hover;
 }

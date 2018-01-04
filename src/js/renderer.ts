@@ -50,4 +50,6 @@ scode.ready(() => {
     if(scode.settings.isFirstUse == true){
         scode.tabmanager.newTab(__dirname + "../readme.md", false);
     }
+    // We init scode with the right language
+    scode.init(scode.settings.get('language'))
 });

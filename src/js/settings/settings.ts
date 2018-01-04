@@ -5,7 +5,7 @@ export default class Settings{
     
     private default_settings = {
         always_show_workdir_and_opened_files: true,
-        language: "en",
+        language: "fr",
         theme: "themes/scode-dark-material.css"
     }
 

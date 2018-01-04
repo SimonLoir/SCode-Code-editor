@@ -2,9 +2,25 @@
  * SCode default style
  * Copyright 2018 Simon Loir
  */
+
+//Global
 $scode-color:white;
 $scode-background-color:rgb(30,30,30);
+
+//Header
+$scode-header-color:$scode-color;
 $scode-header-background:$scode-background-color;
-$header-bottom-line-color:rgb(24,24,24);
-$scode-workspace-background-color:lighten($scode-background-color, 2%);
+$scode-header-bottom-line-color:rgb(24,24,24);
+
+//Explorer
+$scode-workspace-background-color:rgb(37,37,37);
+$explorer-title-color:rgba(255,255,255,0.75);
+$scode-explorer-right-line-color:/*rgb(24,24,24)*/rgb(37,37,37);
+
+//Tabmanager
+$scode-tabmanager-background-color:$scode-background-color;
+
+//StatusBar
+$scode-statuts-bar-top-line-color:rgb(24,24,24);
+
 @import "style";

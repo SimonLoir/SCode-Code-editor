@@ -43,26 +43,35 @@ body, html{
 #scode_workspace{
     --explorer-size-in-px:200px;
     position: fixed;
-    top: 36px;
-    left: 0;right: 0;bottom: 0;
+    top: 37px;
+    left: 0;right: 0;bottom: 26px;
     
     & #scode_explorer{
         position: absolute;
         top: 0;bottom: 0;left: 0;
         width: var(--explorer-size-in-px);
-        height: 100%;
+        height: calc(100% - 26px);
+        padding: 13px;
         //border:1px solid red;
     }
     & #scode_tabmanager{
         position: absolute;
         top: 0;bottom: 0;
-        left:var(--explorer-size-in-px);
+        left:calc(var(--explorer-size-in-px) + 27px);
         right:0;
         height: 100%;
         //border:1px solid red;
     }
 }
 
+///ScodeStatusBar
+
+#scode_status_bar{
+    position: fixed;
+    bottom:0;right: 0;left: 0;
+    height: 20px;
+    padding: 3px;
+}
 
 ///ScrollBar 
 

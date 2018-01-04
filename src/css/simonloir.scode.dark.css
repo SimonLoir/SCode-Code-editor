@@ -9,4 +9,13 @@ body { background: #1e1e1e; }
 #scode_header { background: #1e1e1e; border-bottom: 1px solid #181818; }
 
 /* line 14, ../scss/_style.scss */
-#scode_workspace { background: #232323; }
+#scode_workspace { background: #252525; }
+/* line 16, ../scss/_style.scss */
+#scode_workspace #scode_explorer { border-right: 1px solid #252525; }
+/* line 17, ../scss/_style.scss */
+#scode_workspace #scode_explorer b { color: rgba(255, 255, 255, 0.75); }
+/* line 27, ../scss/_style.scss */
+#scode_workspace #scode_tabmanager { background: #1e1e1e; }
+
+/* line 32, ../scss/_style.scss */
+#scode_status_bar { border-top: 1px solid #181818; }

@@ -8,15 +8,27 @@ body{
 
 #scode_header{
     background:$scode-header-background;
-    border-bottom: 1px solid $header-bottom-line-color;
+    border-bottom: 1px solid $scode-header-bottom-line-color;
 }
 
 #scode_workspace{
     background:$scode-workspace-background-color;
     & #scode_explorer{
-       
+        & b{
+            color:$explorer-title-color;
+        }
+        border-right:1px solid $scode-explorer-right-line-color;
     }
+
     & #scode_tabmanager{
         
     }
+
+    & #scode_tabmanager{
+        background: $scode-tabmanager-background-color;
+    }
+}
+
+#scode_status_bar{
+    border-top:1px solid $scode-statuts-bar-top-line-color;
 }

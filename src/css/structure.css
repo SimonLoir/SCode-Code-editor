@@ -25,18 +25,20 @@ body, html { margin: 0; padding: 0; }
 #scode_workspace #scode_tabmanager #scode_tabmanager_tabs { position: absolute; top: 0; right: 0; left: 0; height: 36px; }
 /* line 68, ../scss/structure.scss */
 #scode_workspace #scode_tabmanager #scode_tabmanager_tabs .scode_tabmanager_tabs { display: inline-block; height: calc(100% - 10px); padding: 5px; }
+/* line 74, ../scss/structure.scss */
+#scode_workspace #scode_tabmanager .scode_tabmnager_tab_content { padding: 0; margin: 0; position: absolute; top: 36px; left: 0; right: 0; bottom: 0; }
 
-/* line 79, ../scss/structure.scss */
+/* line 86, ../scss/structure.scss */
 #scode_status_bar { position: fixed; bottom: 0; right: 0; left: 0; height: 20px; padding: 3px; }
 
-/* line 91, ../scss/structure.scss */
+/* line 98, ../scss/structure.scss */
 ::-webkit-scrollbar { -webkit-app-region: no-drag; width: 12px; background: transparent; }
 
-/* line 97, ../scss/structure.scss */
+/* line 104, ../scss/structure.scss */
 ::-webkit-scrollbar-track { -webkit-app-region: no-drag; background: none; background: transparent; }
 
-/* line 103, ../scss/structure.scss */
+/* line 110, ../scss/structure.scss */
 ::-webkit-scrollbar-thumb { -webkit-app-region: no-drag; background: rgba(255, 255, 255, 0.05); transition: 0.75s; cursor: pointer; }
 
-/* line 109, ../scss/structure.scss */
+/* line 116, ../scss/structure.scss */
 ::-webkit-scrollbar-thumb:hover { -webkit-app-region: no-drag; background: rgba(255, 255, 255, 0.5); }

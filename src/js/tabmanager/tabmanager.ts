@@ -6,8 +6,8 @@ import tab from "./tabs";
  */
 export default class Tabmanager{
     
-    private _tabs: any[] = [];
-    private _tabmanager: ExtJsObject;
+    private _tabs: any = {};
+    public tabmanager: ExtJsObject;
     private _language: Object;
     private _extensions = {
         code: [".js", ".ts", ".html", ".css", ".md", ".scss", ".json", ".sass"],
@@ -48,12 +48,46 @@ export default class Tabmanager{
             throw new Error("Cannot open the file because the file doesn't exist");
         }
 
-        let new_tab = new tab(filename);
+        
+        let new_tab = new tab(filename, path.extname(filename).replace('.', ""));
         
         if(this._extensions.code.indexOf(path.extname(filename)) >= 0){
             new_tab.codeEditor();
         }else{
             new_tab.viewer();
+        }
+        
+        function htmlEntities(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        let tab_container = this.tabmanager.child('div');
+        tab_container.addClass('scode_tabmnager_tab_content');
+        tab_container.html(htmlEntities(fs.readFileSync(filename, "utf-8")));
+        
+        let tabs = $(this.tabmanager.get(0).querySelector('#scode_tabmanager_tabs'));
+        
+        let tab_title = tabs.child('span');
+        tab_title.html(path.basename(filename) + " ");
+        tab_title.addClass('scode_tabmanager_tabs');
+        
+        tab_title.click(function () {
+            $(".scode_tabmnager_tab_content").css('display', "none");
+            tab_container.css("display", "block");
+        });
+
+        tab_title.click();
+
+        tab_title.child('span').html('×').click(function (){
+            tab_container.remove();
+            delete this._tabs[filename];
+            tab_title.remove();
+        }.bind(this));
+
+        this._tabs[filename] = {
+            tab:new_tab,
+            tab_container,
+            tab_title
         }
         
     }

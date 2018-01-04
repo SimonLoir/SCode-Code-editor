@@ -49,24 +49,26 @@ class ExtJsObject {
      * @param {String} html HTML to put inside the element or undefined or nothing
      * @return {String|Object} HTML that is inside the first element or the current instance.
      */
-    html(html: string) {
-        for (var i = 0; i < this.node.length; i++) {
-            var e = this.node[i];
-
-            if (typeof (html) === "string" || typeof (html) === "number") {
-                e.innerHTML = html;
-            } else {
-                return e.innerHTML;
+    html(html?: string) {
+        if(html != undefined){
+            for (var i = 0; i < this.node.length; i++) {
+                var e = this.node[i];
+    
+                if (typeof (html) === "string" || typeof (html) === "number") {
+                    e.innerHTML = html;
+                }
             }
+            return this;
+        }else{
+            return $(this.node[0]);
         }
-        return this;
     }
 
     /**
      * @param {Function|Undefined} toDo function that is called when somebody clicks on the element  or undefined or nothing
      * @param {String|Undefined} element specifies the element on which we are going to listen the click.
      */
-    click(toDo: () => void, element: string) {
+    click(toDo?: () => void, element?: string) {
 
         for (var i = 0; i < this.node.length; i++) {
             var e = this.node[i];

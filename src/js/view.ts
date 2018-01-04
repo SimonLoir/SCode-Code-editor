@@ -6,9 +6,10 @@ interface ControlsBar{
     full_screen_button: ExtJsObject
     bar: ExtJsObject
 }
+
 export default class View {
 
-    public version = "2.18";
+    public version = "2.18.1";
 
     public ready = $(document).ready;
 
@@ -17,6 +18,8 @@ export default class View {
     public side_panel: ExtJsObject;
 
     private _language: any;
+
+    public __tabmanager: ExtJsObject;
 
     /**
      * Gets a language pack from the res folder.
@@ -48,8 +51,18 @@ export default class View {
         
         this._language = this.getLanguagePack(language);
 
+        this.__tabmanager = $('#scode_tabmanager');
+
         $('#scode_explorer_title').html(this._language.explorer.toUpperCase());
 
+        this.controls_bar = {
+            bar: $('#scode_header'),
+            close_button: $('.scode_controls#close'),
+            minimize_button : $('.scode_controls#minimize'),
+            full_screen_button: $('.scode_controls#fullscreen')
+        }
+
+        this.addEvents();
     }
 
     /**
@@ -57,6 +70,39 @@ export default class View {
      */
     public get language() {
         return this._language;
+    }
+
+    /**
+     * Adds features on HTMLElements
+     */
+    public addEvents(){
+        let app = require('electron').remote;
+        var window = app.getCurrentWindow();
+        
+        this.controls_bar.close_button.click(function () {
+            window.close();
+        });
+
+        this.controls_bar.minimize_button.click(function () {
+            window.minimize();
+        });
+
+        this.controls_bar.full_screen_button.click(function () {
+            if(window.isFullScreen() == true){
+
+                window.setFullScreen(false);
+                //$('#togglefullscreen i').removeClass('icon-resize-small');                
+                //$('#togglefullscreen i').addClass('icon-resize-full');
+
+            } else {
+
+                window.setFullScreen(true);
+                //$('#togglefullscreen i').removeClass('icon-resize-full');                                
+                //$('#togglefullscreen i').addClass('icon-resize-small');
+            }
+        });
+
+
     }
 
 }

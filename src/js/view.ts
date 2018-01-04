@@ -16,8 +16,12 @@ export default class View {
 
     public side_panel: ExtJsObject;
 
-    private language: Object;
+    private _language: any;
 
+    /**
+     * Gets a language pack from the res folder.
+     * @param language The language of the language pack
+     */
     private getLanguagePack(language: string): Object{
         
         let language_pack_location = __dirname + "/../res/lang-" + language + ".json";
@@ -34,12 +38,25 @@ export default class View {
 
     }
 
+    /**
+     * Method called to create the view.
+     * @param language the global language of scode.
+     */
     public init(language:string) {
 
-        $('#scode_version').html(this.version + ":" + language);
+        $('#scode_version').html(this.version);
         
-        this.language = this.getLanguagePack(language);
+        this._language = this.getLanguagePack(language);
 
+        $('#scode_explorer_title').html(this._language.explorer.toUpperCase());
+
+    }
+
+    /**
+     * Returns the global language pack.
+     */
+    public get language() {
+        return this._language;
     }
 
 }

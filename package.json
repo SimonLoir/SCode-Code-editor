@@ -17,11 +17,18 @@
     "url": "https://github.com/SimonLoir/SCode-Text-editor/issues"
   },
   "homepage": "https://github.com/SimonLoir/SCode-Text-editor#readme",
-  "dependencies": {},
+  "dependencies": {
+    "emmet": "^1.6.3",
+    "js-beautify": "^1.7.5",
+    "marked": "^0.3.9",
+    "node-pty": "^0.7.4",
+    "simple-git": "^1.85.0",
+    "xterm": "^2.9.2"
+  },
   "devDependencies": {
-    "@types/node": "^8.5.2",
+    "@types/node": "^8.5.5",
     "electron": "^1.8.1",
-    "electron-builder": "^19.51.0",
+    "electron-builder": "^19.53.0",
     "ts-node": "^4.1.0",
     "typescript": "^2.6.2"
   }

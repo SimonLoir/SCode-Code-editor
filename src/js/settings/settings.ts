@@ -3,6 +3,12 @@ import * as os from "os";
 
 export default class Settings{
     
+    private default_settings = {
+        always_show_workdir_and_opened_files: true,
+        language: "en",
+        theme: "themes/scode-dark-material.css"
+    }
+
     private _settings: Object;
 
     private scode_dir = os.homedir() + "/.scode/";
@@ -17,7 +23,7 @@ export default class Settings{
      * Loads the settings of the editor.
      */
     private load():void{
-        this._settings = {}
+        this._settings = this.default_settings;
     }
 
     /**

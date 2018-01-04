@@ -1,5 +1,4 @@
 import * as path from "path";
-
 /** 
  * This file is part of the tabmanager module.
  */
@@ -30,9 +29,14 @@ export default class Tabmanager{
      * Creates a new tab in the tabmanager
      * @param filename the name of the file. 
      */
-    public newTab(filename: string) {
+    public newTab(filename: string, editor?:boolean) {
 
-        let file_extension = path.extname; 
+        //Default behavior : tries to create a code editor for the file.
+        if(editor == undefined){
+            editor = true;
+        }
+
+        let file_extension = path.extname(filename); 
 
         
 

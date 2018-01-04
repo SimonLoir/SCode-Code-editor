@@ -15,10 +15,12 @@ $scode-header-bottom-line-color:rgb(24,24,24);
 //Explorer
 $scode-workspace-background-color:rgb(37,37,37);
 $explorer-title-color:rgba(255,255,255,0.75);
-$scode-explorer-right-line-color:/*rgb(24,24,24)*/rgb(37,37,37);
+$scode-explorer-right-line-color:rgb(37,37,37);
 
 //Tabmanager
 $scode-tabmanager-background-color:$scode-background-color;
+$scode-tabmanager-tabs-background-color:rgb(37,37,37);
+$scode-tabmanager-tab-background-color:rgb(46,46,46);
 
 //StatusBar
 $scode-statuts-bar-top-line-color:rgb(24,24,24);

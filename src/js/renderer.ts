@@ -60,6 +60,10 @@ scode.ready(() => {
         scode.tabmanager.newTab(__dirname + "../readme.md", false);
     }   
 
-    scode.tabmanager.newTab("dd", false);
+    scode.tabmanager.newTab("C:\\Users\\simon\\Documents\\typescript\\index.js", false);
 
 });
+
+/*
+ * XTerm Fit https://xtermjs.org/docs/api/addons/fit/
+ */

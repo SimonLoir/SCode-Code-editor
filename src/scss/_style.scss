@@ -19,13 +19,15 @@ body{
         }
         border-right:1px solid $scode-explorer-right-line-color;
     }
-
-    & #scode_tabmanager{
-        
-    }
-
     & #scode_tabmanager{
         background: $scode-tabmanager-background-color;
+        & #scode_tabmanager_tabs{
+            background:$scode-tabmanager-tabs-background-color;
+            & .scode_tabmanager_tabs{
+                background: $scode-tabmanager-tab-background-color;
+                margin:0;
+            }
+        }
     }
 }
 

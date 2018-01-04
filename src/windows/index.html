@@ -23,6 +23,7 @@
             background: rgb(34, 34, 34);
         }
     </style>
+    <link rel="stylesheet" href="../css/structure.css">
     <link rel="stylesheet" href="../css/simonloir.scode.dark.css">
     <!-- TO DO : <link rel="stylesheet" href="res/scode_icon_font/css/scode_icon_font.css">
     <link rel="stylesheet" href="../node_modules/xterm/dist/xterm.css" />
@@ -31,16 +32,20 @@
 </head>
 
 <body>
-    <div class="scode_header">
-        
+    <div id="scode_header">
+        <img src="../res/logo.svg" alt="scode logo" id="scode_header_logo">
+        <span id="scode_header_title">SCode@<span id="scode_version"></span></span>
+        <span class="scode_controls" id="close">×</span>
+        <span class="scode_controls" id="fullscreen">></span>
+        <span class="scode_controls" id="minimize">_</span>
     </div>
-    <div class="scode_explorer">
+    <div id="scode_explorer">
 
     </div>
-    <div class="scode_tabmanager">
+    <div id="scode_tabmanager">
         
     </div>
-    <div class="scode_status_bar">
+    <div id="scode_status_bar">
 
     </div>
 </body>

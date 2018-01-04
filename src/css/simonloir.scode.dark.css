@@ -1,2 +1,8 @@
+/*
+SCode default style
+*/
 /* line 1, ../scss/_style.scss */
-body { background: #1e1e1e; color: white; }
+* { color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+/* line 5, ../scss/_style.scss */
+body { background: #1e1e1e; }

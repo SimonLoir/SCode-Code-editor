@@ -18,7 +18,7 @@ export default class View {
         // Stuff to do when the app is ready
         this.ready(() => {
 
-            
+            $('#scode_version').html(this.version);
 
         });
     }

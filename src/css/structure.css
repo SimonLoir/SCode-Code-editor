@@ -1,0 +1,16 @@
+/*
+This files describes the default positions of the graphical components
+*/
+/* line 5, ../scss/structure.scss */
+body, html { margin: 0; padding: 0; }
+
+/* line 10, ../scss/structure.scss */
+#scode_header { position: absolute; top: 0; right: 0; left: 0; height: 26px; padding: 5px; -webkit-app-region: drag; }
+/* line 17, ../scss/structure.scss */
+#scode_header #scode_header_logo { height: calc(100% - 5px); vertical-align: middle; }
+/* line 22, ../scss/structure.scss */
+#scode_header #scode_header_title { vertical-align: middle; display: inline-block; }
+/* line 26, ../scss/structure.scss */
+#scode_header .scode_controls { -webkit-app-region: no-drag; float: right; padding-left: 8px; padding-right: 8px; transition: 0.75s; }
+/* line 32, ../scss/structure.scss */
+#scode_header .scode_controls:hover { color: coral; cursor: pointer; }

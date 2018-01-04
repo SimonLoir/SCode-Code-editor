@@ -1,4 +1,7 @@
+* {
+    color:$scode-color;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 body{
-    background: rgb(30,30,30);
-    color:white;
+    background: $scode-background-color;
 }

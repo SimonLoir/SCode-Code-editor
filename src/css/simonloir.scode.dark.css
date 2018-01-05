@@ -22,4 +22,9 @@ body { background: #1e1e1e; }
 #scode_workspace #scode_tabmanager #scode_tabmanager_tabs .scode_tabmanager_tabs { cursor: pointer; background: #2e2e2e; margin: 0; border-right: 1px solid #252525; }
 
 /* line 36, ../scss/_style.scss */
+.scode_button { background: #181818; border: none; padding: 8px 15px; cursor: pointer; border-radius: 4px; box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.08); transition: box-shadow 0.25s; }
+/* line 44, ../scss/_style.scss */
+.scode_button:hover { box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.35); }
+
+/* line 49, ../scss/_style.scss */
 #scode_status_bar { border-top: 1px solid #181818; }

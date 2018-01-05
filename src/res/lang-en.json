@@ -1,3 +1,6 @@
 {
-    "explorer": "Explorer"
+    "explorer": "Explorer",
+    "scode-welcome": "<h2>Welcome to SCode !</h2> <p>This code editor has been made with xterm, node-pty, simple-git, js-beautify and of course electron.</p>" ,
+    "open-file": "Open file",
+    "open-folder": "Open folder"
 }

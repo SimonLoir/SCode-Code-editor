@@ -33,6 +33,19 @@ body{
     }
 }
 
+.scode_button{
+    background:$scode-component-button-bg-color;
+    border:none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.08);
+    transition: box-shadow 0.25s;
+    &:hover{
+        box-shadow: 5px 5px 15px rgba(0,0,0,0.35);  
+    }
+}
+
 #scode_status_bar{
     border-top:1px solid $scode-statuts-bar-top-line-color;
 }

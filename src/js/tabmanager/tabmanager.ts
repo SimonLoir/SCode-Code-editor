@@ -86,6 +86,8 @@ export default class Tabmanager{
                 
                 this._tabs[left_opened[0]].tab_title.click();
                 
+            }else{
+                $('#default').css('display', "block")
             }
             
             tab_title.remove();

@@ -1,3 +1,6 @@
 {
-    "explorer":"Explorateur"
+    "explorer":"Explorateur",
+    "scode-welcome": "<h2>Bienvenue sur SCode !</h2> <p>Cet éditeur de code a été conçu avec xterm, node-pty, simple-git, js-beautify et electron.</p>" ,
+    "open-file": "Ouvrir un fichier",
+    "open-folder": "Ouvrir un dossier"
 }

@@ -5,7 +5,7 @@ export default class Settings{
     
     private default_settings = {
         always_show_explorer: true,
-        language: "en"
+        language: "fr"
     }
 
     private _settings: Object;

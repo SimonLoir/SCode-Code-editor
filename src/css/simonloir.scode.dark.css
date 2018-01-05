@@ -19,7 +19,7 @@ body { background: #1e1e1e; }
 /* line 24, ../scss/_style.scss */
 #scode_workspace #scode_tabmanager #scode_tabmanager_tabs { background: #252525; }
 /* line 26, ../scss/_style.scss */
-#scode_workspace #scode_tabmanager #scode_tabmanager_tabs .scode_tabmanager_tabs { background: #2e2e2e; margin: 0; }
+#scode_workspace #scode_tabmanager #scode_tabmanager_tabs .scode_tabmanager_tabs { cursor: pointer; background: #2e2e2e; margin: 0; border-right: 1px solid #252525; }
 
-/* line 34, ../scss/_style.scss */
+/* line 36, ../scss/_style.scss */
 #scode_status_bar { border-top: 1px solid #181818; }

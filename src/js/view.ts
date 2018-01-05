@@ -62,6 +62,8 @@ export default class View {
             full_screen_button: $('.scode_controls#fullscreen')
         }
 
+        this.controls_bar.full_screen_button.addClass('icon-resize-full');            
+
         this.addEvents();
     }
 
@@ -88,17 +90,21 @@ export default class View {
         });
 
         this.controls_bar.full_screen_button.click(function () {
+            
+            let e = $(this);
+
             if(window.isFullScreen() == true){
 
                 window.setFullScreen(false);
-                //$('#togglefullscreen i').removeClass('icon-resize-small');                
-                //$('#togglefullscreen i').addClass('icon-resize-full');
+                e.removeClass('icon-resize-small');                
+                e.addClass('icon-resize-full');
 
             } else {
 
                 window.setFullScreen(true);
-                //$('#togglefullscreen i').removeClass('icon-resize-full');                                
-                //$('#togglefullscreen i').addClass('icon-resize-small');
+                e.removeClass('icon-resize-full');                                
+                e.addClass('icon-resize-small');
+
             }
         });
 

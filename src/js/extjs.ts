@@ -68,7 +68,7 @@ class ExtJsObject {
      * @param {Function|Undefined} toDo function that is called when somebody clicks on the element  or undefined or nothing
      * @param {String|Undefined} element specifies the element on which we are going to listen the click.
      */
-    click(toDo?: () => void, element?: string) {
+    click(toDo?: (event?:Event) => void, element?: string) {
 
         for (var i = 0; i < this.node.length; i++) {
             var e = this.node[i];

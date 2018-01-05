@@ -10,9 +10,9 @@ export default class Tab {
         this._type = type;
     }
 
-    public codeEditor(){
+    public codeEditor(default_content:string, container:ExtJsObject){
         //Here comes the code editor
-        this._editor = new Editor(this._type);
+        this._editor = new Editor(this._type, default_content, container);
     }
 
     public viewer(){

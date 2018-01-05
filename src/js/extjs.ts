@@ -102,7 +102,7 @@ class ExtJsObject {
      * @param index index of the element or undefined or nothing
      * @return {Object} a DOM element
      */
-    get(index: any) {
+    get(index: any):any{
         if (index != undefined) {
             if (this.node[index] == undefined) throw new IndexOutOfArrayExecption("ExtJsObject.get undefined index node[" + index + "]");
             return this.node[index];

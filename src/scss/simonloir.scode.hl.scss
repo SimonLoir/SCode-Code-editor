@@ -1,0 +1,24 @@
+@font-face{
+    font-family: source-code-pro;
+    src:url(./SourceCodePro-Regular.ttf);
+}
+
+$scode-caret-color:white;
+
+$font-family:"source-code-pro";
+
+$code-editor-color: rgba(255,255,255,0.25);
+
+$code-editor-default-color:white;
+
+$editor-default-font-size:15px;
+
+$text-editor-shadow:"none";
+
+$code-editor-default-background:rgb(30,30,30);
+
+$line-numbers-color:rgba(255,255,255,0.15);
+$line-numbers-background:$code-editor-default-background;
+
+
+@import "highlight";

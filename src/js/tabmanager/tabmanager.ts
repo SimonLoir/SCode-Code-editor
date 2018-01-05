@@ -51,19 +51,9 @@ export default class Tabmanager{
         
         let new_tab = new tab(filename, path.extname(filename).replace('.', ""));
         
-        if(this._extensions.code.indexOf(path.extname(filename)) >= 0){
-            new_tab.codeEditor();
-        }else{
-            new_tab.viewer();
-        }
         
-        function htmlEntities(str) {
-            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        }
-
         let tab_container = this.tabmanager.child('div');
         tab_container.addClass('scode_tabmnager_tab_content');
-        tab_container.html(htmlEntities(fs.readFileSync(filename, "utf-8")));
         
         let tabs = $(this.tabmanager.get(0).querySelector('#scode_tabmanager_tabs'));
         
@@ -72,20 +62,20 @@ export default class Tabmanager{
         tab_title.addClass('scode_tabmanager_tabs');
         
         tab_title.click(function () {
-
+            
             $(".scode_tabmnager_tab_content").css('display', "none");
             
             tab_container.css("display", "block");
-
+            
         });
-
+        
         tab_title.click();
-
+        
         tab_title.child('span').html('×').click(function (e:Event){
-
+            
             e.preventDefault();
             e.stopPropagation();
-
+            
             tab_container.remove();
             
             delete this._tabs[filename];
@@ -93,14 +83,20 @@ export default class Tabmanager{
             let left_opened = Object.keys(this._tabs);
             
             if(left_opened.length > 0){
-
+                
                 this._tabs[left_opened[0]].tab_title.click();
-
+                
             }
             
             tab_title.remove();
-
+            
         }.bind(this));
+        
+        if(this._extensions.code.indexOf(path.extname(filename)) >= 0){
+            new_tab.codeEditor(fs.readFileSync(filename, "utf-8"), tab_container);
+        }else{
+            new_tab.viewer();
+        }
 
         this._tabs[filename] = {
             tab:new_tab,

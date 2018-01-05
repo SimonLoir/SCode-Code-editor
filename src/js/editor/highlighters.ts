@@ -1,6 +1,6 @@
 export default class Highlighter{
     
-    public static js(){
+    public static js(previous, code){
 
     }
 

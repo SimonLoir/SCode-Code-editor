@@ -117,3 +117,13 @@ $scrollbar-thumb-hover:rgba(255,255,255,0.50);
     -webkit-app-region: no-drag;    
     background: $scrollbar-thumb-hover;
 }
+
+///Behaviors
+
+textarea{
+    resize: none;
+}
+
+*:focus{
+    outline: none;
+}

@@ -42,3 +42,9 @@ body, html { margin: 0; padding: 0; }
 
 /* line 116, ../scss/structure.scss */
 ::-webkit-scrollbar-thumb:hover { -webkit-app-region: no-drag; background: rgba(255, 255, 255, 0.5); }
+
+/* line 123, ../scss/structure.scss */
+textarea { resize: none; }
+
+/* line 127, ../scss/structure.scss */
+*:focus { outline: none; }

@@ -72,13 +72,15 @@ export default class Tabmanager{
         tab_title.addClass('scode_tabmanager_tabs');
         
         tab_title.click(function () {
-            console.log(tab_container)
+
             $(".scode_tabmnager_tab_content").css('display', "none");
+            
             tab_container.css("display", "block");
+
         });
 
         tab_title.click();
-        
+
         tab_title.child('span').html('×').click(function (e:Event){
 
             e.preventDefault();
@@ -91,10 +93,6 @@ export default class Tabmanager{
             let left_opened = Object.keys(this._tabs);
             
             if(left_opened.length > 0){
-
-                console.log("coucoiiu")
-
-                console.log(this._tabs[left_opened[0]].tab_title);
 
                 this._tabs[left_opened[0]].tab_title.click();
 

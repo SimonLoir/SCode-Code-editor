@@ -1,53 +1,93 @@
 import Highlighter from "./highlighters";
 export default class Editor {
-    
-    private type:string;
 
-    private hl:(previous, code) => void;
+    private type: string;
 
-    public textarea:ExtJsObject;
+    private hl: (element: ExtJsObject, code: string) => void;
 
-    public textarea_colors:ExtJsObject;
+    public textarea_colors: ExtJsObject;
 
-    constructor(filetype:string, content:string, container:ExtJsObject) {
+    private ln: ExtJsObject;
+
+    constructor(filetype: string, content: string, container: ExtJsObject) {
+        
         
         let $textarea_colors = container.child('div');
-        $textarea_colors.html("class");
         $textarea_colors.addClass("code-editor-colors");
+        $textarea_colors.css('overflow', "auto");
         
-        let $textarea = container.child('textarea');
-        let textarea:HTMLTextAreaElement =  $textarea.get(0)
-        textarea.value = content;
-        $textarea.css('position', "absolute");
-        $textarea.css('bottom', "0");
-        $textarea.css('right', "0");
-        $textarea.css('color', "black");
         
         let $line_numbers = container.child("textarea");
-        let ln:HTMLTextAreaElement = $line_numbers.get(0);
-        ln.value = "1\n2\n3\n4";
+        let ln: HTMLTextAreaElement = $line_numbers.get(0);
+        this.ln = $line_numbers;
         $line_numbers.addClass('line-numbers');
+        for (let i = 1; i < 200; i++) {
+            $line_numbers.get(0).value += `${i}\n`;            
+        }
 
         this.type = filetype;
 
         this.hl = Highlighter.chooseHighlighter(this.type);
 
-        this.textarea = $textarea;
         this.textarea_colors = $textarea_colors;
 
-        this.codify();
+        this.codify(content);
 
     }
 
-    private codify() {
-        
-        let $t = this.textarea;
-        let $tc = this.textarea_colors;
-        
-        $t.keypress(function () {
-            alert('coucou');
-        });
-        $t.keypress();
+    private codify(initial_content: string) {
 
+        //Some variables, it's easier to write ;-)
+        let tc = this.textarea_colors;
+        let ln = this.ln;
+
+        //We clean everything
+        tc.html('');
+        //ln.value("");
+
+        //We split the content into lines so that it will be faster to process (see https://simonloir.be/scode/doc/editor)
+        let lines = initial_content.split(/\r?\n/);
+        lines.forEach(line => {
+            let HTMLLine: ExtJsObject = tc.child('span')
+            this.hl(HTMLLine, line.replace(/\t/g, "    "));
+            HTMLLine.addClass('line');
+            HTMLLine.get(0).contentEditable = true;
+        });
+
+        //We add an input listener and when it is triggered, it tries to highlight the current line
+        tc.keyup((e: Event) => {
+            
+            let target:any = e.target;
+
+            if(target.classList.contains('line')){
+                target = target;
+            }else{
+                target = $('target').parent('.line').get(0);
+            }
+
+            let childNodes:Array<any> = target.childNodes;
+
+            let length_before = toolkit.getCursorPosition(childNodes);
+            
+        });
+
+    }
+}
+
+class toolkit{
+    public static getCursorPosition(childNodes){
+        let selection = document.getSelection().getRangeAt(0);
+        let length_before = 0;
+        
+        for (const node of childNodes) {
+            if (node == selection.startContainer || node.contains(selection.startContainer))
+                return length_before + selection.startOffset;
+
+            if(node.nodeType == 1){                 
+                length_before += node.innerText.length;
+            }else if (node.nodeType == 3){
+                length_before += node.data.length;
+            }
+        }
     }
 }

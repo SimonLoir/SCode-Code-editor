@@ -20,23 +20,6 @@
     pointer-events: none; 
 }
 
-.code-editor{
-    caret-color: $scode-caret-color;
-    background: transparent;
-    position: absolute;
-    top: 0;left: 45px;right: 0;bottom: 0;
-    padding: 25px;
-    font-family: $font-family, sans-serif;
-    color:$code-editor-color;
-    overflow:auto;
-    font-size:$editor-default-font-size;
-    margin:0;
-    width:calc(100% - 95px);
-    height:calc(100% - 50px);
-    border:none;
-    white-space: nowrap;
-}
-
 .code-editor-search{
     background: transparent;
     position: absolute;
@@ -61,6 +44,8 @@
     position: absolute;
     top: 0;left: 45px;right: 0;bottom: 0;
     padding: 25px;
+    padding-left: 25px;
+
     font-family: $font-family, sans-serif;
     background:$code-editor-default-background;
     color:$code-editor-default-color; overflow:auto;   
@@ -70,4 +55,30 @@
     border:none;
     white-space: nowrap;
     overflow: hidden;
+    & span{
+        padding: 0;
+        margin: 0;
+        font-size:$editor-default-font-size;
+        font-family: $font-family, sans-serif;
+        color:$code-editor-default-color;
+    }
+}
+
+.line{
+    display: block;
+    overflow: visible;
+    padding: 0;
+    margin: 0;
+    font-size:$editor-default-font-size;
+    font-family: $font-family, sans-serif;
+    color:$code-editor-default-color;
+}
+
+.input{
+    caret-color: red;
+    font-size:$editor-default-font-size;
+    font-family: $font-family, sans-serif;
+    color:$code-editor-default-color;
+    background: transparent;
+    width: 10px;
 }

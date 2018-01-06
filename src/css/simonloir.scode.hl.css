@@ -1,14 +1,19 @@
 @font-face { font-family: source-code-pro; src: url(./SourceCodePro-Regular.ttf); }
 /* line 1, ../scss/_highlight.scss */
-.line-numbers { position: absolute; top: 0; left: 0; bottom: 0; padding-right: 5px; padding-left: 0; padding-top: 25px; padding-bottom: 25px; font-family: "source-code-pro", sans-serif; color: rgba(255, 255, 255, 0.15); overflow: hidden; font-size: 15px; margin: 0; width: 40px; height: calc(100% - 50px); border: none; white-space: nowrap; background: #1e1e1e; text-align: right; pointer-events: none; }
+.line-numbers { position: absolute; top: 0; left: 0; bottom: 0; padding-right: 5px; padding-left: 0; padding-top: 25px; padding-bottom: 25px; font-family: "source-code-pro", sans-serif; color: rgba(255, 255, 255, 0.15); overflow: hidden; font-size: 18px; margin: 0; width: 40px; height: calc(100% - 50px); border: none; white-space: nowrap; background: #1e1e1e; text-align: right; pointer-events: none; }
 /* line 17, ../scss/_highlight.scss */
 .line-numbers::selection { background: transparent; }
 
 /* line 23, ../scss/_highlight.scss */
-.code-editor { caret-color: white; background: transparent; position: absolute; top: 0; left: 45px; right: 0; bottom: 0; padding: 25px; font-family: "source-code-pro", sans-serif; color: rgba(255, 255, 255, 0.25); overflow: auto; font-size: 15px; margin: 0; width: calc(100% - 95px); height: calc(100% - 50px); border: none; white-space: nowrap; }
+.code-editor-search { background: transparent; position: absolute; top: 0; left: 45px; right: 0; bottom: 0; padding: 25px; font-family: "source-code-pro", sans-serif; color: transparent; overflow: auto; font-size: 18px; margin: 0; width: calc(100% - 95px); height: calc(100% - 50px); border: none; white-space: nowrap; }
 
-/* line 40, ../scss/_highlight.scss */
-.code-editor-search { background: transparent; position: absolute; top: 0; left: 45px; right: 0; bottom: 0; padding: 25px; font-family: "source-code-pro", sans-serif; color: transparent; overflow: auto; font-size: 15px; margin: 0; width: calc(100% - 95px); height: calc(100% - 50px); border: none; white-space: nowrap; }
+/* line 39, ../scss/_highlight.scss */
+.code-editor-colors { font-size: 18px; position: absolute; top: 0; left: 45px; right: 0; bottom: 0; padding: 25px; padding-left: 25px; font-family: "source-code-pro", sans-serif; background: #1e1e1e; color: white; overflow: auto; margin: 0; width: calc(100% - 95px); height: calc(100% - 50px); border: none; white-space: nowrap; overflow: hidden; }
+/* line 58, ../scss/_highlight.scss */
+.code-editor-colors span { padding: 0; margin: 0; font-size: 18px; font-family: "source-code-pro", sans-serif; color: white; }
 
-/* line 56, ../scss/_highlight.scss */
-.code-editor-colors { font-size: 15px; position: absolute; top: 0; left: 45px; right: 0; bottom: 0; padding: 25px; font-family: "source-code-pro", sans-serif; background: #1e1e1e; color: white; overflow: auto; margin: 0; width: calc(100% - 95px); height: calc(100% - 50px); border: none; white-space: nowrap; overflow: hidden; }
+/* line 67, ../scss/_highlight.scss */
+.line { display: block; overflow: visible; padding: 0; margin: 0; font-size: 18px; font-family: "source-code-pro", sans-serif; color: white; }
+
+/* line 77, ../scss/_highlight.scss */
+.input { caret-color: red; font-size: 18px; font-family: "source-code-pro", sans-serif; color: white; background: transparent; width: 10px; }

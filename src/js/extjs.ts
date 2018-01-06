@@ -65,6 +65,25 @@ class ExtJsObject {
     }
 
     /**
+     * @param {String} text text to put inside the element or undefined or nothing
+     * @return {String|Object} text that is inside the first element or the current instance.
+     */
+    text(text?: string) {
+        if(text != undefined){
+            for (var i = 0; i < this.node.length; i++) {
+                var e = this.node[i];
+    
+                if (typeof (text) === "string" || typeof (text) === "number") {
+                    e.innerText = text;
+                }
+            }
+            return this;
+        }else{
+            return this.node[0].innerText;
+        }
+    }
+
+    /**
      * @param {Function|Undefined} toDo function that is called when somebody clicks on the element  or undefined or nothing
      * @param {String|Undefined} element specifies the element on which we are going to listen the click.
      */
@@ -361,6 +380,38 @@ class ExtJsObject {
 
         }
         return this;
+    }
+
+    /**
+     * Returns the previous sibling of an element or a set of elements
+     */
+    prevSibling(){
+        let siblings = [];
+
+        for (var i = 0; i < this.node.length; i++) {
+            var e:HTMLElement = this.node[i];
+
+            siblings.push(e.previousSibling);
+
+        }
+
+        return $(siblings);
+    }
+
+    /**
+     * Returns the next sibling of an element or a set of elements
+     */
+    nextSibling(){
+        let siblings = [];
+
+        for (var i = 0; i < this.node.length; i++) {
+            var e:HTMLElement = this.node[i];
+
+            siblings.push(e.nextSibling);
+
+        }
+
+        return $(siblings);
     }
 
 }

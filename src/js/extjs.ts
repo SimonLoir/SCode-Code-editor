@@ -5,7 +5,7 @@ function IndexOutOfArrayExecption(message) {
 
 class ExtJsObject {
 
-    private node: Array<HTMLElement>;
+    private node: Array<any>;
 
     public type: string;
 
@@ -60,7 +60,7 @@ class ExtJsObject {
             }
             return this;
         }else{
-            return $(this.node[0]);
+            return this.node[0].innerHTML;
         }
     }
 
@@ -230,6 +230,137 @@ class ExtJsObject {
         }
 
         return $(parents);
+    }
+    /**
+     * @param {String} html Text to put inside the element or undefined or nothing
+     * @return {String|Object} Text that is inside the first element or the current instance.
+     */
+    value(text?: string) {
+        if(text != undefined){
+            for (var i = 0; i < this.node.length; i++) {
+                var e:HTMLTextAreaElement = this.node[i];
+    
+                if (typeof (text) === "string" || typeof (text) === "number") {
+                    e.value = text;
+                }
+            }
+            return this;
+        }else{
+            let node:HTMLTextAreaElement = this.node[0];
+            return this.node[0].value;
+        }
+    }
+
+    /**
+     * @param {Function|Undefined} toDo function that is called when somebody keypress on the element  or undefined or nothing
+     * @param {String|Undefined} element specifies the element on which we are going to listen the keypress.
+     */
+    keypress(toDo?: (event?:Event) => void, element?: string) {
+
+        for (var i = 0; i < this.node.length; i++) {
+            var e = this.node[i];
+
+            if (element === undefined) {
+                if (toDo !== undefined) {
+                    e.addEventListener("keypress", toDo);
+                }
+            } else if (toDo !== undefined) {
+                var x = e;
+                e.addEventListener("keypress", function (event) {
+                    if (x.querySelector(element) == event.target) {
+                        let xe: any = x.querySelector(element);
+                        xe.prototype.toDo = toDo;
+                        xe.toDo();
+                    }
+                });
+            }
+
+        }
+        return this;
+    }
+
+    /**
+     * @param {Function|Undefined} toDo function that is called when somebody input on the element  or undefined or nothing
+     * @param {String|Undefined} element specifies the element on which we are going to listen the input.
+     */
+    input(toDo?: (event?:Event) => void, element?: string) {
+
+        for (var i = 0; i < this.node.length; i++) {
+            var e = this.node[i];
+
+            if (element === undefined) {
+                if (toDo !== undefined) {
+                    e.addEventListener("input", toDo);
+                }
+            } else if (toDo !== undefined) {
+                var x = e;
+                e.addEventListener("input", function (event) {
+                    if (x.querySelector(element) == event.target) {
+                        let xe: any = x.querySelector(element);
+                        xe.prototype.toDo = toDo;
+                        xe.toDo();
+                    }
+                });
+            }
+
+        }
+        return this;
+    }
+
+    /**
+     * @param {Function|Undefined} toDo function that is called when somebody keydown on the element  or undefined or nothing
+     * @param {String|Undefined} element specifies the element on which we are going to listen the keydown.
+     */
+    keydown(toDo?: (event?:Event) => void, element?: string) {
+
+        for (var i = 0; i < this.node.length; i++) {
+            var e = this.node[i];
+
+            if (element === undefined) {
+                if (toDo !== undefined) {
+                    e.addEventListener("keydown", toDo);
+                }
+            } else if (toDo !== undefined) {
+                var x = e;
+                e.addEventListener("keydown", function (event) {
+                    if (x.querySelector(element) == event.target) {
+                        let xe: any = x.querySelector(element);
+                        xe.prototype.toDo = toDo;
+                        xe.toDo();
+                    }
+                });
+            }
+
+        }
+        return this;
+    }
+
+    /**
+     * @param {Function|Undefined} toDo function that is called when somebody keyup on the element  or undefined or nothing
+     * @param {String|Undefined} element specifies the element on which we are going to listen the keyup.
+     */
+    keyup(toDo?: (event?:Event) => void, element?: string) {
+
+        for (var i = 0; i < this.node.length; i++) {
+            var e = this.node[i];
+
+            if (element === undefined) {
+                if (toDo !== undefined) {
+                    e.addEventListener("keyup", toDo);
+                }
+            } else if (toDo !== undefined) {
+                var x = e;
+                e.addEventListener("keyup", function (event) {
+                    if (x.querySelector(element) == event.target) {
+                        let xe: any = x.querySelector(element);
+                        xe.prototype.toDo = toDo;
+                        xe.toDo();
+                    }
+                });
+            }
+
+        }
+        return this;
     }
 
 }

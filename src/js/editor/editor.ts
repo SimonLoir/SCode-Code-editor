@@ -5,9 +5,9 @@ export default class Editor {
 
     private hl:(previous, code) => void;
 
-    private textarea:ExtJsObject;
+    public textarea:ExtJsObject;
 
-    private textarea_colors:ExtJsObject;
+    public textarea_colors:ExtJsObject;
 
     constructor(filetype:string, content:string, container:ExtJsObject) {
         
@@ -18,11 +18,14 @@ export default class Editor {
         let $textarea = container.child('textarea');
         let textarea:HTMLTextAreaElement =  $textarea.get(0)
         textarea.value = content;
-        $textarea.addClass('code-editor');
+        $textarea.css('position', "absolute");
+        $textarea.css('bottom', "0");
+        $textarea.css('right', "0");
+        $textarea.css('color', "black");
         
         let $line_numbers = container.child("textarea");
         let ln:HTMLTextAreaElement = $line_numbers.get(0);
-        ln.value = "1\n2\n3\n4888";
+        ln.value = "1\n2\n3\n4";
         $line_numbers.addClass('line-numbers');
 
         this.type = filetype;
@@ -40,11 +43,11 @@ export default class Editor {
         
         let $t = this.textarea;
         let $tc = this.textarea_colors;
-
-        let t:HTMLTextAreaElement = $t.get(0);
-        let tc:HTMLDivElement = $tc.get(0);
-
         
+        $t.keypress(function () {
+            alert('coucou');
+        });
+        $t.keypress();
 
     }
 }

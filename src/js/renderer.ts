@@ -63,8 +63,8 @@ scode.ready(() => {
         scode.tabmanager.newTab(__dirname + "../readme.md", false);
     }   
 
-    //scode.tabmanager.newTab("C:\\Users\\simon\\Documents\\typescript\\index.js", false);
-    //scode.tabmanager.newTab("C:\\Users\\simon\\Documents\\typescript\\index.ts", false);
+    scode.tabmanager.newTab("C:\\Users\\simon\\Documents\\typescript\\index.js", false);
+    scode.tabmanager.newTab("C:\\Users\\simon\\Documents\\typescript\\index.ts", false);
 
 });
 

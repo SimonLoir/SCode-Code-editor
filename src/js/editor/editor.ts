@@ -9,6 +9,8 @@ export default class Editor {
 
     private ln: ExtJsObject;
 
+    public last_cursor_position:CursorPosition;
+
     constructor(filetype: string, content: string, container: ExtJsObject) {
         
         
@@ -65,9 +67,13 @@ export default class Editor {
                 target = $('target').parent('.line').get(0);
             }
 
-            let childNodes:Array<any> = target.childNodes;
+            let length_before = toolkit.getCursorPosition(target);
 
-            let length_before = toolkit.getCursorPosition(childNodes);
+            this.last_cursor_position = {
+                line: $(target),
+                inline: length_before
+            }
+            
             
         });
 
@@ -75,7 +81,8 @@ export default class Editor {
 }
 
 class toolkit{
-    public static getCursorPosition(childNodes){
+    public static getCursorPosition(target){
+        let childNodes:Array<any> = target.childNodes;
         let selection = document.getSelection().getRangeAt(0);
         let length_before = 0;
         
@@ -90,4 +97,9 @@ class toolkit{
             }
         }
     }
+}
+
+interface CursorPosition{
+    line:ExtJsObject,
+    inline: Number
 }

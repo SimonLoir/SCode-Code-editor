@@ -64,7 +64,7 @@ scode.ready(() => {
     }   
 
     scode.tabmanager.newTab("C:\\Users\\simon\\Documents\\typescript\\index.js", true);
-    scode.tabmanager.newTab("C:\\Users\\simon\\Documents\\typescript\\index.ts", true);
+    //scode.tabmanager.newTab("C:\\Users\\simon\\Documents\\typescript\\index.ts", true);
 });
 
 /*

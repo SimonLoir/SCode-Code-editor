@@ -30,7 +30,7 @@ export default class Highlighter{
         element.html(c);
         element.css('color', "cornflowerblue");
         element.addClass('object');
-        
+        return true;
     }
 
     public static chooseHighlighter(type:string){

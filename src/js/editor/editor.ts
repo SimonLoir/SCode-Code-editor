@@ -74,7 +74,7 @@ export default class Editor {
                 inline: length_before
             }
             
-            
+            this.hl(this.last_cursor_position.line, this.last_cursor_position.line.text());
         });
 
     }

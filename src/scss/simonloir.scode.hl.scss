@@ -20,5 +20,9 @@ $code-editor-default-background:rgb(30,30,30);
 $line-numbers-color:rgba(255,255,255,0.15);
 $line-numbers-background:$code-editor-default-background;
 
+$color-keyword1:rgb(187,136, 189);
+$color-default1:white;
+$color-default2:rgb(170, 218, 250);
+$color-function:rgb(218,208,132);
 
 @import "highlight";

@@ -60,7 +60,11 @@
         margin: 0;
         font-size:$editor-default-font-size;
         font-family: $font-family, sans-serif;
+    }
+    & pre{
         color:$code-editor-default-color;
+        &.default1{color:$color-default1;}
+        &.default2{color:$color-default2;}
     }
 }
 
@@ -82,3 +86,5 @@
     background: transparent;
     width: 10px;
 }
+.keyword1{color:$color-keyword1;}
+.function{color:$color-function;}

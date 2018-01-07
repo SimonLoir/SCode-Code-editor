@@ -17,15 +17,13 @@ export default class Editor {
         let $textarea_colors = container.child('div');
         $textarea_colors.addClass("code-editor-colors");
         $textarea_colors.css('overflow', "auto");
+        //$textarea_colors.get(0).contentEditable = true;
 
 
         let $line_numbers = container.child("textarea");
         let ln: HTMLTextAreaElement = $line_numbers.get(0);
         this.ln = $line_numbers;
         $line_numbers.addClass('line-numbers');
-        for (let i = 1; i < 200; i++) {
-            $line_numbers.get(0).value += `${i}\n`;
-        }
 
         this.type = filetype;
 
@@ -34,6 +32,11 @@ export default class Editor {
         this.textarea_colors = $textarea_colors;
 
         this.codify(content);
+
+        $textarea_colors.get(0).onscroll = function () {
+            $('.autocomplete').remove();
+            $line_numbers.get(0).scrollTop = this.scrollTop;
+        }
 
     }
 
@@ -45,7 +48,6 @@ export default class Editor {
 
         //We clean everything
         tc.html('');
-        //ln.value("");
 
         //We split the content into lines so that it will be faster to process (see https://simonloir.be/scode/doc/editor)
         let lines = initial_content.split(/\r?\n/);
@@ -57,35 +59,52 @@ export default class Editor {
         });
 
         //We add an input listener and when it is triggered, it tries to highlight the current line
-        tc.keyup((e: KeyboardEvent) => {
-
-            if(e.ctrlKey == false){
+        tc.input((e: KeyboardEvent) => {
+            if (e.ctrlKey != true && e.keyCode != 13) {
 
                 let target: any = e.target;
-    
+
                 if (target.classList.contains('line')) {
                     target = target;
                 } else {
                     target = $('target').parent('.line').get(0);
                 }
-    
+
                 let length_before = toolkit.getCursorPosition(target);
-    
+
                 this.last_cursor_position = {
                     line: $(target),
                     inline: length_before
                 }
-                
+
+
                 this.hl(this.last_cursor_position.line, this.last_cursor_position.line.text());
-    
+
                 toolkit.setCaretPos(target, length_before);
-            }else{
+
+            } else if (e.keyCode == 13) {
+
+            } else {
                 //do nothing
             }
 
+            //if enter this.updateLineNumbers();
 
         });
 
+        tc.keydown((e: KeyboardEvent) => {
+            e.preventDefault();
+        });
+
+        this.updateLineNumbers();
+
+    }
+    private updateLineNumbers() {
+        let $line_numbers = this.ln;
+        $line_numbers.value('');
+        for (let i = 1; i <= this.textarea_colors.get(0).querySelectorAll('.line').length; i++) {
+            $line_numbers.get(0).value += `${i}\n`;
+        }
     }
 }
 

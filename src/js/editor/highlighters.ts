@@ -8,25 +8,25 @@ export default class Highlighter{
             const char = code[i];
             if(char == " "){
                 
-                if(buffer == "const"){
+                if(buffer == "class"){
                     c += "<span style=\"color:yellow\">" + buffer + "</span>";
                 }else{
                     c += buffer;
                 }
                 
-                c += "<span>&nbsp;</span>";
+                c += " ";
                 buffer = "";
             }else{
-                console.log(char.charCodeAt(0))
+                //console.log(char.charCodeAt(0), char)
                 buffer += char;
             }
             if (i == code.length - 1){
-                console.log("added full buffer")
+                //console.log("added full buffer")
                 c += buffer;
             }
         }
         
-        console.log(c);
+        //console.log(c);
         element.html(c);
         element.css('color', "cornflowerblue");
         element.addClass('object');

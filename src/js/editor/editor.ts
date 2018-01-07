@@ -50,7 +50,7 @@ export default class Editor {
         //We split the content into lines so that it will be faster to process (see https://simonloir.be/scode/doc/editor)
         let lines = initial_content.split(/\r?\n/);
         lines.forEach(line => {
-            let HTMLLine: ExtJsObject = tc.child('span')
+            let HTMLLine: ExtJsObject = tc.child('pre')
             this.hl(HTMLLine, line.replace(/\t/g, "    "));
             HTMLLine.addClass('line');
             HTMLLine.get(0).contentEditable = true;
@@ -73,8 +73,11 @@ export default class Editor {
                 line: $(target),
                 inline: length_before
             }
+
+            console.log(this.last_cursor_position);
             
             this.hl(this.last_cursor_position.line, this.last_cursor_position.line.text());
+            
         });
 
     }

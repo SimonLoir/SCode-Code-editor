@@ -55,7 +55,7 @@
     border:none;
     white-space: nowrap;
     overflow: hidden;
-    & span{
+    & pre, & span{
         padding: 0;
         margin: 0;
         font-size:$editor-default-font-size;

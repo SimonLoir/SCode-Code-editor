@@ -17,6 +17,10 @@ export default class Highlighter{
 
         let string_type:string;
 
+        let comment_type:string;
+
+        let comment_start;
+
         element.html('');
         
         function cleanBuffer(c, buffer, char, type){
@@ -30,6 +34,8 @@ export default class Highlighter{
                 }
             }else if(type == "string"){
                 c += `<span class="string">${buffer}</span>`;
+            }else if(type == "comment"){
+                c += `<span class="comment">${buffer}</span>`;
             }
             buffer = "";
             return {c, buffer};
@@ -47,7 +53,18 @@ export default class Highlighter{
                 if(char == "&")
                     char = "&amp;";
 
-                if(operators.indexOf(char) >= 0 && type == "default"){
+                if(type == "default" && char == "/" && (code[i+1] == "/" || code [i+1] == "*")){
+                    ({c, buffer}= cleanBuffer(c, buffer, char, type));
+                    type = "comment";
+                    buffer += char;
+                    comment_type = code[i+1];
+                    comment_start = i;
+
+                } else if( type == "comment" && char == "/" && code[i - 1] == "*" && i-2 != comment_start){
+                    buffer += char;
+                    ({c, buffer}= cleanBuffer(c, buffer, char, type));
+                    type = "default";
+                }else if(operators.indexOf(char) >= 0 && type == "default"){
 
                     ({c, buffer}= cleanBuffer(c, buffer, char, type));
 
@@ -56,7 +73,7 @@ export default class Highlighter{
                     buffer += char;
                     ({c, buffer}= cleanBuffer(c, buffer, char, type));
                     type = "default";
-                }else if(string_start.indexOf(char) >= 0){
+                }else if(type == "default" && string_start.indexOf(char) >= 0){
                     type = "string";
                     buffer += char;
                     string_type = char;

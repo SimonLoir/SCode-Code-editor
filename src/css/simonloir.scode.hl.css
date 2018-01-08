@@ -32,3 +32,6 @@
 
 /* line 91, ../scss/_highlight.scss */
 .string { color: #ce9178; }
+
+/* line 92, ../scss/_highlight.scss */
+.comment { color: #608b4e; }

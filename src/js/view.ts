@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import { BrowserWindow } from "electron";
 import Tabmanager from "./tabmanager/tabmanager";
+import Settings from "./settings/settings";
 
 interface ControlsBar {
     close_button: ExtJsObject
@@ -10,6 +11,8 @@ interface ControlsBar {
 }
 
 export default class View {
+
+    public settings:Settings;
 
     public tabmanager:Tabmanager;
 
@@ -81,6 +84,14 @@ export default class View {
         this.controls_bar.full_screen_button.addClass('icon-resize-full');
 
         this.addEvents();
+
+        var link_theme = document.body.appendChild(document.createElement('link'));
+        link_theme.href = this.settings.get('theme');
+        link_theme.rel = "stylesheet";
+
+        var link = document.body.appendChild(document.createElement('link'));
+        link.href = this.settings.get('color_scheme');
+        link.rel = "stylesheet";
     }
 
     /**

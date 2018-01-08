@@ -1,0 +1,40 @@
+@font-face { font-family: source-code-pro; src: url(./SourceCodePro-Regular.ttf); }
+/* line 1, ../scss/_highlight.scss */
+.line-numbers { position: absolute; top: 0; left: 0; bottom: 0; padding-right: 5px; padding-left: 0; padding-top: 25px; padding-bottom: 25px; font-family: "source-code-pro", sans-serif; color: black; overflow: hidden; font-size: 18px; margin: 0; width: 40px; height: calc(100% - 50px); border: none; white-space: nowrap; background: white; text-align: right; pointer-events: none; }
+/* line 17, ../scss/_highlight.scss */
+.line-numbers::selection { background: transparent; }
+
+/* line 23, ../scss/_highlight.scss */
+.code-editor-search { background: transparent; position: absolute; top: 0; left: 45px; right: 0; bottom: 0; padding: 25px; font-family: "source-code-pro", sans-serif; color: transparent; overflow: auto; font-size: 18px; margin: 0; width: calc(100% - 95px); height: calc(100% - 50px); border: none; white-space: nowrap; }
+
+/* line 39, ../scss/_highlight.scss */
+.code-editor-colors { font-size: 18px; position: absolute; top: 0; left: 45px; right: 0; bottom: 0; padding: 25px; padding-left: 25px; font-family: "source-code-pro", sans-serif; background: white; color: black; overflow: auto; margin: 0; width: calc(100% - 95px); height: calc(100% - 50px); border: none; white-space: nowrap; overflow: hidden; }
+/* line 58, ../scss/_highlight.scss */
+.code-editor-colors pre, .code-editor-colors span { padding: 0; margin: 0; font-size: 18px; font-family: "source-code-pro", sans-serif; }
+/* line 64, ../scss/_highlight.scss */
+.code-editor-colors pre { color: black; }
+/* line 66, ../scss/_highlight.scss */
+.code-editor-colors pre.default1 { color: black; }
+/* line 67, ../scss/_highlight.scss */
+.code-editor-colors pre.default2 { color: black; }
+
+/* line 71, ../scss/_highlight.scss */
+.line { display: block; overflow: visible; padding: 0; margin: 0; font-size: 18px; font-family: "source-code-pro", sans-serif; color: black; }
+
+/* line 81, ../scss/_highlight.scss */
+.input { caret-color: red; font-size: 18px; font-family: "source-code-pro", sans-serif; color: black; background: transparent; width: 10px; }
+
+/* line 89, ../scss/_highlight.scss */
+.keyword1 { color: blue; }
+
+/* line 90, ../scss/_highlight.scss */
+.function { color: gray; }
+
+/* line 91, ../scss/_highlight.scss */
+.string { color: #ce9178; }
+
+/* line 92, ../scss/_highlight.scss */
+.comment { color: #608b4e; }
+
+/* line 93, ../scss/_highlight.scss */
+.operator { color: black; }

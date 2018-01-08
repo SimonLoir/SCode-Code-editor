@@ -7,26 +7,24 @@ $scode-caret-color:white;
 
 $font-family:"source-code-pro";
 
-$code-editor-color: rgba(255,255,255,0.25);
-
-$code-editor-default-color:white;
+$code-editor-default-color:black;
 
 $editor-default-font-size:18px;
 
 $text-editor-shadow:"none";
 
-$code-editor-default-background:rgb(30,30,30);
+$code-editor-default-background:white;
 
-$line-numbers-color:rgba(255,255,255,0.15);
+$line-numbers-color:black;
 $line-numbers-background:$code-editor-default-background;
 
 //$color-keyword1:rgb(197,134, 193);
-$color-keyword1:rgb(70,156, 214);
-$color-default1:white;
-$color-default2:rgb(156, 220, 254);
-$color-function:rgb(220,220,166);
+$color-keyword1:blue;
+$color-default1:black;
+$color-default2:black;
+$color-function:gray;
 $color-string:rgb(206,145,120);
 $color-comment:rgb(96,139,78);
-$color-operators:white;
+$color-operators:black;
 
 @import "highlight";

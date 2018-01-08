@@ -25,7 +25,7 @@
 .input { caret-color: red; font-size: 18px; font-family: "source-code-pro", sans-serif; color: white; background: transparent; width: 10px; }
 
 /* line 89, ../scss/_highlight.scss */
-.keyword1 { color: #c586c1; }
+.keyword1 { color: #469cd6; }
 
 /* line 90, ../scss/_highlight.scss */
 .function { color: #dcdca6; }
@@ -35,3 +35,6 @@
 
 /* line 92, ../scss/_highlight.scss */
 .comment { color: #608b4e; }
+
+/* line 93, ../scss/_highlight.scss */
+.operator { color: white; }

@@ -68,7 +68,7 @@ export default class Highlighter{
 
                     ({c, buffer}= cleanBuffer(c, buffer, char, type));
 
-                    c += `<span style="color:white;">${char}</span>`
+                    c += `<span class="operator">${char}</span>`
                 }else if(type == "string" && char == string_type && code[i-1] != "\\"){
                     buffer += char;
                     ({c, buffer}= cleanBuffer(c, buffer, char, type));

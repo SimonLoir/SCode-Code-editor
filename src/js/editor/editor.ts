@@ -70,13 +70,7 @@ export default class Editor {
                     target = $('target').parent('.line').get(0);
                 }
 
-                let length_before = toolkit.getCursorPosition(target);
-
-                this.last_cursor_position = {
-                    line: $(target),
-                    inline: length_before
-                }
-
+                let length_before = this.updatePosition(target);
 
                 this.hl(this.last_cursor_position.line, this.last_cursor_position.line.text());
 
@@ -93,12 +87,58 @@ export default class Editor {
         });
 
         tc.keydown((e: KeyboardEvent) => {
-            e.preventDefault();
+            if (e.keyCode == 13) {
+                e.preventDefault();
+
+                let target: any = e.target;
+
+                if (target.classList.contains('line')) {
+                    target = target;
+                } else {
+                    target = $('target').parent('.line').get(0);
+                }
+
+
+                let nextSbibling = target.nextSibling;
+                console.log(target)
+
+                let new_pre;
+
+                if (nextSbibling != undefined) {
+                    new_pre = this.textarea_colors.get(0).insertBefore(document.createElement('pre'), nextSbibling);
+                }else{
+                    new_pre = this.textarea_colors.child('pre');
+                }
+
+                new_pre.contentEditable = true;
+                new_pre.focus();
+                new_pre = $(new_pre).addClass('line');
+
+                this.updateLineNumbers();
+
+            }
         });
+
+        tc.get(0).onmousedown = function (e) {
+            //might be usefull for selections
+            //console.log(e);
+        }
 
         this.updateLineNumbers();
 
     }
+
+    private updatePosition(target) {
+        let length_before = toolkit.getCursorPosition(target);
+
+        this.last_cursor_position = {
+            line: $(target),
+            inline: length_before
+        }
+
+        return length_before;
+    }
+
     private updateLineNumbers() {
         let $line_numbers = this.ln;
         $line_numbers.value('');

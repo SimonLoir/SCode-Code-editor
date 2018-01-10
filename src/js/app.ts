@@ -5,7 +5,7 @@ import * as url from "url";
 
 app.on("ready", function () {
 
-    var main_window = new BrowserWindow({ frame: false, icon: path.join(__dirname, "src/logo.png"), show:false});
+    var main_window = new BrowserWindow({ frame: false, icon: path.join(__dirname, "src/logo.png"), transparent: true, show:false});
 
     main_window.loadURL(url.format({
         pathname: path.join(__dirname, "../windows/index.html"),

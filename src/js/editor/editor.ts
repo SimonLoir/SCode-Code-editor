@@ -17,7 +17,6 @@ export default class Editor {
         let $textarea_colors = container.child('div');
         $textarea_colors.addClass("code-editor-colors");
         $textarea_colors.css('overflow', "auto");
-        //$textarea_colors.get(0).contentEditable = true;
 
 
         let $line_numbers = container.child("textarea");
@@ -60,29 +59,52 @@ export default class Editor {
 
         //We add an input listener and when it is triggered, it tries to highlight the current line
         tc.input((e: KeyboardEvent) => {
+            let target: any = e.target;
+
+            if (target.classList.contains('line')) {
+                target = target;
+            } else {
+                target = $('target').parent('.line').get(0);
+            }
+
             if (e.ctrlKey != true && e.keyCode != 13) {
-
-                let target: any = e.target;
-
-                if (target.classList.contains('line')) {
-                    target = target;
-                } else {
-                    target = $('target').parent('.line').get(0);
-                }
 
                 let length_before = this.updatePosition(target);
 
                 this.hl(this.last_cursor_position.line, this.last_cursor_position.line.text());
 
                 toolkit.setCaretPos(target, length_before);
-
-            } else if (e.keyCode == 13) {
-
-            } else {
-                //do nothing
             }
 
-            //if enter this.updateLineNumbers();
+        });
+
+        tc.keyup((e:KeyboardEvent) => {
+
+            if (e.keyCode == 8) {
+
+                let target: any = e.target;
+
+                if (target.classList.contains('line')) {
+                    target = $(target);
+                } else {
+                    target = $('target').parent('.line');
+                }
+
+                if (target.text() == "") {
+                    
+                    let sibling = target.prevSibling();
+                    let length = sibling.text().length;
+                    
+                    sibling.get(0).focus();
+                    
+                    toolkit.setCaretPos(sibling.get(0), length);
+                    
+                    target.remove();
+
+                    this.updateLineNumbers();
+
+                }
+            }
 
         });
 
@@ -106,7 +128,7 @@ export default class Editor {
 
                 if (nextSbibling != undefined) {
                     new_pre = this.textarea_colors.get(0).insertBefore(document.createElement('pre'), nextSbibling);
-                }else{
+                } else {
                     new_pre = this.textarea_colors.child('pre');
                 }
 
@@ -116,6 +138,42 @@ export default class Editor {
 
                 this.updateLineNumbers();
 
+            } else if (e.keyCode == 38 || e.keyCode == 40) {
+                e.preventDefault();
+
+                let target: any = e.target;
+
+                if (target.classList.contains('line')) {
+                    target = target;
+                } else {
+                    target = $('target').parent('.line').get(0);
+                }
+
+
+                if (e.keyCode == 38) {
+                    $(target).prevSibling().get(0).focus();
+                } else {
+                    $(target).nextSibling().get(0).focus();
+                }
+            }else if (e.keyCode == 46) {
+
+                let target: any = e.target;
+
+                if (target.classList.contains('line')) {
+                    target = $(target);
+                } else {
+                    target = $('target').parent('.line');
+                }
+
+                if (target.text() == "\n") {
+                    
+                    target.nextSibling().get(0).focus();
+
+                    target.remove();
+
+                    this.updateLineNumbers();
+
+                }
             }
         });
 

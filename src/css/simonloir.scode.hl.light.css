@@ -17,24 +17,26 @@
 .code-editor-colors pre.default1 { color: black; }
 /* line 67, ../scss/_highlight.scss */
 .code-editor-colors pre.default2 { color: black; }
+/* line 68, ../scss/_highlight.scss */
+.code-editor-colors pre:focus { background: rgba(255, 255, 255, 0.01); }
 
-/* line 71, ../scss/_highlight.scss */
+/* line 76, ../scss/_highlight.scss */
 .line { display: block; overflow: visible; padding: 0; margin: 0; font-size: 18px; font-family: "source-code-pro", sans-serif; color: black; }
 
-/* line 81, ../scss/_highlight.scss */
+/* line 86, ../scss/_highlight.scss */
 .input { caret-color: red; font-size: 18px; font-family: "source-code-pro", sans-serif; color: black; background: transparent; width: 10px; }
 
-/* line 89, ../scss/_highlight.scss */
+/* line 94, ../scss/_highlight.scss */
 .keyword1 { color: blue; }
 
-/* line 90, ../scss/_highlight.scss */
+/* line 95, ../scss/_highlight.scss */
 .function { color: gray; }
 
-/* line 91, ../scss/_highlight.scss */
+/* line 96, ../scss/_highlight.scss */
 .string { color: #ce9178; }
 
-/* line 92, ../scss/_highlight.scss */
+/* line 97, ../scss/_highlight.scss */
 .comment { color: #608b4e; }
 
-/* line 93, ../scss/_highlight.scss */
+/* line 98, ../scss/_highlight.scss */
 .operator { color: black; }

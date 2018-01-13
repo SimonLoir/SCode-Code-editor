@@ -7,7 +7,7 @@ export default class Settings{
         always_show_explorer: true,
         theme:"../css/simonloir.scode.dark.css",
         color_scheme: "../css/simonloir.scode.hl.css",
-        language: "fr"
+        language: "en"
     }
 
     private _settings: Object;

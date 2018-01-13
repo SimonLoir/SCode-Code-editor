@@ -5,7 +5,8 @@
   "main": "src/js/app.js",
   "scripts": {
     "test": "npm start",
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "build --linux --windows --ia32 --x64"
   },
   "repository": {
     "type": "git",
@@ -15,6 +16,13 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/SimonLoir/SCode-Text-editor/issues"
+  },
+  "build": {
+    "appId": "simonloir.scode",
+    "win": {
+      "target": "nsis",
+      "icon": "src/res/logo.ico"
+    }
   },
   "homepage": "https://github.com/SimonLoir/SCode-Text-editor#readme",
   "dependencies": {

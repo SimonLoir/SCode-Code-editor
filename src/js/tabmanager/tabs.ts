@@ -1,4 +1,5 @@
 import Editor from "./../editor/editor";
+import * as fs from "fs";
 export default class Tab {
 
     private _filename:string;
@@ -13,6 +14,13 @@ export default class Tab {
     public codeEditor(default_content:string, container:ExtJsObject){
         //Here comes the code editor
         this._editor = new Editor(this._type, default_content, container);
+        container.keydown((e:KeyboardEvent) => {
+            if(e.ctrlKey == true){
+                if(e.key == "s"){
+                    fs.writeFileSync(this._filename, this._editor.textarea_colors.text(), "utf8");
+                }
+            }
+        })
     }
 
     public viewer(){

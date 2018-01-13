@@ -3,7 +3,7 @@ export default class Editor {
 
     private type: string;
 
-    private hl: (element: ExtJsObject, code: string) => void;
+    private hl: (element: ExtJsObject, code: string, isInput?:boolean) => void;
 
     public textarea_colors: ExtJsObject;
 
@@ -52,7 +52,7 @@ export default class Editor {
         let lines = initial_content.split(/\r?\n/);
         lines.forEach(line => {
             let HTMLLine: ExtJsObject = tc.child('pre')
-            this.hl(HTMLLine, line.replace(/\t/g, "    "));
+            this.hl(HTMLLine, line.replace(/\t/g, "    "), false);
             HTMLLine.addClass('line');
             HTMLLine.get(0).contentEditable = true;
         });
@@ -178,8 +178,15 @@ export default class Editor {
         });
 
         tc.get(0).onmousedown = function (e) {
-            //might be usefull for selections
-            //console.log(e);
+            //this.contentEditable = true;
+        }
+
+        tc.get(0).onmouseup = function (e) {
+            /*if(toolkit.getRangeLength(this) > 0){
+                
+            }else{
+                this.contentEditable = false;
+            }*/
         }
 
         this.updateLineNumbers();
@@ -223,6 +230,25 @@ class toolkit {
             }
         }
     }
+
+    public static getRangeLength(target) {
+        let childNodes: Array<any> = target.childNodes;
+        let selection = document.getSelection().getRangeAt(0);
+        let start = this.getCursorPosition(target);
+        let length_before = 0;
+
+        for (const node of childNodes) {
+            if (node == selection.endContainer || node.contains(selection.endContainer))
+                return length_before + selection.endOffset - start;
+
+            if (node.nodeType == 1) {
+                length_before += node.innerText.length;
+            } else if (node.nodeType == 3) {
+                length_before += node.data.length;
+            }
+        }
+    }
+
     // from (en) https://social.msdn.microsoft.com/Forums/fr-FR/f91341cb-48b3-424b-9504-f2f569f4860f/getset-caretcursor-position-in-a-contenteditable-div?forum=winappswithhtml5
     public static setCaretPos(el, sPos) {
         var charIndex = 0, range = document.createRange();

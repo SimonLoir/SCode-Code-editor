@@ -10,7 +10,7 @@ export default class Tabmanager{
     public tabmanager: ExtJsObject;
     private _language: Object;
     private _extensions = {
-        code: [".js", ".ts", ".html", ".css", ".md", ".scss", ".json", ".sass"],
+        code: [".js", ".ts", ".html", ".css", ".md", ".scss", ".json", ".sass", ".xml", ".xhtml", ".html5", ".htm"],
         images: [".png", ".jpg", ".jpeg", ".gif"],
         documents: ["psd", "pdf", "afdesign", "afphoto"]
     }

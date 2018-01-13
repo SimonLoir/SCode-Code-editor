@@ -5,7 +5,7 @@ import * as url from "url";
 
 app.on("ready", function () {
 
-    var main_window = new BrowserWindow({ frame: false, icon: path.join(__dirname, "src/logo.png"), transparent: true, show:false});
+    var main_window = new BrowserWindow({ frame: false, show:false});
 
     main_window.loadURL(url.format({
         pathname: path.join(__dirname, "../windows/index.html"),
@@ -36,7 +36,6 @@ app.on("ready", function () {
             preview_window.loadURL(arg);
             preview_window.show();
         } catch (error) {
-            //console.log(error);
         }
     });
 
@@ -44,17 +43,14 @@ app.on("ready", function () {
         try {
             preview_window.reload();
         } catch (error) {
-            //console.log(error);
         }
     });
 
     ipcMain.on('print-it', (error:any, event:any) => {
-        //console.log(event)
         var window = new BrowserWindow({show:false, title: "Scode - Print - Preview"});
         let fsystem = require('fs');
         fsystem.writeFileSync(__dirname + "/print.html", "<style>body{color:black;font-family:sans-serif, arial;}.default_color{color:rgb(20,20,20)}</style>" + event.content.replace('color:white', "color:rgb(20,20,20)"));
         window.once('ready-to-show', function () {
-            //console.log('show')
             window.show();
             window.webContents.print();
         });

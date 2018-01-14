@@ -12,7 +12,8 @@ export default class Tabmanager{
     private _extensions = {
         code: [".js", ".ts", ".html", ".css", ".md", ".scss", ".json", ".sass", ".xml", ".xhtml", ".html5", ".htm"],
         images: [".png", ".jpg", ".jpeg", ".gif"],
-        documents: ["psd", "pdf", "afdesign", "afphoto"]
+        documents: ["psd", "pdf", "afdesign", "afphoto"],
+        xml_documents: [".xml", ".xhtml", ".html5", ".htm", ".html"]
     }
 
     /**
@@ -45,7 +46,7 @@ export default class Tabmanager{
         }
 
         if(!fs.existsSync(filename)){
-            throw new Error("Cannot open the file because the file doesn't exist");
+            throw new Error("Cannot open the file because the file doesn't exist. File path : " + filename);
         }
 
         
@@ -94,10 +95,14 @@ export default class Tabmanager{
             
         }.bind(this));
         
-        if(this._extensions.code.indexOf(path.extname(filename)) >= 0){
+        if(editor == true && this._extensions.code.indexOf(path.extname(filename)) >= 0){
             new_tab.codeEditor(fs.readFileSync(filename, "utf-8"), tab_container);
+        }else if(editor == false && this._extensions.code.indexOf(path.extname(filename)) >= 0){
+            new_tab.viewer(filename, tab_container);
+        }else if(editor == false){
+            alert('err 0xsc002 action not allowed');
         }else{
-            new_tab.viewer();
+            alert("err 0xsc001 file is not supported");
         }
 
         this._tabs[filename] = {

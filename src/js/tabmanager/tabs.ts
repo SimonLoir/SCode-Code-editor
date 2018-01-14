@@ -23,7 +23,16 @@ export default class Tab {
         })
     }
 
-    public viewer(){
-        //Here comes a view
+    public viewer(filename, container: ExtJsObject){
+        let iframe = container.child('iframe');
+        iframe.get(0).src = filename;
+        iframe.css('position', "absolute");
+        iframe.css('top', "0");
+        iframe.css('left', "0");
+        iframe.css('right', "0");
+        iframe.css('bottom', "0");
+        iframe.css('width', "100%");
+        iframe.css('height', "100%");
+        iframe.css('border', "none");
     }
 }

@@ -60,7 +60,8 @@ scode.ready(() => {
 
     // If it's the fist time that scode is loaded, it shows the readme file
     if(scode.settings.isFirstUse == true){
-        //scode.tabmanager.newTab(__dirname + "../res/readme.md", false);
+        //scode.tabmanager.newTab(__dirname + "/../res/readme.md", false);
+        scode.tabmanager.newTab(__dirname + "/../../LICENSES.html", false);
     }
 });
 

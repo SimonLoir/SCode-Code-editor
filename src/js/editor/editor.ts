@@ -151,9 +151,11 @@ export default class Editor {
 
 
                 if (e.keyCode == 38) {
-                    $(target).prevSibling().get(0).focus();
+                    let prev = $(target).prevSibling().get(0);
+                    prev.focus();
                 } else {
-                    $(target).nextSibling().get(0).focus();
+                    let next = $(target).nextSibling().get(0);
+                    next.focus();
                 }
             }else if (e.keyCode == 46) {
 

@@ -19,32 +19,38 @@ body, html { margin: 0; padding: 0; }
 #scode_workspace { --explorer-size-in-px: 200px; position: fixed; top: 37px; left: 0; right: 0; bottom: 26px; }
 /* line 49, ../scss/structure.scss */
 #scode_workspace #scode_explorer { position: absolute; top: 0; bottom: 0; left: 0; width: var(--explorer-size-in-px); height: calc(100% - 26px); padding: 13px; }
-/* line 57, ../scss/structure.scss */
+/* line 56, ../scss/structure.scss */
+#scode_workspace #scode_explorer #scode_explorer_tab_manager .scode_explorer_tab { cursor: pointer; display: inline-block; }
+/* line 62, ../scss/structure.scss */
+#scode_workspace #scode_explorer .scode_explorer_tab_content { position: absolute; top: 35px; left: 0; right: 0; bottom: 0; padding: 13px; padding-top: 5px; transition: 0.75s; transform-origin: 50% 100%; overflow: auto; }
+/* line 72, ../scss/structure.scss */
+#scode_workspace #scode_explorer .scode_explorer_tab_content.hidden { transform: scale(0); }
+/* line 79, ../scss/structure.scss */
 #scode_workspace #scode_tabmanager { position: absolute; top: 0; bottom: 0; left: calc(var(--explorer-size-in-px) + 27px); right: 0; height: 100%; }
-/* line 64, ../scss/structure.scss */
+/* line 85, ../scss/structure.scss */
 #scode_workspace #scode_tabmanager #scode_tabmanager_tabs { position: absolute; top: 0; right: 0; left: 0; height: 36px; }
-/* line 68, ../scss/structure.scss */
+/* line 89, ../scss/structure.scss */
 #scode_workspace #scode_tabmanager #scode_tabmanager_tabs .scode_tabmanager_tabs { display: inline-block; height: calc(100% - 10px); padding: 5px; }
-/* line 74, ../scss/structure.scss */
+/* line 95, ../scss/structure.scss */
 #scode_workspace #scode_tabmanager .scode_tabmnager_tab_content { padding: 0; margin: 0; position: absolute; top: 36px; left: 0; right: 0; bottom: 0; }
 
-/* line 86, ../scss/structure.scss */
+/* line 107, ../scss/structure.scss */
 #scode_status_bar { position: fixed; bottom: 0; right: 0; left: 0; height: 20px; padding: 3px; }
 
-/* line 98, ../scss/structure.scss */
+/* line 119, ../scss/structure.scss */
 ::-webkit-scrollbar { -webkit-app-region: no-drag; width: 12px; background: transparent; }
 
-/* line 104, ../scss/structure.scss */
+/* line 125, ../scss/structure.scss */
 ::-webkit-scrollbar-track { -webkit-app-region: no-drag; background: none; background: transparent; }
 
-/* line 110, ../scss/structure.scss */
+/* line 131, ../scss/structure.scss */
 ::-webkit-scrollbar-thumb { -webkit-app-region: no-drag; background: rgba(255, 255, 255, 0.05); transition: 0.75s; cursor: pointer; }
 
-/* line 116, ../scss/structure.scss */
+/* line 137, ../scss/structure.scss */
 ::-webkit-scrollbar-thumb:hover { -webkit-app-region: no-drag; background: rgba(255, 255, 255, 0.5); }
 
-/* line 123, ../scss/structure.scss */
+/* line 144, ../scss/structure.scss */
 textarea { resize: none; }
 
-/* line 127, ../scss/structure.scss */
+/* line 148, ../scss/structure.scss */
 *:focus { outline: none; }

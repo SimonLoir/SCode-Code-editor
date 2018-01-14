@@ -52,7 +52,29 @@ body, html{
         width: var(--explorer-size-in-px);
         height: calc(100% - 26px);
         padding: 13px;
-        //border:1px solid red;
+        & #scode_explorer_tab_manager{
+            & .scode_explorer_tab{
+                cursor: pointer;
+                display: inline-block;
+            }
+        }
+
+        & .scode_explorer_tab_content{
+            position: absolute;
+            top:35px;
+            left:0;
+            right:0;
+            bottom:0;
+            padding: 13px;
+            padding-top: 5px;
+            transition: 0.75s;
+            transform-origin: 50% 100%;
+            &.hidden{
+                //transform: translateX(-100%);
+                transform: scale(0);
+            }
+            overflow: auto;
+        }
     }
     & #scode_tabmanager{
         position: absolute;
@@ -60,7 +82,6 @@ body, html{
         left:calc(var(--explorer-size-in-px) + 27px);
         right:0;
         height: 100%;
-        //border:1px solid red;
         & #scode_tabmanager_tabs{
             position: absolute;
             top: 0;right: 0;left: 0;

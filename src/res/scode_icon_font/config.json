@@ -81,6 +81,24 @@
       "css": "cancel",
       "code": 59399,
       "src": "entypo"
+    },
+    {
+      "uid": "4bcb3aaa98736be3027bef7c76c55021",
+      "css": "flow-branch",
+      "code": 59400,
+      "src": "entypo"
+    },
+    {
+      "uid": "c95735c17a10af81448c7fed98a04546",
+      "css": "folder-open",
+      "code": 59401,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "ef47651da3866460f27baf85ae234e5c",
+      "css": "list",
+      "code": 59402,
+      "src": "iconic"
     }
   ]
 }

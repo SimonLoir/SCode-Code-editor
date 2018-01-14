@@ -12,7 +12,7 @@ export default class Settings{
 
     private _settings: Object;
 
-    private scode_dir = os.homedir() + "/.scode/";
+    private scode_dir = os.homedir() + "/.scode2.18/";
 
     private scode_opned_files_dir = this.scode_dir + "files.2.0.json";
 

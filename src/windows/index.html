@@ -40,18 +40,29 @@
     </div>
     <div id="scode_workspace">
         <div id="scode_explorer">
-            <b id="scode_explorer_title">EXPLORATEUR</b>
+            <div id="scode_explorer_tab_manager" style="">
+                <span class="scode_explorer_tab icon-folder-open" data-link-id="scode_file_explorer"></span>
+                <span class="scode_explorer_tab icon-flow-branch" data-link-id="scode_git"></span>
+            </div>
+            <div id="scode_file_explorer" class="scode_explorer_tab_content">
+                <b id="scode_explorer_title">EXPLORATEUR</b>
+            </div>
+            <div id="scode_git" class="scode_explorer_tab_content hidden">
+                <b id="scode_git_title">GIT</b>
+            </div>
         </div>
         <div id="scode_tabmanager"> 
             <div id="scode_tabmanager_tabs"><span class="scode_tabmanager_tabs open_file"> + </span></div>
             <div class="scode_tabmnager_tab_content" id="default">
                 <div class="wrapper" style="padding:25px;">
+                    <img src="../res/scode-2.18-logo@2x.png" style="float:left;height:150px;margin-right:25px;margin-top:20px;">
                     <h1>SCode@<span id="scode_version">version</span></h1>
                     <p id="scode-welcome"></p>
-                    <p style="text-align:center;">
+                    <p style="">
                         <br /><br />
                         <button class="open_file scode_button" id="scode_default_button_open_file">Ouvrir un fichier</button>
                         <button class="open_folder scode_button" id="scode_default_button_open_folder">Ouvrir un dossier</button>
+                        <button class="open_settings scode_button" id="scode_default_button_open_settings">Configuration</button>
                         <br /><br />
                     </p>
                 </div>

@@ -32,6 +32,8 @@ export default class View {
 
     public open_folder_buttons: ExtJsObject;
 
+    public explorer_tabs: ExtJsObject;
+
     /**
      * Gets a language pack from the res folder.
      * @param language The language of the language pack
@@ -63,6 +65,8 @@ export default class View {
         this._language = this.getLanguagePack(language);
 
         this.__tabmanager = $('#scode_tabmanager');
+
+        this.explorer_tabs = $('.scode_explorer_tab'); 
 
         $("#scode-welcome").html(this._language["scode-welcome"]);
 
@@ -150,7 +154,13 @@ export default class View {
                 });
 
             })
-        })
+        });
+
+        this.explorer_tabs.click(function () {
+            $('.scode_explorer_tab_content').addClass('hidden');
+            console.log("#" + this.dataset["linkId"], this.dataset);
+            $("#" + this.dataset["linkId"]).removeClass('hidden');
+        });
 
 
     }

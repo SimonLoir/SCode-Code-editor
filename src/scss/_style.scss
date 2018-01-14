@@ -18,6 +18,17 @@ body{
             color:$explorer-title-color;
         }
         border-right:1px solid $scode-explorer-right-line-color;
+        & #scode_explorer_tab_manager{
+            & .scode_explorer_tab{
+                &:hover{
+                    background:gray;
+                }
+            }
+        }
+
+        & .scode_explorer_tab_content{
+            background:$scode-workspace-background-color;
+        }
     }
     & #scode_tabmanager{
         background: $scode-tabmanager-background-color;

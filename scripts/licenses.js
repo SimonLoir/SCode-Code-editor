@@ -6,12 +6,12 @@ const fs = require('fs');
 
 let licenses = getLicenses("../node_modules", "");
 
-let readme = "# Licenses\n";
-readme += "## SCode" + fs.readFileSync('../LICENSE');
-readme += "## Third party softwares" + licenses;
+let readme = "<h1>Licenses</h1>\n";
+readme += "<h2>SCode</h2><pre>" + fs.readFileSync('../LICENSE') + "</pre>";
+readme += "<h2>Third party softwares</h2>" + licenses;
 console.log(readme);
 
-fs.writeFile('../LICENSES.md', readme, "utf-8", (e) => {
+fs.writeFile('../LICENSES.html', readme, "utf-8", (e) => {
     console.log(e);
 })
 
@@ -22,8 +22,8 @@ function getLicenses(dir, string){
         let d = dir + "/" + e;
         if(fs.statSync(d).isDirectory() == true){
             string = getLicenses(d, string);
-        }else if(e.toLowerCase().indexOf('license') >= 0){
-            string += "\n\n>" + d + "\n" + fs.readFileSync(d);
+        }else if(e.toLowerCase().indexOf('license') >= 0 && e.toLowerCase().indexOf('.js') < 0 && e.toLowerCase().indexOf('.ts') < 0){
+            string += "<br /><br /><b>> " + d + "<b><br /><pre>" + fs.readFileSync(d) + "</pre>";
         }
     });
     return string;

@@ -15,7 +15,7 @@ export default class Settings {
 
     public settings_path = this.scode_dir + 'settings.json';
 
-    public scode_opned_files_dir = this.scode_dir + 'files.2.0.json';
+    public scode_opened_files_dir = this.scode_dir + 'files.2.0.json';
 
     constructor() {
         this.load();
@@ -65,9 +65,9 @@ export default class Settings {
      * Gets the last files that where opened in the tabmanager
      */
     public getLastOpenedFiles(): Array<string> {
-        if (fs.existsSync(this.scode_opned_files_dir) == true) {
+        if (fs.existsSync(this.scode_opened_files_dir) == true) {
             return JSON.parse(
-                fs.readFileSync(this.scode_opned_files_dir, 'utf-8')
+                fs.readFileSync(this.scode_opened_files_dir, 'utf-8')
             );
         } else {
             return [];

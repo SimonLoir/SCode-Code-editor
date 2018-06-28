@@ -1,22 +1,21 @@
-import * as fs from "fs";
-import { BrowserWindow } from "electron";
-import Tabmanager from "./tabmanager/tabmanager";
-import Settings from "./settings/settings";
+import * as fs from 'fs';
+import { BrowserWindow } from 'electron';
+import Tabmanager from './tabmanager/tabmanager';
+import Settings from './settings/settings';
 
 interface ControlsBar {
-    close_button: ExtJsObject
-    minimize_button: ExtJsObject
-    full_screen_button: ExtJsObject
-    bar: ExtJsObject
+    close_button: ExtJsObject;
+    minimize_button: ExtJsObject;
+    full_screen_button: ExtJsObject;
+    bar: ExtJsObject;
 }
 
 export default class View {
+    public settings: Settings;
 
-    public settings:Settings;
+    public tabmanager: Tabmanager;
 
-    public tabmanager:Tabmanager;
-
-    public version = "2.18.1";
+    public version = '2.18.1';
 
     public ready = $(document).ready;
 
@@ -39,19 +38,19 @@ export default class View {
      * @param language The language of the language pack
      */
     private getLanguagePack(language: string): Object {
-
-        let language_pack_location = __dirname + "/../res/lang-" + language + ".json";
+        let language_pack_location =
+            __dirname + '/../res/lang-' + language + '.json';
 
         if (fs.existsSync(language_pack_location)) {
-
-            let language_pack_content = fs.readFileSync(language_pack_location, "utf-8");
+            let language_pack_content = fs.readFileSync(
+                language_pack_location,
+                'utf-8'
+            );
 
             return JSON.parse(language_pack_content);
-
         }
 
-        throw new Error("Cannot find language pack for scode");
-
+        throw new Error('Cannot find language pack for scode');
     }
 
     /**
@@ -59,22 +58,23 @@ export default class View {
      * @param language the global language of scode.
      */
     public init(language: string) {
-
         $('#scode_version').html(this.version);
 
         this._language = this.getLanguagePack(language);
 
         this.__tabmanager = $('#scode_tabmanager');
 
-        this.explorer_tabs = $('.scode_explorer_tab'); 
+        this.explorer_tabs = $('.scode_explorer_tab');
 
-        $("#scode-welcome").html(this._language["scode-welcome"]);
+        $('#scode-welcome').html(this._language['scode-welcome']);
 
-        $('#scode_default_button_open_file').html(this._language["open-file"]);
+        $('#scode_default_button_open_file').html(this._language['open-file']);
 
         this.open_file_buttons = $('.open_file');
 
-        this.open_folder_buttons = $('#scode_default_button_open_folder').html(this._language["open-folder"]);
+        this.open_folder_buttons = $('#scode_default_button_open_folder').html(
+            this._language['open-folder']
+        );
 
         $('#scode_explorer_title').html(this._language.explorer.toUpperCase());
 
@@ -83,19 +83,21 @@ export default class View {
             close_button: $('.scode_controls#close'),
             minimize_button: $('.scode_controls#minimize'),
             full_screen_button: $('.scode_controls#fullscreen')
-        }
+        };
 
         this.controls_bar.full_screen_button.addClass('icon-resize-full');
 
         this.addEvents();
 
-        var link_theme = document.body.appendChild(document.createElement('link'));
+        var link_theme = document.body.appendChild(
+            document.createElement('link')
+        );
         link_theme.href = this.settings.get('theme');
-        link_theme.rel = "stylesheet";
+        link_theme.rel = 'stylesheet';
 
         var link = document.body.appendChild(document.createElement('link'));
         link.href = this.settings.get('color_scheme');
-        link.rel = "stylesheet";
+        link.rel = 'stylesheet';
     }
 
     /**
@@ -122,28 +124,22 @@ export default class View {
         });
 
         this.controls_bar.full_screen_button.click(() => {
-
             let e = $(this);
 
             if (window.isFullScreen() == true) {
-
                 window.setFullScreen(false);
                 e.removeClass('icon-resize-small');
                 e.addClass('icon-resize-full');
-
             } else {
-
                 window.setFullScreen(true);
                 e.removeClass('icon-resize-full');
                 e.addClass('icon-resize-small');
-
             }
         });
 
         this.open_file_buttons.click(() => {
-            dialog.showOpenDialog({properties: ["openFile"]}, files => {
-                
-                if(!files || files == null){
+            dialog.showOpenDialog({ properties: ['openFile'] }, files => {
+                if (!files || files == null) {
                     //an error occurred
                     console.log(files);
                     return false;
@@ -152,17 +148,17 @@ export default class View {
                 files.forEach(file => {
                     this.tabmanager.newTab(file);
                 });
-
-            })
+            });
         });
 
-        this.explorer_tabs.click(function () {
+        $('#scode_default_button_open_settings').click(() => {
+            this.tabmanager.newTab(this.settings.settings_path);
+        });
+
+        this.explorer_tabs.click(function() {
             $('.scode_explorer_tab_content').addClass('hidden');
-            console.log("#" + this.dataset["linkId"], this.dataset);
-            $("#" + this.dataset["linkId"]).removeClass('hidden');
+            console.log('#' + this.dataset['linkId'], this.dataset);
+            $('#' + this.dataset['linkId']).removeClass('hidden');
         });
-
-
     }
-
 }

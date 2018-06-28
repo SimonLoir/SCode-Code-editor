@@ -181,18 +181,9 @@ export default class Editor {
             }
         });
 
-        tc.get(0).onmousedown = function(e) {
-            //this.contentEditable = true;
-            console.log(this);
-        };
+        tc.get(0).onmousedown = function(e) {};
 
-        tc.get(0).onmouseup = function(e) {
-            /*if(toolkit.getRangeLength(this) > 0){
-                
-            }else{
-                this.contentEditable = false;
-            }*/
-        };
+        tc.get(0).onmouseup = function(e) {};
 
         this.updateLineNumbers();
     }
